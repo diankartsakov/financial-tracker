@@ -22,3 +22,7 @@
     align-items: center;
     text-align: center;
   }
+
+  .ant-col {
+    width: 200px;
+  }
