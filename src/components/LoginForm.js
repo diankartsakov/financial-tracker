@@ -1,12 +1,27 @@
-import { useState } from 'react';
+import { auth } from '../firebase/firebase';
+import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
+import { Link, redirect } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import './LoginForm.css';
 
 export default function LoginForm() {
-
+    // console.log(auth.currentUser);
+    
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+        const {email, password} = values;
+        setPersistence(auth, browserSessionPersistence)
+        .then(() => {
+            signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                console.log(auth.currentUser);
+                redirect("/home");
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        })
+        
     };
 
     return (<div className='loginContainer'>
@@ -21,9 +36,10 @@ export default function LoginForm() {
                 onFinish={onFinish}
             >
                 <Form.Item
-                    name="username"
+                    name="email"
                     rules={[
                         {
+                            type: "email",
                             required: true,
                             message: 'Please input your Username!',
                         },
@@ -51,9 +67,9 @@ export default function LoginForm() {
                         <Checkbox>Remember me</Checkbox>
                     </Form.Item>
 
-                    <a className="login-form-forgot" href="">
+                    <Link className="login-form-forgot" to="/login">
                         Forgot password?
-                    </a>
+                    </Link>
                 </Form.Item>
 
                 <Form.Item>

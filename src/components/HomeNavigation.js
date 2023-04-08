@@ -1,16 +1,15 @@
-import { auth } from "../config/firebase";
+import { auth } from "../firebase/firebase";
 import { signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
 import './HomeNavigation.css';
 import logo from '../assests/images/logo.png';
+import { useAuth } from "../firebase/auth";
 
 export default function HomeNavigation() {
-	console.log(auth.currentUser);
+	const { authUser } = useAuth();
+
   	const handleOnClickLogout = () => {
 		signOut(auth)
-			.then(data => {
-				console.log(data);
-			})
 			.catch((error) => {
 				console.log(error);
 			})
@@ -20,7 +19,7 @@ export default function HomeNavigation() {
 		<nav className="navbar">
 			<div className="navbar-logo">
 				<Link to="/home">
-				<img src={logo} alt="logo" />
+					<img src={logo} alt="logo"/>
 				</Link>
 			</div>
 			<ul className="navbar-links">
@@ -29,10 +28,10 @@ export default function HomeNavigation() {
 				</li>
 			</ul>
 			{
-				auth.currentUser ? 
+					authUser ? 
 					<ul className="navbar-actions">
 						<li className="navbar-action" onClick={handleOnClickLogout}>
-							<Link to="/login">Logout</Link>
+							<Link to="/home">Logout</Link>
 						</li>
 					</ul>
 					:
@@ -43,10 +42,8 @@ export default function HomeNavigation() {
 						<li className="navbar-action">
 							<Link to="/register">Register</Link>
 						</li>
-					</ul>
-					
+					</ul>		
 			}
-		
 		</nav>
 	);
 }

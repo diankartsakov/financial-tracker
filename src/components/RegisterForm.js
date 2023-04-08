@@ -1,4 +1,4 @@
-import { auth } from "../config/firebase";
+import { auth } from "../firebase/firebase";
 import { createUserWithEmailAndPassword} from "firebase/auth"
 import { Button, Form, Input } from "antd";
 import "./RegisterForm.css";
@@ -7,10 +7,7 @@ import "./RegisterForm.css";
 
 
 export default function RegisterForm() {
-    
-
     const onFinish = (values) => {
-        console.log("Success:", values);
         const {email, password} = values;
     
         createUserWithEmailAndPassword(auth, email, password)
@@ -24,8 +21,6 @@ export default function RegisterForm() {
 
                 console.log(`${errorCode} - ${errorMessage}`);
             })
-
-            console.log("end");
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
