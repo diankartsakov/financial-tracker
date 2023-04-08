@@ -1,3 +1,11 @@
+
+.welcomeBanner {
+  color: #004AAD;
+  font-weight: bold;
+  font-size: 28px;
+
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;

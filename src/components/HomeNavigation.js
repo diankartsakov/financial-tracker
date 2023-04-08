@@ -12,7 +12,7 @@ export default function HomeNavigation() {
       </div>
       <ul className="navbar-links">
         <li className="navbar-link dropdown">
-          <div>Welcome to Smart Finance !</div>
+          <div className="welcomeBanner">Welcome to Smart Finance !</div>
         </li>
       </ul>
       <ul className="navbar-actions">
