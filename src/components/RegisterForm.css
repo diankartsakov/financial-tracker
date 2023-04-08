@@ -26,3 +26,12 @@
   .ant-col {
     width: 200px;
   }
+
+  .ant-col.ant-form-item-label {
+    display: flex;
+    justify-content: flex-start;
+  }
+  #registerButton {
+    width: 50%;
+    margin-left: 125px;
+  }

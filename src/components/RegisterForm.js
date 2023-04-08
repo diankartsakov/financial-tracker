@@ -22,7 +22,7 @@ export default function RegisterForm() {
             span: 16,
           }}
           style={{
-            maxWidth: 700,
+            maxWidth: 600,
           }}
           initialValues={{
             remember: true,
@@ -70,13 +70,8 @@ export default function RegisterForm() {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <Button type="primary" htmlType="submit">
+          <Form.Item id="registerButtonWrapper">
+            <Button type="primary" id="registerButton" htmlType="submit">
               Register
             </Button>
           </Form.Item>
