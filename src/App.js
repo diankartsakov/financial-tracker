@@ -1,15 +1,13 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import HomeNavigation from './components/HomeNavigation';
+import Login from './pages/LoginPage';
+import Register from './pages/RegisterPage';
+
 
 function App() {
   return (
     <BrowserRouter>
-
-      <HomeNavigation></HomeNavigation>
       <Routes>
         <Route index element={<Navigate to={'/home'} />}></Route>
         <Route path={'/home'} element={<HomePage />}></Route>

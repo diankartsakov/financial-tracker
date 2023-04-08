@@ -1,8 +1,11 @@
-import {useParams, useSearchParams} from 'react-router-dom';
 import { useState } from 'react';
+import HomeNavigation from '../components/HomeNavigation';
 
 export default function HomePage () {
 
 
-    return <div> Home </div>;
+    return <>
+        <HomeNavigation></HomeNavigation>
+        <div>Home</div>
+    </>  ;
 }
