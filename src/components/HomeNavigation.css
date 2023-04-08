@@ -62,3 +62,9 @@
   background-color: #7ED957;
   color: #004AAD;
 }
+
+.navbar-logo img:hover {
+  background-color: #000;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
