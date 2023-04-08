@@ -1,9 +1,31 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { auth } from "../config/firebase";
+import { createUserWithEmailAndPassword} from "firebase/auth"
+import { Button, Form, Input } from "antd";
 import "./RegisterForm.css";
 
+
+
+
 export default function RegisterForm() {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+    
+
+    const onFinish = (values) => {
+        console.log("Success:", values);
+        const {email, password} = values;
+    
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user
+                console.log(user);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                console.log(`${errorCode} - ${errorMessage}`);
+            })
+
+            console.log("end");
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -32,12 +54,13 @@ export default function RegisterForm() {
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             rules={[
               {
+                type: "email",
+                message: "That is not valid Email!",
                 required: true,
-                message: "Please input your username!",
               },
             ]}
           >
