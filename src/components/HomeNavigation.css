@@ -22,9 +22,13 @@
 
 .navbar-links {
   display: flex;
-  margin: 0;
+  margin: 0 0 0 150px;
   padding: 0;
   list-style: none;
+}
+
+.navbar-links:hover {
+    cursor: default;
 }
 
 .navbar-link {

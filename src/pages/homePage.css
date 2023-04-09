@@ -1,0 +1,12 @@
+
+.homePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.underConstruction {
+    width: 425px; 
+    height: 500px;
+}
