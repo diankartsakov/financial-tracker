@@ -38,11 +38,11 @@ export default function LoginForm() {
                         {
                             type: "email",
                             required: true,
-                            message: 'Please input your Username!',
+                            message: 'Please input your email address!',
                         },
                     ]}
                 >
-                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address" />
                 </Form.Item>
                 <Form.Item
                     name="password"
