@@ -1,20 +1,17 @@
 import { auth } from '../firebase/firebase';
-import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
+import { browserLocalPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
 import { Link, redirect } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input,} from 'antd';
 import './LoginForm.css';
 
 export default function LoginForm() {
-    // console.log(auth.currentUser);
-    
     const onFinish = (values) => {
         const {email, password} = values;
-        setPersistence(auth, browserSessionPersistence)
+        setPersistence(auth, browserLocalPersistence)
         .then(() => {
             signInWithEmailAndPassword(auth, email, password)
             .then(() => {
-                console.log(auth.currentUser);
                 redirect("/home");
             })
             .catch(error => {
