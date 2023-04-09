@@ -2,18 +2,19 @@ import { auth } from "../firebase/firebase";
 import { createUserWithEmailAndPassword} from "firebase/auth"
 import { Button, Form, Input } from "antd";
 import "./RegisterForm.css";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 export default function RegisterForm() {
+    const navigate = useNavigate();
     const onFinish = (values) => {
         const {email, password} = values;
     
         createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                redirect("/home");
+            .then(() => {
+                navigate("/home");
             })
             .catch((error) => {
                 const errorCode = error.code;
