@@ -2,6 +2,7 @@ import { auth } from "../firebase/firebase";
 import { createUserWithEmailAndPassword} from "firebase/auth"
 import { Button, Form, Input } from "antd";
 import "./RegisterForm.css";
+import { redirect, useNavigate } from "react-router-dom";
 
 
 
@@ -12,8 +13,7 @@ export default function RegisterForm() {
     
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                const user = userCredential.user
-                console.log(user);
+                redirect("/home");
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -22,6 +22,7 @@ export default function RegisterForm() {
                 console.log(`${errorCode} - ${errorMessage}`);
             })
   };
+  
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };

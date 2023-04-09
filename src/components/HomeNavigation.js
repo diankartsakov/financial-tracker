@@ -28,7 +28,8 @@ export default function HomeNavigation() {
 				</li>
 			</ul>
 			{
-					authUser ? 
+				authUser 
+				? 
 					<ul className="navbar-actions">
 						<li className="navbar-action" onClick={handleOnClickLogout}>
 							<Link to="/home">Logout</Link>
