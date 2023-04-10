@@ -1,18 +1,18 @@
-import { auth } from "../firebase/firebase";
-import { signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { useAuth } from "../firebase/auth";
+import { logout } from "../services/firebaseAuthenticationManager";
 import './HomeNavigation.css';
 import logo from '../assests/images/logo.png';
-import { useAuth } from "../firebase/auth";
+
 
 export default function HomeNavigation() {
 	const { authUser } = useAuth();
 
   	const handleOnClickLogout = () => {
-		signOut(auth)
+		logout()
 			.catch((error) => {
 				console.log(error);
-			})
+			});
   	}
 
 	return (
