@@ -14,7 +14,7 @@ export default function LoginForm() {
         .then(() => {
             signInWithEmailAndPassword(auth, email, password)
             .then(() => {
-                navigate("/home");
+                navigate('/home');
             })
             .catch(error => {
                 console.log(error);
