@@ -8,7 +8,7 @@ import { useAuth } from './firebase/auth';
 
 
 function App() {
-    const { isLoading } = useAuth();
+    const { authUser, isLoading } = useAuth();
     return (
         <>
             {   
@@ -17,14 +17,20 @@ function App() {
                     <div>Loading... </div>
                 :       
                     <BrowserRouter>
-                        <HomeNavigation/>
+
+                        {!authUser && <HomeNavigation/>}
                         <Routes>
                             <Route index element={<Navigate to={'/home'} />}></Route>
                             <Route path={'/home'} element={<HomePage />}></Route>
                             <Route path={'/login'} element={<Login/>}></Route>
                             <Route path={'/register'} element={<Register />}></Route>
+                            {/* <Route path={'/dashboard'} element={<Register />}></Route> */}
+
                             <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
+
                         </Routes>
+
+
                     </BrowserRouter>
             }
         </>
