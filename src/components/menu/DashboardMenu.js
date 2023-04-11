@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function DashboardMenu() {
     const navigate = useNavigate();
-
     const handleOnClickLogout = () => {
 		logout()
             .then(() => navigate("/home"))

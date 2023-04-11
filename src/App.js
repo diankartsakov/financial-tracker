@@ -18,7 +18,6 @@ function App() {
                     <div>Loading... </div>
                 :       
                     <BrowserRouter>
-
                         {!authUser && <HomeNavigation/>}
                         <Routes>
                             <Route index element={<Navigate to={'/home'} />}></Route>
