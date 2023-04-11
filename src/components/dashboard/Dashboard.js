@@ -15,13 +15,13 @@ export default function Dashboard() {
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item key="1" icon={<ProfileOutlined />}>
-            Dashboard
+            Profile
           </Menu.Item>
           <Menu.Item key="2" icon={<PieChartOutlined />}>
-            Charts
+            Accounts
           </Menu.Item>
           <Menu.Item key="3" icon={<FileOutlined />}>
-            Files
+            Reports
           </Menu.Item>
         </Menu>
       </Sider>
