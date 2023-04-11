@@ -3,7 +3,6 @@ import "./homePage.css";
 import underConstructionIMG from "../assests/images/under-construction_geek_man.svg"
 
 import userManager from "../services/UserManager";
-import Dashboard from "../components/dashboard/Dashboard";
 
 export default function HomePage() {
 
