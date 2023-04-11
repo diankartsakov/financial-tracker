@@ -11,7 +11,7 @@ export default function LoginForm() {
         const {email, password} = values;
         login(email, password)
             .then(() => {
-                navigate('/home');
+                navigate('/dashboard');
             })
             .catch(error => {
                 console.log(error);
