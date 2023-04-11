@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu } from "antd";
 import {
-  DesktopOutlined,
+  ProfileOutlined,
   PieChartOutlined,
   FileOutlined,
 } from "@ant-design/icons";
@@ -14,7 +14,7 @@ export default function Dashboard() {
       <Sider>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-          <Menu.Item key="1" icon={<DesktopOutlined />}>
+          <Menu.Item key="1" icon={<ProfileOutlined />}>
             Dashboard
           </Menu.Item>
           <Menu.Item key="2" icon={<PieChartOutlined />}>
