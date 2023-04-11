@@ -6,6 +6,8 @@ import Register from './pages/RegisterPage';
 import HomeNavigation from './components/HomeNavigation';
 import { useAuth } from './firebase/auth';
 import DashboardPage from './pages/dashboardPage/DashboardPage';
+import DashboardReports from './components/dashboardReports/DashboardReports';
+import DashboardHome from './components/dashboardHome/DashboardHome';
 
 
 function App() {
@@ -24,7 +26,10 @@ function App() {
                             <Route path={'/home'} element={<HomePage />}></Route>
                             <Route path={'/login'} element={<Login/>}></Route>
                             <Route path={'/register'} element={<Register />}></Route>
-                            <Route path={'/dashboard'} element={<DashboardPage />}/>
+                            <Route path={'/dashboard'} element={<DashboardPage />}>
+                                <Route path='' element={<DashboardHome/>}/>
+                                <Route path='reports' element= {<DashboardReports/>}/>   
+                            </Route>
                             <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
                         </Routes>
                     </BrowserRouter>
