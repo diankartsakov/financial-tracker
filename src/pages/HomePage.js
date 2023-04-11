@@ -21,5 +21,6 @@ export default function HomePage() {
                 )}>Firestore Test</button>
             </div>
         </>
+
     );
 }
