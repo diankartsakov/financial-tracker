@@ -4,6 +4,7 @@ import { Layout} from "antd";
 
 import DashboardMenu from "../../components/menu/DashboardMenu";
 import DashboardProvider from "../../components/menu/DashboardProvider";
+import DashboardHome from "../../components/dashboardHome/DashboardHome";
 
 const { Sider, Content } = Layout;
 
@@ -20,7 +21,8 @@ export default function DashboardPage() {
                         className="site-layout-background"
                         style={{ padding: 24, minHeight: 360 }}
                     >
-                        Content goes here.
+                        <Outlet/>
+                        
                     </div>
                     </Content>
                 </Layout>
