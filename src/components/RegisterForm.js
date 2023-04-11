@@ -15,7 +15,7 @@ export default function RegisterForm() {
     
         register(email, password)
             .then(() => {
-                navigate("/home");
+                navigate("/dashboard");
             })
             .catch((error) => {
                 const errorCode = error.code;
