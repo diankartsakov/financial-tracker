@@ -3,8 +3,7 @@ import React from "react";
 import { Layout} from "antd";
 
 import DashboardMenu from "../../components/menu/DashboardMenu";
-import DashboardProvider from "../../components/menu/DashboardProvider";
-import DashboardHome from "../../components/dashboardHome/DashboardHome";
+import DashboardProvider from "./DashboardProvider";
 
 const { Sider, Content } = Layout;
 
@@ -21,8 +20,7 @@ export default function DashboardPage() {
                         className="site-layout-background"
                         style={{ padding: 24, minHeight: 360 }}
                     >
-                        <Outlet/>
-                        
+                        <Outlet/>   
                     </div>
                     </Content>
                 </Layout>
