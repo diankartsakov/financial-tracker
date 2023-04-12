@@ -46,8 +46,8 @@ export default function DashboardAccounts() {
     const {
         isLoaded,
         accountsNamesArr,
-        updateAccountsNames,
         isLoadedUpdate,
+        updateAccountsNames,
         currentAccountName,
         updateCurrentAccountName
     } = useDash();
@@ -115,12 +115,12 @@ export default function DashboardAccounts() {
     return (<>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <h1>Accounts</h1>
+                <h1>{currentAccountName ? currentAccountName : "Accounts"} </h1>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Dropdown overlay={getAccountsDropdownMenu}>
                     <Button style={{ marginRight: '8px' }}>
-                        {currentAccountName ? currentAccountName : "Accounts"} <UserOutlined />
+                        Accounts<UserOutlined />
                     </Button>
                 </Dropdown>
                 <Button type="primary" onClick={handleShowModal}>Add Account</Button>
