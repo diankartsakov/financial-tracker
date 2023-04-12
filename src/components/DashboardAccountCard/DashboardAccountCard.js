@@ -16,7 +16,7 @@ export default function DashboardAccountCard({ currency = 'BGN' }) {
 
     useEffect (() => {
 
-        console.log(getAccount(accountId));
+      setBalance(getAccount(accountId));
 
     },[]);
      

@@ -1,5 +1,5 @@
-import {db} from "../firebase/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebase";
+import { collection, query, where, doc, getDoc, getDocs } from "firebase/firestore";
 
 async function getUserAccounts(uid) {
     const accounts = [];
@@ -9,12 +9,12 @@ async function getUserAccounts(uid) {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
+        // doc.data() is never undefined for query doc snapshots
         // console.log(doc.id, " => ", doc.data());
 
         accounts.push(doc.id);
     });
-    
+
     return accounts;
 }
 async function getUserAccountsFullInfo(uid) {
@@ -25,34 +25,36 @@ async function getUserAccountsFullInfo(uid) {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
+        // doc.data() is never undefined for query doc snapshots
         // console.log(doc.id, " => ", doc.data());
 
         const obj = {
-            name: doc._document.data.value.mapValue.fields.name.stringValue, 
-            balance: doc._document.data.value.mapValue.fields.amount.stringValue, 
+            name: doc._document.data.value.mapValue.fields.name.stringValue,
+            balance: doc._document.data.value.mapValue.fields.amount.stringValue,
             accountId: doc.id
         }
 
         accounts.push(obj);
     });
-    
+
     return accounts;
 }
 async function getAccount(accountId) {
 
-    const q = query(collection(db, "accounts"), where("id", "==", accountId));
+    const docRef = doc(db, "accounts", accountId);
+    const docSnap = await getDoc(docRef);
 
-    const querySnapshot = await getDocs(q);
+    if (docSnap.exists()) {
 
-    querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-    
-            //accounts.push(doc.id);
-        });
-    
-    //return Number(account._document.data.value.mapValue.fields.amount.stringValue);
+        console.log(docSnap.data());
+        console.log(docSnap.data().amount);
+
+        return docSnap.data().amount;
+
+    } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+    }
 }
 
 export {
