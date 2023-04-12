@@ -47,13 +47,21 @@ export default function DashboardAccounts() {
         isLoaded,
         accountsNamesArr,
         updateAccountsNames,
-        isLoadedUpdate
+        isLoadedUpdate,
+        currentAccountName,
+        updateCurrentAccountName
     } = useDash();
 
     const handleCreateAccount = (values) => {
         // handle create account logic here
-        console.log(values);
-        console.log('Creating account with name:', values.accountName);
+
+        let arr = accountsNamesArr;
+
+        arr.push(values.accountName);
+
+        updateAccountsNames(arr);
+
+
 
         accountManager.addAccount(values.accountName, uid);
         setShowModal(false);
@@ -67,6 +75,12 @@ export default function DashboardAccounts() {
         setShowModal(true);
       };
 
+      const handleAccountSelect = (account) => {
+
+        updateCurrentAccountName(account);
+
+      }
+
     
 
     useEffect(() => {
@@ -75,9 +89,6 @@ export default function DashboardAccounts() {
         } else {
             const accounts = async () => {
                 const accountsArr = await getUserAccountsFullInfo(uid);
-
-
-                console.log(accountsArr);
 
                 updateAccountsNames(accountsArr);
                 isLoadedUpdate(true);
@@ -91,7 +102,7 @@ export default function DashboardAccounts() {
         return (
             <Menu>
                 {accountsNamesArr ? accountsNamesArr.map((account,index) => {
-                    return <Menu.Item key={index}>
+                    return <Menu.Item key={index} onClick={() => handleAccountSelect(account)}>
                         {account}
                     </Menu.Item>
                 }) :
@@ -109,7 +120,7 @@ export default function DashboardAccounts() {
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Dropdown overlay={getAccountsDropdownMenu}>
                     <Button style={{ marginRight: '8px' }}>
-                        Accounts <UserOutlined />
+                        {currentAccountName ? currentAccountName : "Accounts"} <UserOutlined />
                     </Button>
                 </Dropdown>
                 <Button type="primary" onClick={handleShowModal}>Add Account</Button>
