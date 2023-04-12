@@ -4,7 +4,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { useEffect } from "react";
 import { useAuth } from "../../firebase/auth";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
-import { getUserAccounts } from "../../services/firebaseFirestoreAccounts";
+import { getUserAccountsFullInfo } from '../../services/firebaseFirestoreAccounts';
 import accountManager from '../../services/AccountManager';
 
 function NewAccountModal({ visible, onCreate, onCancel }) {
@@ -37,7 +37,7 @@ function NewAccountModal({ visible, onCreate, onCancel }) {
       </Modal>
     );
   }
-
+  
 export default function DashboardAccounts() {
 
     const [showModal, setShowModal] = useState(false);
@@ -60,28 +60,25 @@ export default function DashboardAccounts() {
 
     const { authUser: { uid } } = useAuth();
     const {
-        accountId,
-        accountsIds,
         isLoaded,
-        updateAccountId,
-        updateAccountsIds,
+        accountsNamesArr,
+        updateAccountsNames,
         isLoadedUpdate
     } = useDash();
 
-    console.log(accountsIds);
-
-
+    
 
     useEffect(() => {
         if (isLoaded) {
             // console.log("no");
         } else {
             const accounts = async () => {
-                const accountsIds = await getUserAccounts(uid);
-                const currentAccount = accountsIds[0] || null;
+                const accountsArr = await getUserAccountsFullInfo(uid);
 
-                updateAccountId(currentAccount);
-                updateAccountsIds(accountsIds);
+
+                console.log(accountsArr);
+
+                updateAccountsNames(accountsArr);
                 isLoadedUpdate(true);
             };
             accounts();
@@ -89,11 +86,11 @@ export default function DashboardAccounts() {
         }
     }, []);
 
-    const getAccountMenu = () => {
+    const getAccountsDropdownMenu = () => {
         return (
             <Menu>
-                {accountsIds ? accountsIds.map(account => {
-                    return <Menu.Item key={account}>
+                {accountsNamesArr ? accountsNamesArr.map((account,index) => {
+                    return <Menu.Item key={index}>
                         {account}
                     </Menu.Item>
                 }) :
@@ -109,9 +106,9 @@ export default function DashboardAccounts() {
                 <h1>Accounts</h1>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Dropdown overlay={getAccountMenu}>
+                <Dropdown overlay={getAccountsDropdownMenu}>
                     <Button style={{ marginRight: '8px' }}>
-                        Account <UserOutlined />
+                        Accounts <UserOutlined />
                     </Button>
                 </Dropdown>
                 <Button type="primary" onClick={handleShowModal}>Add Account</Button>

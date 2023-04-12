@@ -11,6 +11,7 @@ async function getUserAccounts(uid) {
     querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
         // console.log(doc.id, " => ", doc.data());
+
         accounts.push(doc.id);
     });
     
@@ -26,7 +27,7 @@ async function getUserAccountsFullInfo(uid) {
     querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
         // console.log(doc.id, " => ", doc.data());
-        accounts.push(doc);
+        accounts.push(doc._document.data.value.mapValue.fields.name.stringValue);
     });
     
     return accounts;
@@ -34,4 +35,5 @@ async function getUserAccountsFullInfo(uid) {
 
 export {
     getUserAccounts,
+    getUserAccountsFullInfo
 }

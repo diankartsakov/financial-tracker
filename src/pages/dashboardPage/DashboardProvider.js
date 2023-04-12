@@ -12,6 +12,7 @@ export default function DashboardProvider({children}) {
         accountId: null,
         accountsIds: null,
         isLoaded: false,
+        accountsNamesArr: null
     });
 
     const updateAccountId = (accountId) => {
@@ -29,7 +30,12 @@ export default function DashboardProvider({children}) {
 
     const isLoadedUpdate = (isLoaded) => {
         setState(s => { 
-            return {...s, isLoaded: isLoaded}
+            return {...s, isLoaded: isLoaded};
+        });
+    };
+    const updateAccountsNames = (accountsNamesArr) => {
+        setState(s => { 
+            return {...s, accountsNamesArr: accountsNamesArr};
         });
     };
 
@@ -38,6 +44,7 @@ export default function DashboardProvider({children}) {
         updateAccountId,
         updateAccountsIds,
         isLoadedUpdate,
+        updateAccountsNames
     };
 
     return (
