@@ -16,7 +16,12 @@ export default function DashboardAccountCard({ currency = 'BGN' }) {
 
     useEffect (() => {
 
-      setBalance(getAccount(accountId));
+      const getBalance = async () => {
+        const balance = await getAccount(accountId);
+        setBalance(balance);
+      }
+
+      getBalance();
 
     },[]);
      
