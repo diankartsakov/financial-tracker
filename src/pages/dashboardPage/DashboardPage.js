@@ -5,12 +5,11 @@ import { useDash } from "./DashboardProvider";
 import { useAuth } from "../../firebase/auth";
 import { getUserAccounts, getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
 import DashboardMenu from "../../components/menu/DashboardMenu";
-// import DashboardProvider from "./DashboardProvider";
 
 const { Sider, Content } = Layout;
 
 export default function DashboardPage() {
-    const {authUser: {email}, authUser: {uid}} = useAuth();
+    const { authUser: {uid} } = useAuth();
     const {
         isLoaded,
         updateAccountId,

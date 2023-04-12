@@ -1,14 +1,8 @@
-// import axios from "axios";
-
 import { auth, db } from '../firebase/firebase.js';
 import { addDoc, collection } from "firebase/firestore";
-import { useAuth } from "../firebase/auth.js";
-
 class AccountManager {
 
   addAccount = async (accountName, uid) => {
-
-
     try {
 
       const docRef = await addDoc(collection(db, "accounts"), {
@@ -18,15 +12,13 @@ class AccountManager {
       });
 
       console.log("Account created, ID: ", docRef.id);
+      return docRef.id;
     } catch (e) {
       console.error("Error creating account: ", e);
     }
   };
 
-
-
   // Add a new transaction to the "transactions" collection
-
   addTransaction = async (accountId, amount, category, type, fromAccountId) => {
     console.log(db);
     console.log(auth);

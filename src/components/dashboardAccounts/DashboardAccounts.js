@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Modal, Form, Input, Menu, Dropdown, Button } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import { useEffect } from "react";
+import { Modal, Form, Input, Button} from 'antd';
 import { useAuth } from "../../firebase/auth";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
-import { getUserAccountsFullInfo } from '../../services/firebaseFirestoreAccounts';
 import accountManager from '../../services/AccountManager';
+import AccountsDrowpdown from '../accountDropdown/AccountsDropdown';
 
 function NewAccountModal({onCreate}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +19,7 @@ function NewAccountModal({onCreate}) {
   
     const handleCreate = () => {
       form.validateFields().then((values) => {
+        console.log(values);
         onCreate(values);
         hideModal();
         form.resetFields();
@@ -53,32 +52,29 @@ function NewAccountModal({onCreate}) {
   }
   
 export default function DashboardAccounts() {
+    const [isAccountAdd, setIsAccountAdd] = useState(true);
     const { authUser: { uid } } = useAuth();
     const {
         isLoaded,
         accountsArr,
+        currentAccountName,
         isLoadedUpdate,
         updateAccountId,
         updateAccountsArr,
-        currentAccountName,
         updateCurrentAccountName
     } = useDash();
 
-    const handleCreateAccount = (values) => {
-
-        console.log(values);
+    const handleCreateAccount = async (values) => {
         console.log('Creating account with name:', values.accountName);
-
         // handle create account logic here
-
-        let arr = accountsArr;
-        console.log(arr);
-
-        arr.push(values.accountName);
+        const accountId = await accountManager.addAccount(values.accountName, uid);
+        const newAcc = {name: values.accountName, accountId};
+        
+        const arr = accountsArr;
+        arr.push(newAcc);
 
         updateAccountsArr(arr);
-
-        accountManager.addAccount(values.accountName, uid);
+        setIsAccountAdd(true);
       };
 
       const handleAccountSelect = (account) => {
@@ -86,52 +82,18 @@ export default function DashboardAccounts() {
         updateAccountId(account.accountId);
       };
 
-    // useEffect(() => {
-    //     if (isLoaded) {
-    //         // console.log("no");
-    //     } else {
-    //         const accounts = async () => {
-    //             const accountsArr = await getUserAccountsFullInfo(uid);
-
-    //             updateAccountsNames(accountsArr);
-    //             isLoadedUpdate(true);
-    //         };
-    //         accounts();
-
-    //     }
-    // }, []);
-
-    const getAccountsDropdownMenu = () => {
-        return (
-            <Menu>
-                {accountsArr ? accountsArr.map((account) => {
-                    return <Menu.Item key={account.accountId} onClick={() => handleAccountSelect(account)}>
-                        {account.name}
-                    </Menu.Item>;
-                }) :
-                    <div></div>
-                }
-            </Menu>
-        );
-    };
-
-    return (<>
+    return (
+    <>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h1>{currentAccountName ? currentAccountName : "Accounts"} </h1>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Dropdown overlay={getAccountsDropdownMenu}>
-                    <Button style={{ marginRight: '8px' }}>
-                        Accounts<UserOutlined />
-                    </Button>
-                </Dropdown>
-                <NewAccountModal onCreate={handleCreateAccount}/>
+            <div style={{ display: 'flex', alignItems: 'center', gap: "10px" }}>
+              <AccountsDrowpdown onSelect={handleAccountSelect} accountAdded={{isAccountAdd, setIsAccountAdd}}/>
+              <NewAccountModal onCreate={handleCreateAccount}/>
             </div>
         </div>
-    </>
-
-    );
+    </>);
 }
 
 

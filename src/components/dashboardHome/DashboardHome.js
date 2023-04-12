@@ -9,30 +9,8 @@ export default function DashboardHome() {
         accountId,
         accountsIds,
         isLoaded,
-        updateAccountId,
-        updateAccountsIds,
         isLoadedUpdate
     } = useDash();
-    // console.log(isLoaded);
-    // console.log(accountsIds);
-    // console.log(accountId);
-
-    // useEffect(() => {
-    //     if (isLoaded) {
-    //         // console.log("no");
-    //     } else {
-    //         const accounts = async () => {
-    //             const accountsIds = await getUserAccounts(uid);
-    //             const currentAccount = accountsIds[0] || null;
-
-    //             updateAccountId(currentAccount);
-    //             updateAccountsIds(accountsIds);
-    //             isLoadedUpdate(true);
-    //         }
-
-    //         accounts();
-    //     }
-    // }, []);
 
     return (
         <>
