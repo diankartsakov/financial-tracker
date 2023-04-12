@@ -44,7 +44,7 @@ export default function DashboardPage() {
 
 
     return (
-        <>
+        <>{isLoaded ? 
             <Layout style={{ minHeight: "100vh" }}>
                 <Sider>
                         <DashboardMenu/>
@@ -60,6 +60,8 @@ export default function DashboardPage() {
                     </Content>
                 </Layout>
             </Layout>
+            :
+            <div>Loading...</div>}
         </>
   );
 }
