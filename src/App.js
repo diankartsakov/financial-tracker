@@ -8,6 +8,7 @@ import { useAuth } from './firebase/auth';
 import DashboardPage from './pages/dashboardPage/DashboardPage';
 import DashboardReports from './components/dashboardReports/DashboardReports';
 import DashboardHome from './components/dashboardHome/DashboardHome';
+import DashboardAccounts from './components/dashboardAccounts/DashboardAccounts';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                             <Route path={'/dashboard'} element={<DashboardPage />}>
                                 <Route path='' element={<DashboardHome/>}/>
                                 <Route path='reports' element= {<DashboardReports/>}/>   
+                                <Route path='accounts' element= {<DashboardAccounts/>}/>   
                             </Route>
                             <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
                         </Routes>

@@ -4,18 +4,18 @@ import {
     ProfileOutlined,
     PieChartOutlined,
     FileOutlined,
-  } from "@ant-design/icons";
+} from "@ant-design/icons";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function DashboardMenu() {
     const navigate = useNavigate();
     const handleOnClickLogout = () => {
-		logout()
+        logout()
             .then(() => navigate("/home"))
-			.catch((error) => {
-				console.log(error);
-			});
-  	}
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     return (
         <>
@@ -25,7 +25,7 @@ export default function DashboardMenu() {
                     <Link to="">Profile</Link>
                 </Menu.Item>
                 <Menu.Item key="2" icon={<PieChartOutlined />}>
-                    Accounts
+                    <Link to="accounts">Accounts</Link>
                 </Menu.Item>
                 <Menu.Item key="3" icon={<FileOutlined />}>
                     <Link to="reports">Reports</Link>
