@@ -4,9 +4,9 @@ import { Layout } from "antd";
 import { useDash } from "./DashboardProvider";
 import { useAuth } from "../../firebase/auth";
 import { getUserAccounts, getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
-import DashboardMenu from "../../components/menu/DashboardMenu";
+import DashboardMenu2 from "../../components/dashboardMenu/DashboardMenu";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 export default function DashboardPage() {
     const { authUser: {uid} } = useAuth();
@@ -46,9 +46,10 @@ export default function DashboardPage() {
     return (
         <>{isLoaded ? 
             <Layout style={{ minHeight: "100vh" }}>
-                <Sider>
+                {/* <Sider>
                         <DashboardMenu/>
-                </Sider>
+                </Sider> */}
+                <DashboardMenu2></DashboardMenu2>
                 <Layout className="site-layout">
                     <Content style={{ margin: "16px" }}>
                     <div
