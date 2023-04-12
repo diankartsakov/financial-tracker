@@ -1,15 +1,46 @@
 import { Outlet } from "react-router-dom";
-import React from "react";
-import { Layout} from "antd";
-
+import React, { useEffect } from "react";
+import { Layout } from "antd";
+import { useDash } from "./DashboardProvider";
+import { useAuth } from "../../firebase/auth";
+import { getUserAccounts, getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
 import DashboardMenu from "../../components/menu/DashboardMenu";
-import DashboardProvider from "./DashboardProvider";
+// import DashboardProvider from "./DashboardProvider";
 
 const { Sider, Content } = Layout;
 
 export default function DashboardPage() {
-  return (
-        <DashboardProvider>
+    const {authUser: {email}, authUser: {uid}} = useAuth();
+    const {
+        isLoaded,
+        updateAccountId,
+        updateAccountsIds,
+        updateAccountsNames,
+        isLoadedUpdate
+    } = useDash();
+
+    useEffect(() => {
+        if (isLoaded) {
+            // console.log("no");
+        } else {
+            const accounts = async () => {
+                const accountsIds = await getUserAccounts(uid);
+                const currentAccount = accountsIds[0] || null;
+                const accountsArr = await getUserAccountsFullInfo(uid);
+
+                updateAccountId(currentAccount);
+                updateAccountsIds(accountsIds);
+                updateAccountsNames(accountsArr);
+                isLoadedUpdate(true);
+            }
+
+            accounts();
+        }
+    }, []);
+
+
+    return (
+        <>
             <Layout style={{ minHeight: "100vh" }}>
                 <Sider>
                         <DashboardMenu/>
@@ -25,6 +56,6 @@ export default function DashboardPage() {
                     </Content>
                 </Layout>
             </Layout>
-        </DashboardProvider>
+        </>
   );
 }

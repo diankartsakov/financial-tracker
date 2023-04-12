@@ -84,20 +84,20 @@ export default function DashboardAccounts() {
         updateCurrentAccountName(account);
       }
 
-    useEffect(() => {
-        if (isLoaded) {
-            // console.log("no");
-        } else {
-            const accounts = async () => {
-                const accountsArr = await getUserAccountsFullInfo(uid);
+    // useEffect(() => {
+    //     if (isLoaded) {
+    //         // console.log("no");
+    //     } else {
+    //         const accounts = async () => {
+    //             const accountsArr = await getUserAccountsFullInfo(uid);
 
-                updateAccountsNames(accountsArr);
-                isLoadedUpdate(true);
-            };
-            accounts();
+    //             updateAccountsNames(accountsArr);
+    //             isLoadedUpdate(true);
+    //         };
+    //         accounts();
 
-        }
-    }, []);
+    //     }
+    // }, []);
 
     const getAccountsDropdownMenu = () => {
         return (

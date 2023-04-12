@@ -9,6 +9,7 @@ import DashboardPage from './pages/dashboardPage/DashboardPage';
 import DashboardReports from './components/dashboardReports/DashboardReports';
 import DashboardHome from './components/dashboardHome/DashboardHome';
 import DashboardAccounts from './components/dashboardAccounts/DashboardAccounts';
+import DashboardProvider from './pages/dashboardPage/DashboardProvider';
 
 
 function App() {
@@ -27,7 +28,11 @@ function App() {
                             <Route path={'/home'} element={<HomePage />}></Route>
                             <Route path={'/login'} element={<Login/>}></Route>
                             <Route path={'/register'} element={<Register />}></Route>
-                            <Route path={'/dashboard'} element={<DashboardPage />}>
+                            <Route path={'/dashboard'} element={
+                                <DashboardProvider>
+                                    <DashboardPage />
+                                </DashboardProvider>
+                            }>
                                 <Route path='' element={<DashboardHome/>}/>
                                 <Route path='reports' element= {<DashboardReports/>}/>   
                                 <Route path='accounts' element= {<DashboardAccounts/>}/>   
