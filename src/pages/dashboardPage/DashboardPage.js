@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import { useDash } from "./DashboardProvider";
 import { useAuth } from "../../firebase/auth";
 import { getUserAccounts, getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
-import DashboardMenu2 from "../../components/dashboardMenu/DashboardMenu";
+import DashboardMenu from "../../components/dashboardMenu/DashboardMenu";
 
 const { Content } = Layout;
 
@@ -12,6 +12,7 @@ export default function DashboardPage() {
     const { authUser: {uid} } = useAuth();
     const {
         isLoaded,
+        accountsArr,
         updateAccountId,
         updateAccountsIds,
         updateAccountsArr,
@@ -44,12 +45,11 @@ export default function DashboardPage() {
 
 
     return (
-        <>{isLoaded ? 
+        <>
+        {isLoaded
+        ?
             <Layout style={{ minHeight: "100vh" }}>
-                {/* <Sider>
-                        <DashboardMenu/>
-                </Sider> */}
-                <DashboardMenu2></DashboardMenu2>
+                <DashboardMenu accountsArr={accountsArr}></DashboardMenu>
                 <Layout className="site-layout">
                     <Content style={{ margin: "16px" }}>
                     <div
@@ -61,8 +61,9 @@ export default function DashboardPage() {
                     </Content>
                 </Layout>
             </Layout>
-            :
-            <div>Loading...</div>}
+
+        :
+        <div>L O A D I N G . . .</div>}
         </>
   );
 }

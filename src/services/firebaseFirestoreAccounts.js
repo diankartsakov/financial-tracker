@@ -17,6 +17,7 @@ async function getUserAccounts(uid) {
 
     return accounts;
 }
+
 async function getUserAccountsFullInfo(uid) {
     const accounts = [];
 

@@ -3,11 +3,10 @@ import {  Dropdown, Space, Button } from  "antd";
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { useEffect, useState } from 'react';
 
-export default function AccountsDrowpdown({onSelect, accountAdded: {isAccountAdd}, accountAdded: {setIsAccountAdd}}) {
-    const [selectedItem, setSelectedItem] = useState(null);
+export default function AccountsDrowpdown({accountName, onSelect, accountAdded: {isAccountAdd}, accountAdded: {setIsAccountAdd}}) {
     const [items, setItems] = useState([]);
-    const {isLoaded, accountsArr, accountId} = useDash();
-   
+    const {isLoaded, accountsArr } = useDash();
+    
     useEffect(() => {
         if (isLoaded && isAccountAdd) {
             const items = accountsArr.map(a => {
@@ -17,14 +16,12 @@ export default function AccountsDrowpdown({onSelect, accountAdded: {isAccountAdd
                 }
             });
             setItems(items);
-            setSelectedItem(items.find(i => i.key === accountId).label);
             setIsAccountAdd(false);
         }
     });
 
     const onClick = ({ key }) => {
         const acc = accountsArr.find(a => a.accountId === key);
-        setSelectedItem(acc.name);
         onSelect(acc);
     };
 
@@ -38,7 +35,7 @@ export default function AccountsDrowpdown({onSelect, accountAdded: {isAccountAdd
             <a onClick={(e) => e.preventDefault()}>
             <Button>
                 <Space>
-                    {selectedItem ? selectedItem: "Choose Account"}
+                    {accountName || "Choose Account"}
                     <DownOutlined />
                 </Space>
             </Button>

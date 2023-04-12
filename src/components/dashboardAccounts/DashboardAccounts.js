@@ -90,7 +90,7 @@ export default function DashboardAccounts() {
                 <h1>{currentAccountName ? currentAccountName : "Accounts"} </h1>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: "10px" }}>
-              <AccountsDrowpdown onSelect={handleAccountSelect} accountAdded={{isAccountAdd, setIsAccountAdd}}/>
+              <AccountsDrowpdown accountName={currentAccountName} onSelect={handleAccountSelect} accountAdded={{isAccountAdd, setIsAccountAdd}}/>
               <NewAccountModal onCreate={handleCreateAccount}/>
             </div>
         </div>
