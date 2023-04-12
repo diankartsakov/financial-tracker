@@ -42,11 +42,20 @@ export default function DashboardAccounts() {
 
     const [showModal, setShowModal] = useState(false);
 
+    const { authUser: { uid } } = useAuth();
+    const {
+        isLoaded,
+        accountsNamesArr,
+        updateAccountsNames,
+        isLoadedUpdate
+    } = useDash();
+
     const handleCreateAccount = (values) => {
         // handle create account logic here
+        console.log(values);
         console.log('Creating account with name:', values.accountName);
 
-        accountManager.addAccount(values.accountName);
+        accountManager.addAccount(values.accountName, uid);
         setShowModal(false);
       };
     
@@ -57,14 +66,6 @@ export default function DashboardAccounts() {
       const handleShowModal = () => {
         setShowModal(true);
       };
-
-    const { authUser: { uid } } = useAuth();
-    const {
-        isLoaded,
-        accountsNamesArr,
-        updateAccountsNames,
-        isLoadedUpdate
-    } = useDash();
 
     
 

@@ -6,9 +6,8 @@ import { useAuth } from "../firebase/auth.js";
 
 class AccountManager {
 
-  addAccount = async (accountName) => {
+  addAccount = async (accountName, uid) => {
 
-    const { authUser: { uid } } = useAuth();
 
     try {
 
