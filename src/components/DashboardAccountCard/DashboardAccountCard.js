@@ -4,31 +4,25 @@ import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { getAccount } from '../../services/firebaseFirestoreAccounts';
 
 export default function DashboardAccountCard({ currency = 'BGN' }) {
-
     const [balance, setBalance] = useState(0);
     
     const {
-        
         accountId,
         accountsArr
+    } = useDash(); 
 
-    } = useDash();
-
+    console.log(accountsArr);
     useEffect (() => {
+        if (accountId) {
+            const getBalance = async () => {
+              const balance = await getAccount(accountId);
+              setBalance(balance);
+            }
+      
+            getBalance();            
+        }
 
-      const getBalance = async () => {
-        const balance = await getAccount(accountId);
-        setBalance(balance);
-      }
-
-      getBalance();
-
-    },[]);
-     
-    
-    
-
-    console.log(balance + "BALANCE HEREE");
+    });
     
     const balanceColor = balance >= 0 ? 'green' : 'red';
 
@@ -57,14 +51,24 @@ export default function DashboardAccountCard({ currency = 'BGN' }) {
     };
     
     return (
-      <Card>
-        <div style={balanceStyle}>{balance.toFixed(2) + " " + currency}</div>
-        <div style={accountNameStyle}>{accountsArr.find(acc => acc.accountId = accountId).name}</div>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-          <Button type="primary" onClick={onDepositClick}>Deposit</Button>
-          <Button type="primary" onClick={onExpenseClick}>Expense</Button>
-          <Button type="primary" onClick={onTransferClick}>Transfer</Button>
-        </div>
-      </Card>
+        <>
+        {
+            accountsArr?.length && accountId
+            ?
+            <Card>
+            <div style={balanceStyle}>{balance.toFixed(2) + " " + currency}</div>
+            <div style={accountNameStyle}>{accountsArr.find(acc => acc.accountId = accountId)?.name}</div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+            <Button type="primary" onClick={onDepositClick}>Deposit</Button>
+            <Button type="primary" onClick={onExpenseClick}>Expense</Button>
+            <Button type="primary" onClick={onTransferClick}>Transfer</Button>
+            </div>
+            </Card>
+            : 
+            <div>NO ACCOUNTS. YOU NEEED TO CREATE ONE</div>
+        }
+
+      </>
+
     );
 };
