@@ -49,9 +49,6 @@ export default function DashboardPage() {
         {isLoaded
         ?
             <Layout style={{ minHeight: "100vh" }}>
-                {/* <Sider>
-                        <DashboardMenu/>
-                </Sider> */}
                 <DashboardMenu accountsArr={accountsArr}></DashboardMenu>
                 <Layout className="site-layout">
                     <Content style={{ margin: "16px" }}>
@@ -64,6 +61,7 @@ export default function DashboardPage() {
                     </Content>
                 </Layout>
             </Layout>
+
         :
         <div>L O A D I N G . . .</div>}
         </>

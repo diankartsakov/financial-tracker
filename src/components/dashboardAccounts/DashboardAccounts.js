@@ -4,6 +4,7 @@ import { useAuth } from "../../firebase/auth";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import accountManager from '../../services/AccountManager';
 import AccountsDrowpdown from '../accountDropdown/AccountsDropdown';
+import DashboardAccountCard from '../DashboardAccountCard/DashboardAccountCard';
 
 function NewAccountModal({onCreate}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -93,6 +94,7 @@ export default function DashboardAccounts() {
               <NewAccountModal onCreate={handleCreateAccount}/>
             </div>
         </div>
+        <DashboardAccountCard></DashboardAccountCard>
     </>);
 }
 
