@@ -15,7 +15,8 @@ export default function DashboardPage() {
         isLoaded,
         updateAccountId,
         updateAccountsIds,
-        updateAccountsNames,
+        updateAccountsArr,
+        updateCurrentAccountName,
         isLoadedUpdate
     } = useDash();
 
@@ -30,9 +31,13 @@ export default function DashboardPage() {
 
                 updateAccountId(currentAccount);
                 updateAccountsIds(accountsIds);
-                updateAccountsNames(accountsArr);
+                updateAccountsArr(accountsArr);
+                updateCurrentAccountName(
+                                        accountsArr.find(acc => acc.accountId === currentAccount)
+                                        ?.name
+                                        );
                 isLoadedUpdate(true);
-            }
+            };
 
             accounts();
         }

@@ -56,9 +56,10 @@ export default function DashboardAccounts() {
     const { authUser: { uid } } = useAuth();
     const {
         isLoaded,
-        accountsNamesArr,
+        accountsArr,
         isLoadedUpdate,
-        updateAccountsNames,
+        updateAccountId,
+        updateAccountsArr,
         currentAccountName,
         updateCurrentAccountName
     } = useDash();
@@ -70,19 +71,20 @@ export default function DashboardAccounts() {
 
         // handle create account logic here
 
-        let arr = accountsNamesArr;
+        let arr = accountsArr;
         console.log(arr);
 
         arr.push(values.accountName);
 
-        updateAccountsNames(arr);
+        updateAccountsArr(arr);
 
         accountManager.addAccount(values.accountName, uid);
       };
 
       const handleAccountSelect = (account) => {
-        updateCurrentAccountName(account);
-      }
+        updateCurrentAccountName(account.name);
+        updateAccountId(account.accountId);
+      };
 
     // useEffect(() => {
     //     if (isLoaded) {
@@ -102,10 +104,10 @@ export default function DashboardAccounts() {
     const getAccountsDropdownMenu = () => {
         return (
             <Menu>
-                {accountsNamesArr ? accountsNamesArr.map((account,index) => {
-                    return <Menu.Item key={index} onClick={() => handleAccountSelect(account)}>
-                        {account}
-                    </Menu.Item>
+                {accountsArr ? accountsArr.map((account) => {
+                    return <Menu.Item key={account.accountId} onClick={() => handleAccountSelect(account)}>
+                        {account.name}
+                    </Menu.Item>;
                 }) :
                     <div></div>
                 }

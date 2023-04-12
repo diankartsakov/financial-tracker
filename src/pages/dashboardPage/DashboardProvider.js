@@ -12,7 +12,7 @@ export default function DashboardProvider({children}) {
         accountId: null,
         accountsIds: null,
         isLoaded: false,
-        accountsNamesArr: null,
+        accountsArr: null,
         currentAccountName: null
     });
 
@@ -33,9 +33,9 @@ export default function DashboardProvider({children}) {
             return {...s, isLoaded: isLoaded};
         });
     };
-    const updateAccountsNames = (accountsNamesArr) => {
+    const updateAccountsArr = (accountsArr) => {
         setState(s => { 
-            return {...s, accountsNamesArr: accountsNamesArr};
+            return {...s, accountsArr: accountsArr};
         });
     };
     const updateCurrentAccountName = (currentAccountName) => {
@@ -49,7 +49,7 @@ export default function DashboardProvider({children}) {
         updateAccountId,
         updateAccountsIds,
         isLoadedUpdate,
-        updateAccountsNames,
+        updateAccountsArr,
         updateCurrentAccountName
     };
 
