@@ -7,41 +7,52 @@ import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { getUserAccountsFullInfo } from '../../services/firebaseFirestoreAccounts';
 import accountManager from '../../services/AccountManager';
 
-function NewAccountModal({ visible, onCreate, onCancel }) {
+function NewAccountModal({onCreate}) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
+  
+    const showModal = () => {
+      setIsModalOpen(true);
+    };
+  
+    const hideModal = () => {
+      setIsModalOpen(false);
+    };
   
     const handleCreate = () => {
       form.validateFields().then((values) => {
         onCreate(values);
+        hideModal();
         form.resetFields();
       });
     };
   
     return (
-      <Modal
-        visible={visible}
-        title="Create New Account"
-        okText="Create"
-        onCancel={onCancel}
-        onOk={handleCreate}
-      >
-        <Form form={form} layout="vertical">
-          <Form.Item
-            name="accountName"
-            label="Account Name"
-            rules={[{ required: true, message: 'Please enter an account name' }]}
-          >
-            <Input placeholder="Enter account name" />
-          </Form.Item>
-        </Form>
-      </Modal>
+      <>
+        <Button type="primary" onClick={showModal}>Add Account</Button>
+        <Modal
+          open={isModalOpen}
+          title="Create New Account"
+          okText="Create"
+          onCancel={hideModal}
+          onOk={handleCreate}
+        >
+          <Form form={form} layout="vertical">
+            <Form.Item
+              name="accountName"
+              label="Account Name"
+              rules={[{ required: true, message: 'Please enter an account name' }]}
+            >
+              <Input placeholder="Enter account name" />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </>
+      
     );
   }
   
 export default function DashboardAccounts() {
-
-    const [showModal, setShowModal] = useState(false);
-
     const { authUser: { uid } } = useAuth();
     const {
         isLoaded,
@@ -51,22 +62,12 @@ export default function DashboardAccounts() {
     } = useDash();
 
     const handleCreateAccount = (values) => {
-        // handle create account logic here
+
         console.log(values);
         console.log('Creating account with name:', values.accountName);
 
         accountManager.addAccount(values.accountName, uid);
-        setShowModal(false);
       };
-    
-      const handleCancelModal = () => {
-        setShowModal(false);
-      };
-    
-      const handleShowModal = () => {
-        setShowModal(true);
-      };
-
     
 
     useEffect(() => {
@@ -112,10 +113,9 @@ export default function DashboardAccounts() {
                         Accounts <UserOutlined />
                     </Button>
                 </Dropdown>
-                <Button type="primary" onClick={handleShowModal}>Add Account</Button>
+                <NewAccountModal onCreate={handleCreateAccount}/>
             </div>
         </div>
-        <NewAccountModal visible={showModal} onCreate={handleCreateAccount} onCancel={handleCancelModal} /> 
     </>
 
     );
