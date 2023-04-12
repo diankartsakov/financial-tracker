@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { logout } from "../../services/firebaseAuthenticationManager";
 import {
@@ -9,20 +9,31 @@ import {
 } from '@ant-design/icons';
 
 import { Layout, Menu, Typography} from 'antd';
+import { getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
+import { useAuth } from "../../firebase/auth";
+import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 
 const { Sider } = Layout;
 
 export default function DashboardMenu() {
+    const [accounts, setAccounts] = useState([]);
     const [collapsed, setCollapsed] = useState(false);
+    const { authUser: {uid} } = useAuth();
+    const { updateAccountId, updateCurrentAccountName } = useDash();
+    
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const getAccounts = async () => {
+            const accounts = await getUserAccountsFullInfo(uid);
+            setAccounts(accounts);   
+        };
+
+        getAccounts();
+    }, []);
     
-    function getItem(
-        label,
-        key,
-        icon,
-        children,
-      ) {
+    function getItem(label, key, icon, children) {
         return {
           key,
           icon,
@@ -39,13 +50,20 @@ export default function DashboardMenu() {
             });
     }
       
-    const items = [
+    const items = () => [
         getItem(<Link to="">Profile</Link>, '1', <UserOutlined />),
-        getItem(<Link to="accounts"  component={Typography.Link}>Accouts</Link>, '2', <WalletOutlined />, [
-            getItem('savings', '2.1'),
-            getItem('acc', '2.2'),
-            getItem('holidays', '2.3'),
-        ]),
+        getItem(<Link to="accounts"  component={Typography.Link}>Accouts</Link>, '2', <WalletOutlined />,
+            accounts
+            ?
+                accounts.map(a => {
+                return (getItem(<p onClick={() => {
+                    updateAccountId(a.accountId);
+                    updateCurrentAccountName(a.name);
+                    navigate("accounts");
+                }}>{a.name}</p>, a.accountId))})
+            :
+                []
+        ),
         getItem(<Link to="reports">Reports</Link>, '3', <PieChartOutlined />, [
           getItem('Tom', '3.1'),
           getItem('Bill', '3.2'),
@@ -64,7 +82,7 @@ export default function DashboardMenu() {
 
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items()} />
             <Menu theme="dark" mode="inline" items={logoutItem} />
         </Sider>
     );
