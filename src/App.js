@@ -10,6 +10,8 @@ import DashboardReports from './components/dashboardReports/DashboardReports';
 import DashboardHome from './components/dashboardHome/DashboardHome';
 import DashboardAccounts from './components/dashboardAccounts/DashboardAccounts';
 import DashboardProvider from './pages/dashboardPage/DashboardProvider';
+import DashboardExpense from './components/dashboardExpense/DashboardExpense';
+import LoadingPage from './components/loadingPage/LoadingPage';
 
 
 function App() {
@@ -19,7 +21,8 @@ function App() {
             {   
                 isLoading 
                 ? 
-                    <div>Loading... </div>
+                    // <div>Loading... </div>
+                    <LoadingPage/>
                 :       
                     <BrowserRouter>
                         {!authUser && <HomeNavigation/>}
@@ -36,6 +39,7 @@ function App() {
                                 <Route path='' element={<DashboardHome/>}/>
                                 <Route path='reports' element= {<DashboardReports/>}/>   
                                 <Route path='accounts' element= {<DashboardAccounts/>}/>   
+                                <Route path='expense' element= {<DashboardExpense/>}/>   
                             </Route>
                             <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
                         </Routes>
