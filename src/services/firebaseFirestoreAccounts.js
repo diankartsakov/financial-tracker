@@ -47,7 +47,7 @@ async function getAccount(accountId) {
 
     if (docSnap.exists()) {
 
-        return docSnap.data().amount;
+        return docSnap.data();
 
     } else {
         // docSnap.data() will be undefined in this case

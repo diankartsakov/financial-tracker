@@ -3,8 +3,9 @@ import { Card, Button } from 'antd';
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { getAccount } from '../../services/firebaseFirestoreAccounts';
 
-export default function DashboardAccountCard({ currency = 'BGN' }) {
+export default function DashboardAccountCard({ currency = 'BGN',  }) {
     const [balance, setBalance] = useState(0);
+    const [accountName, setAccountName] = useState('');
     
     const {
         accountId,
@@ -14,8 +15,10 @@ export default function DashboardAccountCard({ currency = 'BGN' }) {
     useEffect (() => {
         if (accountId) {
             const getBalance = async () => {
-              const balance = await getAccount(accountId);
-              setBalance(balance);
+              const acc = await getAccount(accountId);
+
+              setBalance(acc.amount);
+              setAccountName(acc.name);
             }
       
             getBalance();            
@@ -56,7 +59,7 @@ export default function DashboardAccountCard({ currency = 'BGN' }) {
             ?
             <Card>
             <div style={balanceStyle}>{balance.toFixed(2) + " " + currency}</div>
-            <div style={accountNameStyle}>{accountsArr.find(acc => acc.accountId = accountId)?.name}</div>
+            <div style={accountNameStyle}>{accountName}</div>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
             <Button type="primary" onClick={onDepositClick}>Deposit</Button>
             <Button type="primary" onClick={onExpenseClick}>Expense</Button>

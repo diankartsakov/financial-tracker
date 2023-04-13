@@ -96,7 +96,7 @@ export default function DashboardAccounts() {
               <NewAccountModal onCreate={handleCreateAccount}/>
             </div>
         </div>
-        <DashboardAccountCard></DashboardAccountCard>
+        <DashboardAccountCard ></DashboardAccountCard>
     </>);
 }
 
