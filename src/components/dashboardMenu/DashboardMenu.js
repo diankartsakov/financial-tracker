@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { logout } from "../../services/firebaseAuthenticationManager";
 import {
@@ -9,15 +9,13 @@ import {
 } from '@ant-design/icons';
 
 import { Layout, Menu, Typography} from 'antd';
-import { getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
-import { useAuth } from "../../firebase/auth";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 
 const { Sider } = Layout;
 
 export default function DashboardMenu() {
     const { accountsArr, updateAccountId, updateCurrentAccountName } = useDash();
-    const [accounts, setAccounts] = useState(accountsArr);
+    const [accounts] = useState(accountsArr);
     const [collapsed, setCollapsed] = useState(false);
     
     const navigate = useNavigate();

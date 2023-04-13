@@ -20,7 +20,7 @@ function NewAccountModal({onCreate}) {
   
     const handleCreate = () => {
       form.validateFields().then((values) => {
-        console.log(values);
+        // console.log(values);
         onCreate(values);
         hideModal();
         form.resetFields();
@@ -56,10 +56,8 @@ export default function DashboardAccounts() {
     const [isAccountAdd, setIsAccountAdd] = useState(true);
     const { authUser: { uid } } = useAuth();
     const {
-        isLoaded,
         accountsArr,
         currentAccountName,
-        isLoadedUpdate,
         updateAccountId,
         updateAccountsArr,
         updateCurrentAccountName

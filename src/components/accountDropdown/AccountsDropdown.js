@@ -4,11 +4,13 @@ import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { useEffect, useState } from 'react';
 
 export default function AccountsDrowpdown({accountName, onSelect, accountAdded: {isAccountAdd}, accountAdded: {setIsAccountAdd}}) {
-    const [items, setItems] = useState([]);
     const {isLoaded, accountsArr } = useDash();
+    const [items, setItems] = useState(accountsArr);
     
     useEffect(() => {
+        // console.log("dropdown render");
         if (isLoaded && isAccountAdd) {
+            // console.log("dropdown render2");
             const items = accountsArr.map(a => {
                 return {
                     label: a.name,
@@ -18,7 +20,7 @@ export default function AccountsDrowpdown({accountName, onSelect, accountAdded: 
             setItems(items);
             setIsAccountAdd(false);
         }
-    });
+    }, [accountsArr, isAccountAdd, isLoaded, setIsAccountAdd]);
 
     const onClick = ({ key }) => {
 
@@ -34,14 +36,14 @@ export default function AccountsDrowpdown({accountName, onSelect, accountAdded: 
             onClick,
             }}
         >
-            <a onClick={(e) => e.preventDefault()}>
+            <p onClick={(e) => e.preventDefault()}>
             <Button>
                 <Space>
                     {accountName || "Choose Account"}
                     <DownOutlined />
                 </Space>
             </Button>
-            </a>
+            </p>
         </Dropdown>
     );
 }
