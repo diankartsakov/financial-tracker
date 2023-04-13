@@ -5,6 +5,7 @@ import { useDash } from "./DashboardProvider";
 import { useAuth } from "../../firebase/auth";
 import { getUserAccounts, getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
 import DashboardMenu from "../../components/dashboardMenu/DashboardMenu";
+import LoadingPage from "../../components/loadingPage/LoadingPage";
 
 const { Content } = Layout;
 
@@ -63,7 +64,7 @@ export default function DashboardPage() {
             </Layout>
 
         :
-        <div>L O A D I N G . . .</div>}
-        </>
-  );
+            <LoadingPage/>
+        }   
+        </>);
 }
