@@ -16,22 +16,11 @@ import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 const { Sider } = Layout;
 
 export default function DashboardMenu() {
-    const [accounts, setAccounts] = useState([]);
+    const { accountsArr, updateAccountId, updateCurrentAccountName } = useDash();
+    const [accounts, setAccounts] = useState(accountsArr);
     const [collapsed, setCollapsed] = useState(false);
-    const { authUser: {uid} } = useAuth();
-    const { updateAccountId, updateCurrentAccountName } = useDash();
     
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const getAccounts = async () => {
-            const accounts = await getUserAccountsFullInfo(uid);
-            setAccounts(accounts);   
-        };
-
-        getAccounts();
-    }, []);
     
     function getItem(label, key, icon, children) {
         return {
