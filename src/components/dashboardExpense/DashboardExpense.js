@@ -1,5 +1,5 @@
 import { useDash } from "../../pages/dashboardPage/DashboardProvider"
-import CategoryFormModal from "../categoryForm/CategoryFormModal";
+import CategoryFormModal from "../categoryFormModal/CategoryFormModal";
 
 export default function DashboardExpense() {
     const {currentAccountName} = useDash();
