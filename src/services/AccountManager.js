@@ -1,5 +1,7 @@
 import { auth, db } from '../firebase/firebase.js';
 import { addDoc, collection } from "firebase/firestore";
+import { getAccount } from './firebaseFirestoreAccounts.js';
+
 class AccountManager {
 
   addAccount = async (accountName, uid) => {
@@ -18,95 +20,95 @@ class AccountManager {
     }
   };
 
-  // Add a new transaction to the "transactions" collection
-  addTransaction = async (accountId, amount, category, type, fromAccountId) => {
-    console.log(db);
-    console.log(auth);
+  validateBalance = async (accountId, amount) => {
+
+    let acc = await getAccount(accountId);
+
+    return acc.amount >= amount;
+
+  };
+
+  updateBalance = async (accountId) => {
+
+    
+
+  };
+
+  addTransction = async (transaction) => {
 
     try {
 
-
-      const docRef = await addDoc(collection(db, "transactions"), {
-        account_id: accountId,
-        amount: amount,
-        category: 'Card Deposit',
-        type: type,
-        date: new Date()
-      });
+      const docRef = await addDoc(collection(db, "transactions"), transaction);
 
       console.log("Document written with ID: ", docRef.id);
+
+
     } catch (e) {
       console.error("Error adding document: ", e);
     }
 
+  };
 
+  // Add a new transaction to the "transactions" collection
+  initiateTransaction = async (accountId, amount, type, category, fromAccountId) => {
 
-    // if (type === 'Expense') {
+    // type = 'Transfer' , Expense, Deposit
+    // category = 'Card Deposit' , 'Internal Transfer' or Expense Category
 
-    //     db.collection('transactions').add({
-    //         account_id: accountId,
-    //         amount: amount,
-    //         category: category,
-    //         type: type,
-    //         date: new Date(),
-    //     })
-    //         .then((docRef) => {
-    //             console.log('Document written with ID: ', docRef.id);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error adding document: ', error);
-    //         });
+    let sufficientBalance;
 
-    // }
-    // else if (type === 'Deposit') {
+    if(type === 'Expense'){
 
-    //     db.collection('transactions').add({
-    //         account_id: accountId,
-    //         amount: amount,
-    //         category: 'Card Deposit',
-    //         type: type,
-    //         date: new Date(),
-    //     })
-    //         .then((docRef) => {
-    //             console.log('Document written with ID: ', docRef.id);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error adding document: ', error);
-    //         });
+      sufficientBalance = await this.validateBalance(accountId, amount);
 
-    // }
-    // else {
+    }
+    else if(type === 'Transfer'){
 
-    //     db.collection('transactions').add({
-    //         account_id: accountId,
-    //         from_account_id: fromAccountId,
-    //         amount: amount,
-    //         category: 'Internal Transfer',
-    //         type: type,
-    //         date: new Date(),
-    //     })
-    //         .then((docRef) => {
-    //             console.log('Document written with ID: ', docRef.id);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error adding document: ', error);
-    //         });
+      sufficientBalance = await this.validateBalance(fromAccountId, amount);
 
-    //     db.collection('transactions').add({
-    //         account_id: fromAccountId,
-    //         to_account_id: accountId,
-    //         amount: amount,
-    //         category: 'Internal Transfer',
-    //         type: type,
-    //         date: new Date(),
-    //     })
-    //         .then((docRef) => {
-    //             console.log('Document written with ID: ', docRef.id);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error adding document: ', error);
-    //         });
-    // }
+    }
+
+    if (!sufficientBalance && type !== 'Deposit'){
+
+      console.log('Insufficient Funds !!!');
+
+      return;
+
+    }
+
+    let transaction = {
+
+      accountId: accountId,
+      amount: amount,
+      type: type,
+      category: category,
+      date: new Date()
+
+    };
+
+    if (fromAccountId) {
+
+      transaction.fromAccountId = fromAccountId;
+
+      let toTransaction = {
+
+        accountId: fromAccountId,
+        amount: amount,
+        type: type,
+        category: category,
+        date: new Date(),
+        toAccountId: accountId
+
+      };
+
+      await Promise.all([this.addTransction(transaction), this.addTransction(toTransaction)]);
+
+    }
+    else {
+
+      await this.addTransction(transaction);
+
+    }
 
   };
 }
