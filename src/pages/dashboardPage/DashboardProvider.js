@@ -18,8 +18,8 @@ export default function DashboardProvider({children}) {
 
     const updateAccountId = (accountId) => {
         setState(s => { 
-            return {...s, accountId: accountId 
-        }});
+            return {...s, accountId: accountId };
+        });
     };
 
     const updateAccountsIds = (accountsIds) => {

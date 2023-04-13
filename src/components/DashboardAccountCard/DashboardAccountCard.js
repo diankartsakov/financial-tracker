@@ -11,7 +11,6 @@ export default function DashboardAccountCard({ currency = 'BGN' }) {
         accountsArr
     } = useDash(); 
 
-    console.log(accountsArr);
     useEffect (() => {
         if (accountId) {
             const getBalance = async () => {

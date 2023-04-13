@@ -13,7 +13,7 @@ export default function AccountsDrowpdown({accountName, onSelect, accountAdded: 
                 return {
                     label: a.name,
                     key: a.accountId,
-                }
+                };
             });
             setItems(items);
             setIsAccountAdd(false);
@@ -21,7 +21,9 @@ export default function AccountsDrowpdown({accountName, onSelect, accountAdded: 
     });
 
     const onClick = ({ key }) => {
-        const acc = accountsArr.find(a => a.accountId === key);
+
+        const acc = items.find(a => a.key === key);
+
         onSelect(acc);
     };
 

@@ -79,8 +79,10 @@ export default function DashboardAccounts() {
       };
 
       const handleAccountSelect = (account) => {
-        updateCurrentAccountName(account.name);
-        updateAccountId(account.accountId);
+
+          updateCurrentAccountName(account.label);
+          updateAccountId(account.key);
+
       };
 
     return (

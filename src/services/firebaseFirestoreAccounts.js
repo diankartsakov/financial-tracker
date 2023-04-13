@@ -47,9 +47,6 @@ async function getAccount(accountId) {
 
     if (docSnap.exists()) {
 
-        console.log(docSnap.data());
-        console.log(docSnap.data().amount);
-
         return docSnap.data().amount;
 
     } else {
