@@ -38,8 +38,8 @@ function App() {
                             }>
                                 <Route path='' element={<DashboardHome/>}/>
                                 <Route path='reports' element= {<DashboardReports/>}/>   
-                                <Route path='accounts' element= {<DashboardAccounts/>}/>   
-                                <Route path='expense' element= {<DashboardExpense/>}/>   
+                                <Route path='accounts' element= {<DashboardAccounts/>}/>
+                                <Route path='expense' element= {<DashboardExpense/>}/> 
                             </Route>
                             <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
                         </Routes>

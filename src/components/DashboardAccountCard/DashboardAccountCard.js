@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Button } from 'antd';
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { getAccount } from '../../services/firebaseFirestoreAccounts';
+import { Link } from 'react-router-dom';
 
 export default function DashboardAccountCard({ currency = 'BGN',  }) {
     const [balance, setBalance] = useState(0);
@@ -62,7 +63,10 @@ export default function DashboardAccountCard({ currency = 'BGN',  }) {
             <div style={accountNameStyle}>{accountName}</div>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
             <Button type="primary" onClick={onDepositClick}>Deposit</Button>
-            <Button type="primary" onClick={onExpenseClick}>Expense</Button>
+            <Link to="/dashboard/expense">
+                <Button type="primary" onClick={onExpenseClick}>Expense</Button>
+            </Link>
+            
             <Button type="primary" onClick={onTransferClick}>Transfer</Button>
             </div>
             </Card>
