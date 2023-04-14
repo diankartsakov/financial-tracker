@@ -4,6 +4,7 @@ import { Layout } from "antd";
 import { useDash } from "./DashboardProvider";
 import { useAuth } from "../../firebase/auth";
 import { getUserAccounts, getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
+import { getUserCategories } from "../../services/firebaseFirestoreCategories";
 import DashboardMenu from "../../components/dashboardMenu/DashboardMenu";
 import LoadingPage from "../../components/loadingPage/LoadingPage";
 
@@ -18,6 +19,7 @@ export default function DashboardPage() {
         updateAccountsIds,
         updateAccountsArr,
         updateCurrentAccountName,
+        updateCategories,
         isLoadedUpdate
     } = useDash();
 
@@ -29,6 +31,7 @@ export default function DashboardPage() {
                 const accountsIds = await getUserAccounts(uid);
                 const currentAccount = accountsIds[0] || null;
                 const accountsArr = await getUserAccountsFullInfo(uid);
+                const userCategories = await getUserCategories();
 
                 updateAccountId(currentAccount);
                 updateAccountsIds(accountsIds);
@@ -38,6 +41,7 @@ export default function DashboardPage() {
                                         ?.name
                                         );
                 isLoadedUpdate(true);
+                updateCategories(userCategories);
             };
 
             accounts();
