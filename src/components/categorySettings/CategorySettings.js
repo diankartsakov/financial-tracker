@@ -9,8 +9,7 @@ import "./categorySettings.css";
 import { debounce } from "../../assests/utils/utils";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 
-
-export default function CategorySettings({onSubmit, onCancel, onError: {setError}, setCategories}) {
+export default function CategorySettings({onSubmit, onCancel, onError: {setError}, resetForm: {resetForm, setResetForm}}) {
     const [categoryName, setCategoryName] = useState("");
     const [selectedIcon, setSelectedIcon] = useState(faCoins);
     const [selectedIconColor, setSelectedIconColor] = useState("#000000");
@@ -19,6 +18,17 @@ export default function CategorySettings({onSubmit, onCancel, onError: {setError
     );
     const [selectedSize, setSelectedSize] = useState("4x");
     const {categories, updateCategories} = useDash();
+
+    useEffect(() => {
+      if (resetForm) {
+        setCategoryName("");
+        setSelectedIcon(faCoins);
+        setSelectedIconColor("#000000");
+        setSelectedBackgroundColor("#FFFFFF");
+        setSelectedSize("4x");
+        setResetForm(false);
+      }
+    })
 
     const handleCategoryNameChange = (event) => {
       setCategoryName(event.target.value);
@@ -49,20 +59,18 @@ export default function CategorySettings({onSubmit, onCancel, onError: {setError
           iconSize: selectedSize, 
           categoryBackground: selectedBackgroundColor,
         }
-        console.log("Submitted!");
+
         const submitResult = await onSubmit(formData);
 
         if (submitResult?.error) {
             setError(submitResult);
         } else {
           const arr = [...categories, submitResult];
-          console.log(arr);
           updateCategories(arr);
           setError("");
           
           onCancel()
         }
-        console.log("final");
       };
 
       return (

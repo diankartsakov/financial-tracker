@@ -4,7 +4,6 @@ import { db, auth } from "../firebase/firebase"
 async function addCategory(data) {
     data.uid = auth.currentUser?.uid;
     try {
-        console.log(data.category)
         if (data.category.trim() === "") {
             return {error: "Please provide a name for the category."}
         }
@@ -23,7 +22,7 @@ async function addCategory(data) {
             icon: JSON.parse(data.icon),
             id: docRef.id,
         }
-        console.log(result);
+
         console.log("Category created, ID: ", docRef.id);
         return result;
     } catch (e) {
