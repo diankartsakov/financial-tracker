@@ -1,30 +1,52 @@
 import React, { useState } from 'react';
-import { Form, Input, Radio, Select, Button } from 'antd';
+import { Form, Input, Radio, Button } from 'antd';
 import { Row, Col } from 'react-bootstrap';
-
-const { Option } = Select;
+import TransferDropdown from '../transferDropdown/TransferDropdown';
+import { useDash } from "../../pages/dashboardPage/DashboardProvider";
+import accountManager from '../../services/AccountManager';
 
 export default function DashboardDeposit () {
   const [depositType, setDepositType] = useState('card');
+  const [amount, setAmount] = useState('');
+  const [fromAccount, setFromAccount] = useState('');
+
+  const { accountId }= useDash();
+
 
   const handleDepositTypeChange = e => {
     setDepositType(e.target.value);
   };
+  const handleAmountChange = e => {
+    setAmount(e.target.value);
+  };
+  const handleFromAccountChange = e => {
+    setFromAccount(e.target.value);
+  };
 
   const handlePayButtonClick = () => {
-    // Handle payment logic here
+  
+    if(depositType === 'card'){
+
+      accountManager.initiateTransaction(accountId, amount, 'Deposit', 'Card Deposit');
+
+    }else {
+
+      accountManager.initiateTransaction(accountId, amount, 'Transfer', 'Internal Transfer',fromAccount);
+
+    }
+
   };
 
   return (
     <Form onFinish={handlePayButtonClick}>
       <Form.Item label="Amount">
-        <Input type="number" name="amount" />
+        <Input type="number" name="amount" onChange={handleAmountChange}/>
       </Form.Item>
 
       <Form.Item label="Deposit Type">
         <Radio.Group onChange={handleDepositTypeChange} value={depositType}>
           <Radio value="card">Card Deposit</Radio>
-          <Radio value="account">Transfer from Account Deposit</Radio>
+          <Radio value="account">Transfer from Account</Radio>
         </Radio.Group>
       </Form.Item>
 
@@ -33,13 +55,13 @@ export default function DashboardDeposit () {
           <Row>
             <Col xs={12} sm={6}>
               <Form.Item label="Card Number">
-                <Input type="number" name="cardNumber" />
+                <Input type="text" name="cardNumber" maxLength={16}/>
               </Form.Item>
             </Col>
 
             <Col xs={12} sm={6}>
               <Form.Item label="Expiration Date">
-                <Input type="text" name="expirationDate" placeholder="MM/YY" />
+                <Input type="month" name="expirationDate" placeholder="MM/YY" />
               </Form.Item>
             </Col>
           </Row>
@@ -62,11 +84,7 @@ export default function DashboardDeposit () {
 
       {depositType === 'account' && (
         <Form.Item label="Account">
-          <Select name="accountId">
-            <Option value="1">Account 1</Option>
-            <Option value="2">Account 2</Option>
-            <Option value="3">Account 3</Option>
-          </Select>
+          <TransferDropdown value="" onChange= {handleFromAccountChange}></TransferDropdown>
         </Form.Item>
       )}
 
