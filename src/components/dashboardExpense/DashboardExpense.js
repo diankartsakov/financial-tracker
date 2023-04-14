@@ -4,6 +4,7 @@ import { useDash } from "../../pages/dashboardPage/DashboardProvider"
 import { addCategory } from "../../services/firebaseFirestoreCategories";
 import CategoryFormModal from "../categoryFormModal/CategoryFormModal";
 import ExpenseCategory from "../expenseCategory/ExpenseCategory";
+import "./dashboardExpense.scss";
 
 export default function DashboardExpense() {
     const {currentAccountName, categories} = useDash();
@@ -17,9 +18,7 @@ export default function DashboardExpense() {
         <>
             <h1>{currentAccountName} EXPENSE</h1>
             <CategoryFormModal onSubmit={addCategory}/>
-            <div className="categoriesWrapper" style={{
-                display:"flex", flexWrap: "wrap", gap: "15px",
-            }}>{
+            <div className="categoriesWrapper">{
                 isLoading ?
                 <div>Loading...</div>
                 :

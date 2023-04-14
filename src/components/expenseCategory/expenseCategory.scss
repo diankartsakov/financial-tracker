@@ -1,0 +1,80 @@
+// @import "~antd/dist/antd.css";
+
+.ft-category-wrapper {
+    width: 200px;
+    height: 215px;
+    padding-top: 15px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease-in-out 250ms;
+    border: 3px solid black;
+
+    // &:hover {
+    //     scale: 1.2;
+    // }
+
+    .ft-settings-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+}
+
+.ft-icon-circle {
+    background-color: #eee;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+
+
+
+.ft-settings-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 25px;
+}
+
+.ft-popover-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4px;
+  background-color: white;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  margin-right: 15px;
+
+  .ft-settings-option {
+    cursor: pointer;
+    padding: 4px;
+    font-size: 12px;
+    font-weight: bold;
+
+    color: #777;
+    &:hover {
+      color: #1890ff;
+    }
+  }
+}
+
+.ant-popover-placement-bottom .ant-popover-arrow {
+  display: none;
+}
+
+.ant-popover-placement-bottomLeft .ant-popover-content {
+  left: -28px;
+}
