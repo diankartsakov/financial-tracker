@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import IconPickerPopover from "../iconPickerPopover/IconPickerPopover";
 import "./categorySettings.css";
+import { debounce } from "../../assests/utils/utils";
 
 export default function CategorySettings() {
     const [categoryName, setCategoryName] = useState("");
@@ -25,11 +26,11 @@ export default function CategorySettings() {
     };
   
     const handleIconColorSelect = (event) => {
-      setSelectedIconColor(event.target.value);
+        debounce(setSelectedIconColor(event.target.value));
     };
   
     const handleBackgroundColorSelect = (event) => {
-      setSelectedBackgroundColor(event.target.value);
+        debounce(setSelectedBackgroundColor(event.target.value));
     };
   
     const handleSizeSelect = (event) => {
@@ -100,6 +101,7 @@ export default function CategorySettings() {
               <div
                 className="icon-circle"
                 style={{
+                  border: "5px solid black",
                   backgroundColor: selectedBackgroundColor,
                 }}
               >
