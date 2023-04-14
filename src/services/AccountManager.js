@@ -66,6 +66,7 @@ class AccountManager {
 
   initiateTransaction = async (accountId, amount, type, category, fromAccountId) => {
 
+
     // type = 'Transfer' , Expense, Deposit
     // category = 'Card Deposit' , 'Internal Transfer' or Expense Category
 
@@ -77,6 +78,8 @@ class AccountManager {
 
     }
     else if (type === 'Transfer') {
+
+      console.log ("Enter Transfer case to Validate");
 
       remainingBalance = await this.validateBalance(fromAccountId, amount);
 

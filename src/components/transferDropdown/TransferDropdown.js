@@ -3,7 +3,7 @@ import {  Dropdown, Space, Button } from  "antd";
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { useState } from 'react';
 
-export default function TransferDropdown() {
+export default function TransferDropdown(props) {
     const { accountsArr } = useDash();
     const [fromAccount, setfromAccount] = useState("Choose Account");
 
@@ -19,7 +19,8 @@ export default function TransferDropdown() {
 
         const acc = items.find(a => a.key === key);
 
-        setfromAccount(acc.label);
+        setfromAccount(acc);
+        props.onSelect(key);
 
     };
     
@@ -33,7 +34,7 @@ export default function TransferDropdown() {
             <p onClick={(e) => e.preventDefault()}>
             <Button>
                 <Space>
-                    {fromAccount}
+                    {fromAccount?.label || fromAccount}
                     <DownOutlined />
                 </Space>
             </Button>

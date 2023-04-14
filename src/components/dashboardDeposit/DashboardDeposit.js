@@ -10,7 +10,7 @@ export default function DashboardDeposit () {
   const [amount, setAmount] = useState('');
   const [fromAccount, setFromAccount] = useState('');
 
-  const { accountId }= useDash();
+  const { accountId } = useDash();
 
 
   const handleDepositTypeChange = e => {
@@ -19,8 +19,8 @@ export default function DashboardDeposit () {
   const handleAmountChange = e => {
     setAmount(e.target.value);
   };
-  const handleFromAccountChange = e => {
-    setFromAccount(e.target.value);
+  const handleFromAccountSelect = (key)=> {
+    setFromAccount(key);
   };
 
   const handlePayButtonClick = () => {
@@ -30,6 +30,9 @@ export default function DashboardDeposit () {
       accountManager.initiateTransaction(accountId, amount, 'Deposit', 'Card Deposit');
 
     }else {
+
+      console.log ("HandlePay"+ accountId);
+      console.log ("HandlePay"+ fromAccount);
 
       accountManager.initiateTransaction(accountId, amount, 'Transfer', 'Internal Transfer',fromAccount);
 
@@ -84,7 +87,7 @@ export default function DashboardDeposit () {
 
       {depositType === 'account' && (
         <Form.Item label="Account">
-          <TransferDropdown value="" onChange= {handleFromAccountChange}></TransferDropdown>
+          <TransferDropdown onSelect= {handleFromAccountSelect}></TransferDropdown>
         </Form.Item>
       )}
 
