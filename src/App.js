@@ -11,6 +11,7 @@ import DashboardHome from './components/dashboardHome/DashboardHome';
 import DashboardAccounts from './components/dashboardAccounts/DashboardAccounts';
 import DashboardProvider from './pages/dashboardPage/DashboardProvider';
 import DashboardExpense from './components/dashboardExpense/DashboardExpense';
+import DashboardDeposit from './components/dashboardDeposit/DashboardDeposit';
 import LoadingPage from './components/loadingPage/LoadingPage';
 
 
@@ -40,6 +41,7 @@ function App() {
                                 <Route path='reports' element= {<DashboardReports/>}/>   
                                 <Route path='accounts' element= {<DashboardAccounts/>}/>
                                 <Route path='expense' element= {<DashboardExpense/>}/> 
+                                <Route path='deposit' element= {<DashboardDeposit/>}/> 
                             </Route>
                             <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
                         </Routes>

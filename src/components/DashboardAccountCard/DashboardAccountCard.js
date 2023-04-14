@@ -43,15 +43,7 @@ export default function DashboardAccountCard({ currency = 'BGN',  }) {
         textAlign: 'center',
     };
 
-    const onDepositClick  = () => {
 
-    };
-    const onExpenseClick  = () => {
-
-    };
-    const onTransferClick  = () => {
-
-    };
     
     return (
         <>
@@ -62,12 +54,13 @@ export default function DashboardAccountCard({ currency = 'BGN',  }) {
             <div style={balanceStyle}>{balance.toFixed(2) + " " + currency}</div>
             <div style={accountNameStyle}>{accountName}</div>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-            <Button type="primary" onClick={onDepositClick}>Deposit</Button>
-            <Link to="/dashboard/expense">
-                <Button type="primary" onClick={onExpenseClick}>Expense</Button>
+            <Link to="/dashboard/deposit">
+            <Button type="primary" >Deposit</Button>
             </Link>
-            
-            <Button type="primary" onClick={onTransferClick}>Transfer</Button>
+
+            <Link to="/dashboard/expense">
+                <Button type="primary" >Expense</Button>
+            </Link>
             </div>
             </Card>
             : 
