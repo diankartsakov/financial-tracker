@@ -9,9 +9,6 @@ async function getUserAccounts(uid) {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, " => ", doc.data());
-
         accounts.push(doc.id);
     });
 
@@ -26,9 +23,6 @@ async function getUserAccountsFullInfo(uid) {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, " => ", doc.data());
-
         const obj = {
             name: doc._document.data.value.mapValue.fields.name.stringValue,
             balance: doc._document.data.value.mapValue.fields.amount.stringValue,
@@ -50,7 +44,6 @@ async function getAccount(accountId) {
         return docSnap.data();
 
     } else {
-        // docSnap.data() will be undefined in this case
         console.log("No such document!");
     }
 }
