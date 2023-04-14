@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CategorySettings from '../categorySettings/CategorySettings';
 import { Modal, Button } from "antd";
 
-export default function CategoryFormModal({categoryName="Create Category"}) {
+export default function CategoryFormModal({onSubmit, categoryName="Create Category"}) {
     const [modalOpen, setModalOpen] = useState(false);
 
     const handleOpen = () => {
@@ -26,7 +26,7 @@ export default function CategoryFormModal({categoryName="Create Category"}) {
       width="600px">
         <div className="category-modal">
           <h2>{categoryName}</h2>
-          <CategorySettings onCancel={handleClose}/>
+          <CategorySettings onCancel={handleClose} onSubmit={onSubmit}/>
         </div>
       </Modal>    
     </>

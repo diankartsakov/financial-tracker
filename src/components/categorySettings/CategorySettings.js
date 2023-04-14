@@ -8,7 +8,7 @@ import IconPickerPopover from "../iconPickerPopover/IconPickerPopover";
 import "./categorySettings.css";
 import { debounce } from "../../assests/utils/utils";
 
-export default function CategorySettings() {
+export default function CategorySettings({onSubmit}) {
     const [categoryName, setCategoryName] = useState("");
     const [selectedIcon, setSelectedIcon] = useState(faCoins);
     const [selectedIconColor, setSelectedIconColor] = useState("#000000");
@@ -17,6 +17,7 @@ export default function CategorySettings() {
     );
     const [selectedSize, setSelectedSize] = useState("4x");
   
+    console.log("render settings");
     const handleCategoryNameChange = (event) => {
       setCategoryName(event.target.value);
     };
@@ -37,9 +38,18 @@ export default function CategorySettings() {
       setSelectedSize(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("Submitted!");
+        const formData = {
+          category: categoryName,
+          icon: JSON.stringify(selectedIcon),
+          iconColor: selectedIconColor,
+          iconSize: selectedSize, 
+          categoryBackground: selectedBackgroundColor,
+        }
+        console.log("Submitted!\n", formData);
+        await onSubmit(formData);
+        console.log("final");
       };
 
       return (
@@ -92,7 +102,7 @@ export default function CategorySettings() {
               </div>
               <Button value="submit" type="primary" htmlType="submit" >
                   Submit
-                </Button>
+              </Button>
             </form>
           </div>
           <div className="preview-column">
@@ -101,7 +111,7 @@ export default function CategorySettings() {
               <div
                 className="icon-circle"
                 style={{
-                  border: "5px solid black",
+                  border: `5px solid ${selectedIconColor}`,
                   backgroundColor: selectedBackgroundColor,
                 }}
               >
