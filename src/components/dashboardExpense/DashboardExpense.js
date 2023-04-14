@@ -6,28 +6,31 @@ import CategoryFormModal from "../categoryFormModal/CategoryFormModal";
 import ExpenseCategory from "../expenseCategory/ExpenseCategory";
 
 export default function DashboardExpense() {
-    const [isLoading, setIsLoading ] = useState(true);
-    const [categories, setCategories] = useState([]);
-    const {currentAccountName} = useDash();
+    const {currentAccountName, categories} = useDash();
 
-    useEffect(() => {
+    // const [isLoading, setIsLoading ] = useState(true);
+    // const [userCategories, setCategories] = useState(currentCategories);
+    console.log(categories);
+    // useEffect(() => {
 
-        const getCategories = async() => {
-            const categoriesResult = await getUserCategories();
-            console.log(categoriesResult);
-            setCategories(categoriesResult);
-            setIsLoading(false);
-        }
-
-        getCategories();
-    }, []);
+    //     const getCategories = async() => {
+    //         // const categoriesResult = await getUserCategories();
+    //         // setCategories(categoriesResult);
+    //         setIsLoading(false);
+    //     }
+        
+    //     setIsLoading(false);
+    //     // getCategories();
+    // }, []);
 
     return (
         <>
             <h1>{currentAccountName} EXPENSE</h1>
             <CategoryFormModal onSubmit={addCategory}/>
-            <div className="categoriesWrapper">{
-                isLoading ?
+            <div className="categoriesWrapper" style={{
+                display:"flex", flexWrap: "wrap", gap: "15px",
+            }}>{
+                false ?
                 <div>Loading...</div>
                 :
                 categories.length ?
