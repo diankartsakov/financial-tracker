@@ -1,5 +1,5 @@
 import { auth, db } from '../firebase/firebase.js';
-import { addDoc, collection } from "firebase/firestore";
+import { doc, updateDoc, addDoc, collection, increment } from "firebase/firestore";
 import { getAccount } from './firebaseFirestoreAccounts.js';
 
 class AccountManager {
@@ -24,13 +24,26 @@ class AccountManager {
 
     let acc = await getAccount(accountId);
 
-    return acc.amount >= amount;
+    return acc.amount - amount;
 
   };
 
-  updateBalance = async (accountId) => {
+  updateBalance = async (accountId, balance, increase) => {
 
-    
+    const accRef = doc(db, "accounts", accountId);
+
+    if(increase) {
+      await updateDoc(accRef, {
+        amount: increment(balance)
+    });
+
+    }
+    else {
+  
+      await updateDoc(accRef, {
+        amount: balance
+      });
+    }
 
   };
 
@@ -50,25 +63,26 @@ class AccountManager {
   };
 
   // Add a new transaction to the "transactions" collection
+
   initiateTransaction = async (accountId, amount, type, category, fromAccountId) => {
 
     // type = 'Transfer' , Expense, Deposit
     // category = 'Card Deposit' , 'Internal Transfer' or Expense Category
 
-    let sufficientBalance;
+    let remainingBalance;
 
-    if(type === 'Expense'){
+    if (type === 'Expense') {
 
-      sufficientBalance = await this.validateBalance(accountId, amount);
-
-    }
-    else if(type === 'Transfer'){
-
-      sufficientBalance = await this.validateBalance(fromAccountId, amount);
+      remainingBalance = await this.validateBalance(accountId, amount);
 
     }
+    else if (type === 'Transfer') {
 
-    if (!sufficientBalance && type !== 'Deposit'){
+      remainingBalance = await this.validateBalance(fromAccountId, amount);
+
+    }
+
+    if (remainingBalance < 0 && type !== 'Deposit') {
 
       console.log('Insufficient Funds !!!');
 
@@ -86,11 +100,11 @@ class AccountManager {
 
     };
 
-    if (fromAccountId) {
+    if (fromAccountId) { // type = 'Transfer'
 
       transaction.fromAccountId = fromAccountId;
 
-      let toTransaction = {
+      let toAccTransaction = {
 
         accountId: fromAccountId,
         amount: amount,
@@ -101,12 +115,24 @@ class AccountManager {
 
       };
 
-      await Promise.all([this.addTransction(transaction), this.addTransction(toTransaction)]);
+      await Promise.all([
+        this.addTransction(transaction), 
+        this.updateBalance(accountId, amount, true),
+        this.addTransction(toAccTransaction),
+        this.updateBalance(fromAccountId, remainingBalance)
+      ]);
 
     }
     else {
-
-      await this.addTransction(transaction);
+      type === 'Expense' ? 
+      await Promise.all([
+        this.addTransction(transaction), 
+        this.updateBalance(accountId, remainingBalance)
+      ]) :  // type = 'Deposit'
+      await Promise.all([
+        this.addTransction(transaction), 
+        this.updateBalance(accountId, amount, true)
+      ]);
 
     }
 
