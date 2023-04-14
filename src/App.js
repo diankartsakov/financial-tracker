@@ -22,30 +22,40 @@ function App() {
             {   
                 isLoading 
                 ? 
-                    // <div>Loading... </div>
                     <LoadingPage/>
                 :       
                     <BrowserRouter>
-                        {!authUser && <HomeNavigation/>}
-                        <Routes>
-                            <Route index element={<Navigate to={'/home'} />}></Route>
-                            <Route path={'/home'} element={<HomePage />}></Route>
-                            <Route path={'/login'} element={<Login/>}></Route>
-                            <Route path={'/register'} element={<Register />}></Route>
-                            <Route path={'/dashboard'} element={
-                                <DashboardProvider>
-                                    <DashboardPage />
-                                </DashboardProvider>
-                            }>
-                                <Route path='' element={<DashboardHome/>}/>
-                                <Route path='reports' element= {<DashboardReports/>}/>   
-                                <Route path='accounts' element= {<DashboardAccounts/>}/>
-                                <Route path='expense' element= {<DashboardExpense/>}/> 
-                                <Route path='deposit' element= {<DashboardDeposit/>}/> 
-                            </Route>
-                            <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
-                        </Routes>
-                    </BrowserRouter>
+                        { authUser 
+                        ? 
+                            <Routes>
+                                <Route index element={<Navigate to={'/dashboard'}/>}></Route>
+                                <Route path={'/dashboard'} element={
+                                    <DashboardProvider>
+                                        <DashboardPage />
+                                    </DashboardProvider>
+                                }>
+                                    <Route path='' element={<DashboardHome/>}/>
+                                    <Route path='reports' element= {<DashboardReports/>}/>   
+                                    <Route path='accounts' element= {<DashboardAccounts/>}/>
+                                    <Route path='expense' element= {<DashboardExpense/>}/> 
+                                    <Route path='deposit' element= {<DashboardDeposit/>}/> 
+                                </Route>
+                                <Route path='/home' element={<Navigate to={"/dashboard"}/>} />
+                                <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
+                            </Routes>
+                        :
+                            <>
+                                <HomeNavigation/>
+                                <Routes>
+                                    <Route index element={<Navigate to={'/home'} />}></Route>
+                                    <Route path={'/home'} element={<HomePage />}></Route>
+                                    <Route path={'/login'} element={<Login/>}></Route>
+                                    <Route path={'/register'} element={<Register />}></Route>
+                                    <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>                        
+                                </Routes>
+                            </>
+                        }
+                </BrowserRouter>
             }
         </>
         

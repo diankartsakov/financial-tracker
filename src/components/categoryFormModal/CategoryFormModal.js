@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import CategorySettings from '../categorySettings/CategorySettings';
 import { Modal, Button } from "antd";
-import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 
 export default function CategoryFormModal({categoryName="Create Category"}) {
     const [modalOpen, setModalOpen] = useState(false);
