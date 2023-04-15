@@ -20,12 +20,9 @@ export default function DashboardTransactionReport() {
     return account.accountId;
   });
 
-  console.log(accountIds);
-
   useEffect(() => {
     async function getTransactions() {
       const data = await getUserAccountsTransactions(accountIds);
-      console.log(data);
       setTransactions(data);
     };
     getTransactions();
