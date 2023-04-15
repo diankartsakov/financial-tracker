@@ -5,7 +5,7 @@ import { Dropdown } from 'antd';
 
 import "./expenseCategory.scss";
 import CategoryFormModal from "../categoryFormModal/CategoryFormModal";
-import { addCategory } from "../../services/firebaseFirestoreCategories";
+import { addCategory, editCategory } from "../../services/firebaseFirestoreCategories";
 import EditCategoryModal from "../editCategoryModal/EditCategoryModal";
 
 
@@ -56,7 +56,7 @@ export default function ExpenseCategory({data: {
             </div>
           </Dropdown>
         </div>
-        {modalOpen && <EditCategoryModal modal={{modalOpen, setModalOpen}} onSubmit={addCategory}
+        {modalOpen && <EditCategoryModal modal={{modalOpen, setModalOpen}} onSubmit={editCategory}
                 data={{
                   id, category, categoryBackground, icon, iconColor, iconSize,
                 }}/>

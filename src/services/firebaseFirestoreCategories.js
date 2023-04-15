@@ -1,4 +1,4 @@
-import { collection, addDoc, query, getDocs, where } from "firebase/firestore"
+import { collection, addDoc, updateDoc, doc, getDocs, query, where } from "firebase/firestore"
 import { db, auth } from "../firebase/firebase"
 
 async function addCategory(data) {
@@ -31,6 +31,7 @@ async function addCategory(data) {
 }
 
 async function editCategory(data, categoryId) {
+    console.log(data);
     console.log(categoryId);
     data.uid = auth.currentUser?.uid;
     try {
@@ -46,18 +47,16 @@ async function editCategory(data, categoryId) {
             }
         }
 
-        // const docRef = await addDoc(collection(db, "categories"), data);
+        const docRef = doc(db, "categories", categoryId);
 
-        // const result = {
-        //     ...data,
-        //     icon: JSON.parse(data.icon),
-        //     id: docRef.id,
-        // }
+        console.log(docRef);
 
-        // console.log("Category created, ID: ", docRef.id);
-        // return result;
+        const result = await updateDoc(docRef, data);
+
+        return result
     } catch (e) {
-        console.error("Error creating account: ", e);
+        console.error("Error edditing category: ", e);
+        return {error: e}
     }
 }
 
