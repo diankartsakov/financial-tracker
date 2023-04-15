@@ -64,7 +64,7 @@ class AccountManager {
 
   // Add a new transaction to the "transactions" collection
 
-  initiateTransaction = async (accountId, amount, type, category, fromAccountId) => {
+  initiateTransaction = async (accountName, accountId, amount, type, category, fromAccountId) => {
 
 
     // type = 'Transfer' , Expense, Deposit
@@ -94,7 +94,8 @@ class AccountManager {
     }
 
     let transaction = {
-
+      
+      accountName: accountName,
       accountId: accountId,
       amount: amount,
       type: type,
@@ -109,6 +110,7 @@ class AccountManager {
 
       let toAccTransaction = {
 
+        accountName: accountName,
         accountId: fromAccountId,
         amount: amount,
         type: type,

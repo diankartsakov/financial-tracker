@@ -13,7 +13,7 @@ export default function DashboardDeposit() {
   const [modalMessage, setmodalMessage] = useState([]);
   const [form] = Form.useForm();
 
-  const { accountId } = useDash();
+  const { accountId, currentAccountName } = useDash();
 
   const handleDepositTypeChange = e => {
     setDepositType(e.target.value);
@@ -56,14 +56,14 @@ export default function DashboardDeposit() {
         return;
       }
       if (depositType === 'card') {
-        accountManager.initiateTransaction(accountId, amount, 'Deposit', 'Card Deposit');
+        accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
       } else {
         if (!fromAccount) {
           setmodalMessage(['Missing Information','Please select From Account.']);
           setModalVisible(true);
           return;
         }
-        accountManager.initiateTransaction(accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
+        accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
       }
     });
   };
