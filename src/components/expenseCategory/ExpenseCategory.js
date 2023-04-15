@@ -4,25 +4,26 @@ import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'antd';
 
 import "./expenseCategory.scss";
-import CategoryFormModal from "../categoryFormModal/CategoryFormModal";
-import { addCategory, editCategory } from "../../services/firebaseFirestoreCategories";
+import {deleteCategory, editCategory, getUserCategories } from "../../services/firebaseFirestoreCategories";
 import EditCategoryModal from "../editCategoryModal/EditCategoryModal";
+import DeletePopconfirm from "../deletePopconfirm/DeletePopconfirm";
 
 
-export default function ExpenseCategory({data: {
+export default function ExpenseCategory({updateCategories,
+  data: {
     id, category, categoryBackground, icon, iconColor, iconSize,
 }}) {
     const [modalOpen, setModalOpen] = useState(false);
-    const [showModal, setShowModal] = useState(false);
 
     const handleSettingsClick = () => {
-      setShowModal(true);
       setModalOpen(true);
     };
     
-    // const handleModalClose = () => {
-    //   setShowModal(false);
-    // };
+    const handleDeleteCategory = async () => {
+        await deleteCategory(id);
+        const arr = await getUserCategories();
+        updateCategories(arr);
+    }
     
     const items = [
       {
@@ -31,7 +32,10 @@ export default function ExpenseCategory({data: {
       },
       {
         key: '2',
-        label: <p className="ft-settings-option" onClick={handleSettingsClick}>Delete</p>,
+        label: <DeletePopconfirm onConfirm={handleDeleteCategory} name={category}>
+                Delete
+                {/* <p className="ft-settings-option" onClick={handleDeleteCategory}>Delete</p> */}
+          </DeletePopconfirm>,
       },
     ]
     

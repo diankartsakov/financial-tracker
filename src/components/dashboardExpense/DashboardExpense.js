@@ -7,7 +7,7 @@ import ExpenseCategory from "../expenseCategory/ExpenseCategory";
 import "./dashboardExpense.scss";
 
 export default function DashboardExpense() {
-    const {currentAccountName, categories} = useDash();
+    const {currentAccountName, categories, updateCategories} = useDash();
     const [isLoading, setIsLoading ] = useState(true);
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function DashboardExpense() {
                 <div>Loading...</div>
                 :
                 categories.length ?
-                categories.map(category => <ExpenseCategory key={category.id} data={category}/> )
+                categories.map(category => <ExpenseCategory key={category.id} data={category} updateCategories={updateCategories}/> )
                 :
                 "NO CATEGORIES"
                 

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import CategorySettings from '../categorySettings/CategorySettings';
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
 import AlertMessage from "../alertMessage/AlertMessage";
 
 export default function EditCategoryModal({onSubmit, modal: {modalOpen, setModalOpen}, data}) {
     const [resetForm, setResetForm] = useState(false);
     const [error, setError] = useState("");
-    console.log(data);
+
     const handleClose = () => {
       setError("");
       setResetForm(true);
