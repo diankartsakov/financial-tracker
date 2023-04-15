@@ -32,8 +32,8 @@ export default function ExpenseCategory({updateCategories,
       console.log(data);
       const result = await accountManager.initiateTransaction(...data);
       console.log(result);
-      
-      // setExpenseModalOpen(false);
+
+      setExpenseModalOpen(false);
     };
 
     const handleSettingsClick = (e) => {
