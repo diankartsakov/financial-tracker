@@ -1,0 +1,61 @@
+
+.homePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.underConstruction {
+    width: 425px; 
+    height: 500px;
+}
+
+.start-section {
+    background-color: #85C3E9;
+    height: 100vh;
+    margin-bottom: 25px;
+
+
+    .start-section-content-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        padding-top: 50px;
+        margin: auto;
+        z-index: 5;
+
+        .moto-wrapper {
+            width: 600px;
+            h1 {
+                font-size: 38px;
+            }
+            p {
+                font-size: 18px;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+.custom-shape-divider-bottom-1681582518 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-bottom-1681582518 svg {
+    position: relative;
+    display: block;
+    width: calc(136% + 1.3px);
+    height: 188px;
+}
+
+.custom-shape-divider-bottom-1681582518 .shape-fill {
+    fill: #FFFFFF;
+}
+
