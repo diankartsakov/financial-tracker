@@ -3,15 +3,10 @@ import CategorySettings from '../categorySettings/CategorySettings';
 import { Modal, Button } from "antd";
 import AlertMessage from "../alertMessage/AlertMessage";
 
-export default function CategoryFormModal({onSubmit, categoryName="Create Category"}) {
-    const [modalOpen, setModalOpen] = useState(false);
+export default function EditCategoryModal({onSubmit, modal: {modalOpen, setModalOpen}, data}) {
     const [resetForm, setResetForm] = useState(false);
     const [error, setError] = useState("");
-
-    const handleOpen = () => {
-      setModalOpen(true);
-    };
-  
+    console.log(data);
     const handleClose = () => {
       setError("");
       setResetForm(true);
@@ -20,24 +15,20 @@ export default function CategoryFormModal({onSubmit, categoryName="Create Catego
 
   return (
     <>
-      <Button type="primary" onClick={handleOpen}>
-          Add Category
-      </Button>
       <Modal 
-      title="Add Category"
+      title="Edit Category"
       open={modalOpen}
       onCancel={handleClose}
       okButtonProps={{ style: { display: 'none' } }}
       width="600px">
         <div className="category-modal">
-          <h2>{categoryName}</h2>
           {error && <AlertMessage message="error" type="error" description={error.error}/>}
           <CategorySettings 
             onCancel={handleClose}
             onSubmit={onSubmit}
-            // setCategorries={setCategories}
             onError={{setError}}
             resetForm={{resetForm, setResetForm}}
+            initialData={data}
           />
         </div>
       </Modal>    

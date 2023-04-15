@@ -30,6 +30,37 @@ async function addCategory(data) {
     }
 }
 
+async function editCategory(data, categoryId) {
+    console.log(categoryId);
+    data.uid = auth.currentUser?.uid;
+    try {
+        if (data.category.trim() === "") {
+            return {error: "Please provide a name for the category."}
+        }
+
+        const isCategoryExist = await checkIsCategoryExist(data.category);
+        
+        if (isCategoryExist) {
+            return {
+                error: "A category with that name already exists. Please choose a different name."
+            }
+        }
+
+        // const docRef = await addDoc(collection(db, "categories"), data);
+
+        // const result = {
+        //     ...data,
+        //     icon: JSON.parse(data.icon),
+        //     id: docRef.id,
+        // }
+
+        // console.log("Category created, ID: ", docRef.id);
+        // return result;
+    } catch (e) {
+        console.error("Error creating account: ", e);
+    }
+}
+
 async function getUserCategories() {
 
     try {
@@ -77,5 +108,6 @@ async function checkIsCategoryExist(category) {
 
 export {
     addCategory,
+    editCategory,
     getUserCategories,
 }

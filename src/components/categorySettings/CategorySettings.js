@@ -8,15 +8,28 @@ import IconPickerPopover from "../iconPickerPopover/IconPickerPopover";
 import "./categorySettings.css";
 import { debounce } from "../../assests/utils/utils";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
+import { getUserCategories } from "../../services/firebaseFirestoreCategories";
 
-export default function CategorySettings({onSubmit, onCancel, onError: {setError}, resetForm: {resetForm, setResetForm}}) {
-    const [categoryName, setCategoryName] = useState("");
-    const [selectedIcon, setSelectedIcon] = useState(faCoins);
-    const [selectedIconColor, setSelectedIconColor] = useState("#000000");
-    const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(
-      "#FFFFFF"
-    );
-    const [selectedSize, setSelectedSize] = useState("4x");
+export default function CategorySettings({
+    onSubmit,
+    onCancel, onError: {setError},
+    resetForm: {resetForm, setResetForm},
+    initialData = {
+      category: "",
+      icon: faCoins,
+      iconColor: "#000000",
+      iconSize: "4x", 
+      categoryBackground: "#FFFFFF",
+    }
+  }
+  
+  ) {
+
+    const [categoryName, setCategoryName] = useState(initialData.category);
+    const [selectedIcon, setSelectedIcon] = useState(initialData.icon);
+    const [selectedIconColor, setSelectedIconColor] = useState(initialData.iconColor);
+    const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(initialData.categoryBackground);
+    const [selectedSize, setSelectedSize] = useState(initialData.iconSize);
     const {categories, updateCategories} = useDash();
 
     useEffect(() => {
@@ -60,15 +73,15 @@ export default function CategorySettings({onSubmit, onCancel, onError: {setError
           categoryBackground: selectedBackgroundColor,
         }
 
-        const submitResult = await onSubmit(formData);
+        const submitResult = await onSubmit(formData, initialData.id);
 
         if (submitResult?.error) {
             setError(submitResult);
         } else {
-          const arr = [...categories, submitResult];
+          const arr = initialData.id ? await getUserCategories() : [...categories, submitResult];
           updateCategories(arr);
           setError("");
-          
+
           onCancel()
         }
       };

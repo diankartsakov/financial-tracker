@@ -36,45 +36,58 @@
     margin: auto;
 }
 
+// .settings-dropdown {
+//   position: relative;
 
+//   .ft-settings-option {
 
+//     padding: 5px;
 
-.ft-settings-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 25px;
-}
+//     &:hover {
+//       background-color: red;
+//       color: #333;
+//       padding: 5px 10px;
+//     }
+//     &:first-child {
+//       margin-left: -10px;
+//     }
+//   }
+// }
 
-.ft-popover-menu {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 4px;
-  background-color: white;
-  border: 1px solid #d9d9d9;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  margin-right: 15px;
+.ft-settings-dropdown {
+  padding: 0px 0px;
+  margin: 0px;
+
+  .ant-dropdown-menu {
+    // Add styles for the dropdown menu
+    padding: 5px 0px;
+    margin: 0;
+    position: relative;
+    right: 60px;
+  }
 
   .ft-settings-option {
-    cursor: pointer;
-    padding: 4px;
-    font-size: 12px;
-    font-weight: bold;
+    text-align: center;
+    padding: 5px 5px;
+    width: 90%;
+    margin: auto;
+    border-radius: 5px;
+  }
 
-    color: #777;
+  .ft-settings-option:hover {
+    background-color: lightgray;
+  }
+
+  .ant-dropdown-menu-item {
+    padding: 0px;
+    margin: 0;
+    height: 35px;
+    width: 75px;
     &:hover {
-      color: #1890ff;
+      background-color: lightgray;
     }
   }
+
 }
 
-.ant-popover-placement-bottom .ant-popover-arrow {
-  display: none;
-}
 
-.ant-popover-placement-bottomLeft .ant-popover-content {
-  left: -28px;
-}
