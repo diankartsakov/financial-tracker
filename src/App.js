@@ -13,6 +13,8 @@ import DashboardProvider from './pages/dashboardPage/DashboardProvider';
 import DashboardExpense from './components/dashboardExpense/DashboardExpense';
 import DashboardDeposit from './components/dashboardDeposit/DashboardDeposit';
 import LoadingPage from './components/loadingPage/LoadingPage';
+import NotAuthorizedPage from './pages/notAuthorizedPage/NotAuthorizedPage';
+import PageDoesNotExist from './pages/pageDoesNotExist/PageDoesNotExist';
 
 
 function App() {
@@ -41,7 +43,9 @@ function App() {
                                     <Route path='deposit' element= {<DashboardDeposit/>}/> 
                                 </Route>
                                 <Route path='/home' element={<Navigate to={"/dashboard"}/>} />
-                                <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>
+                                <Route path={'/login'} element={<NotAuthorizedPage/>}/>
+                                <Route path={'/register'} element={<NotAuthorizedPage/>}/>
+                                <Route path={'*'} element={<PageDoesNotExist/>}></Route>
                             </Routes>
                         :
                             <>
@@ -51,7 +55,13 @@ function App() {
                                     <Route path={'/home'} element={<HomePage />}></Route>
                                     <Route path={'/login'} element={<Login/>}></Route>
                                     <Route path={'/register'} element={<Register />}></Route>
-                                    <Route path={'*'} element={<div>PAGE NOT FOUND !</div>}></Route>                        
+                                    <Route path={'/dashboard'} element={<NotAuthorizedPage/>}/>
+                                    <Route path={'/dashboard/accounts'} element={<NotAuthorizedPage/>}/>
+                                    <Route path={'/dashboard/reports'} element={<NotAuthorizedPage/>}/>
+                                    <Route path={'/dashboard/deposit'} element={<NotAuthorizedPage/>}/>
+                                    <Route path={'/dashboard/expense'} element={<NotAuthorizedPage/>}/>
+
+                                    <Route path={'*'} element={<PageDoesNotExist/>}></Route>                        
                                 </Routes>
                             </>
                         }

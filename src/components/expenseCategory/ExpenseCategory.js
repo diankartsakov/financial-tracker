@@ -1,12 +1,15 @@
 import { useState } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'antd';
-
+import accountManager from "../../services/AccountManager";
 import "./expenseCategory.scss";
 import {deleteCategory, editCategory, getUserCategories } from "../../services/firebaseFirestoreCategories";
 import EditCategoryModal from "../editCategoryModal/EditCategoryModal";
 import DeletePopconfirm from "../deletePopconfirm/DeletePopconfirm";
+import NewExpenseModal from "../newExpenseModal/NewExpenseModal";
+import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 
 
 export default function ExpenseCategory({updateCategories,
@@ -14,8 +17,26 @@ export default function ExpenseCategory({updateCategories,
     id, category, categoryBackground, icon, iconColor, iconSize,
 }}) {
     const [modalOpen, setModalOpen] = useState(false);
+    const [expenseModalOpen, setExpenseModalOpen] = useState(false);
+    const {accountId, currentAccountName} = useDash();
 
-    const handleSettingsClick = () => {
+    const handleNewExpenseClick = () => {
+      setExpenseModalOpen(true);
+    };
+    const handleModalCancel = () => {
+      setExpenseModalOpen(false);
+    };
+  
+    const handleExpenseCreate = async (amount) => {
+      const data = [currentAccountName, accountId, amount, "Expense", category, ]
+      console.log(data);
+      const result = await accountManager.initiateTransaction(...data);
+      console.log(result);
+
+      setExpenseModalOpen(false);
+    };
+
+    const handleSettingsClick = (e) => {
       setModalOpen(true);
     };
     
@@ -32,26 +53,27 @@ export default function ExpenseCategory({updateCategories,
       },
       {
         key: '2',
-        label: <DeletePopconfirm onConfirm={handleDeleteCategory} name={category}>
-                Delete
-                {/* <p className="ft-settings-option" onClick={handleDeleteCategory}>Delete</p> */}
-          </DeletePopconfirm>,
+        label: <DeletePopconfirm className="ft-settings-option" onClick={(e) => e.stopPropagation()} onConfirm={handleDeleteCategory} name={category}>
+                <p className="ft-settings-option">Delete</p>
+              </DeletePopconfirm>,
       },
     ]
     
     return (
       <>
         <div className="ft-category-wrapper">
-          <div
-            className="ft-icon-circle"
-            style={{
-              border: `5px solid ${iconColor}`,
-              backgroundColor: categoryBackground,
-            }}
-          >
-            <FontAwesomeIcon icon={icon} size={iconSize} color={iconColor} />
-          </div>
-          <h2 className="ft-category-name">{category}</h2>
+            <div
+              className="ft-icon-circle"
+              style={{
+                border: `5px solid ${iconColor}`,
+                backgroundColor: categoryBackground,
+              }}
+              onClick={handleNewExpenseClick}
+            >
+              <FontAwesomeIcon icon={icon} size={iconSize} color={iconColor} />
+            </div>
+          
+          <h2 className="ft-category-name"  onClick={handleNewExpenseClick}>{category}</h2>
           <Dropdown menu={{
             items,
             }} overlayClassName="ft-settings-dropdown" trigger={['hover']}>
@@ -65,8 +87,14 @@ export default function ExpenseCategory({updateCategories,
                   id, category, categoryBackground, icon, iconColor, iconSize,
                 }}/>
         }
+         <NewExpenseModal
+        open={expenseModalOpen}
+        onCancel={handleModalCancel}
+        category={category}
+        onSubmit={handleExpenseCreate}
+        />
       </>
     );
   }
-// }
+
 
