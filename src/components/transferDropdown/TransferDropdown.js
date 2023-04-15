@@ -4,15 +4,15 @@ import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { useState } from 'react';
 
 export default function TransferDropdown(props) {
-    const { accountsArr } = useDash();
-    const [fromAccount, setfromAccount] = useState("Choose Account");
+    const { accountId, accountsArr } = useDash();
+    const [fromAccount, setfromAccount] = useState('Choose Account');
 
     const items = accountsArr.map(a => {
         return {
             label: a.name,
             key: a.accountId,
         };
-    });
+    }).filter(e => e.key !== accountId);
 
 
     const onClick = ({ key }) => {
