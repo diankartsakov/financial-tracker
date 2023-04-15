@@ -6,7 +6,7 @@ import Register from './pages/RegisterPage';
 import HomeNavigation from './components/HomeNavigation';
 import { useAuth } from './firebase/auth';
 import DashboardPage from './pages/dashboardPage/DashboardPage';
-import DashboardReports from './components/dashboardReports/DashboardReports';
+import DashboardTransactionReport from './components/dashboardReports/dashboardTransactionReport/DashboardTransactionReport';
 import DashboardHome from './components/dashboardHome/DashboardHome';
 import DashboardAccounts from './components/dashboardAccounts/DashboardAccounts';
 import DashboardProvider from './pages/dashboardPage/DashboardProvider';
@@ -37,7 +37,7 @@ function App() {
                                     </DashboardProvider>
                                 }>
                                     <Route path='' element={<DashboardHome/>}/>
-                                    <Route path='reports' element= {<DashboardReports/>}/>   
+                                    <Route path='reports' element= {<DashboardTransactionReport/>}/>   
                                     <Route path='accounts' element= {<DashboardAccounts/>}/>
                                     <Route path='expense' element= {<DashboardExpense/>}/> 
                                     <Route path='deposit' element= {<DashboardDeposit/>}/> 
