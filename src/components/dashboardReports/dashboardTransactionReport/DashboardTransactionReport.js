@@ -1,38 +1,46 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, DatePicker, Pagination } from 'antd';
 import moment from 'moment';
+import { useDash } from '../../../pages/dashboardPage/DashboardProvider';
+
+import { getUserAccountsTransactions } from '../../../services/firebaseFirestoreAccounts';
 
 export default function DashboardTransactionReport() {
 
-
-  const [data, setData] = useState([
-    {
-      accountName: 'New Account',
-      accountId: 'F3EglkLzurIu7N7mJzXa',
-      amount: 1000,
-      type: 'Deposit',
-      category: 'Card Deposit',
-      date: 'April 15, 2023 at 7:07:55 PM UTC+3',
-  
-    },
-    {
-      accountName: 'New Account',
-      accountId: 'F3EglkLzurIu7N7mJzXa',
-      amount: 3000,
-      type: 'Deposit',
-      category: 'Internal Transfer',
-      date: 'April 15, 2023 at 8:07:55 PM UTC+3',
-      fromAccountId: 'accountId'
-    }
-  ]);
-
+  const [transactions, setTransactions] = useState([]);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
+
+  const { accountsArr } = useDash();
+
+  const accountIds = accountsArr.map(account => {
+    return account.accountId;
+  });
+
+  console.log(accountIds);
+
+  useEffect(() => {
+    async function getTransactions() {
+      const data = await getUserAccountsTransactions(accountIds);
+      console.log(data);
+      setTransactions(data);
+    };
+    getTransactions();
+  }, []);
+
+
+
+
+  console.log(transactions);
+
+
+
+
   // Filter the data based on the search criteria
-  const filteredData = data.filter((item) => {
+  const filteredData = transactions.filter((item) => {
     const itemDate = moment(item.date, 'MMMM D, YYYY [at] h:mm:ss A Z');
     if (fromDate && toDate) {
       return itemDate.isBetween(fromDate, toDate);
@@ -101,7 +109,7 @@ export default function DashboardTransactionReport() {
         columns={columns}
         dataSource={currentData}
         pagination={false}
-        rowKey={(record) => record.accountId}
+        rowKey={(record) => record.id}
         onHeaderCell={(column) => ({
           onClick: () => handleSort(column.dataIndex),
         })}

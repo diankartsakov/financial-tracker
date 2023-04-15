@@ -14,6 +14,34 @@ async function getUserAccounts(uid) {
 
     return accounts;
 }
+async function getUserAccountsTransactions(accountIds) {
+    
+    const transactions = [];
+
+    console.log('Inside get transactions');
+
+
+    for(let i = 0; i < accountIds.length; i++) {
+
+        const q = query(collection(db, "transactions"), where("accountId", "==", accountIds[i]));
+        const querySnapshot = await getDocs(q);
+        
+        querySnapshot.forEach((doc) => {
+            
+            let transaction = doc.data();
+            transaction.id = doc.id;
+    
+            console.log(transaction);
+            transactions.push(transaction);
+
+        });
+
+    }
+
+    console.log(transactions);
+
+    return transactions;
+}
 
 async function getUserAccountsFullInfo(uid) {
     const accounts = [];
@@ -51,6 +79,7 @@ async function getAccount(accountId) {
 
 export {
     getUserAccounts,
+    getUserAccountsTransactions,
     getUserAccountsFullInfo,
     getAccount
 }
