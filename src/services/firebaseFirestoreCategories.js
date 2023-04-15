@@ -1,4 +1,4 @@
-import { collection, addDoc, updateDoc, doc, getDocs, query, where } from "firebase/firestore"
+import { collection, addDoc, updateDoc, deleteDoc, doc, getDocs, query, where } from "firebase/firestore"
 import { db, auth } from "../firebase/firebase"
 
 async function addCategory(data) {
@@ -31,15 +31,14 @@ async function addCategory(data) {
 }
 
 async function editCategory(data, categoryId) {
-    console.log(data);
-    console.log(categoryId);
     data.uid = auth.currentUser?.uid;
+
     try {
         if (data.category.trim() === "") {
             return {error: "Please provide a name for the category."}
         }
 
-        const isCategoryExist = await checkIsCategoryExist(data.category);
+        const isCategoryExist = await checkIsCategoryExist(data.category, categoryId);
         
         if (isCategoryExist) {
             return {
@@ -49,11 +48,19 @@ async function editCategory(data, categoryId) {
 
         const docRef = doc(db, "categories", categoryId);
 
-        console.log(docRef);
-
         const result = await updateDoc(docRef, data);
 
         return result
+    } catch (e) {
+        console.error("Error edditing category: ", e);
+        return {error: e}
+    }
+}
+
+async function deleteCategory(categoryId) {
+    
+    try {
+        const docRef = await deleteDoc(doc(db, "categories", categoryId));
     } catch (e) {
         console.error("Error edditing category: ", e);
         return {error: e}
@@ -91,7 +98,7 @@ async function getUserCategories() {
     }
 }
 
-async function checkIsCategoryExist(category) {
+async function checkIsCategoryExist(category, categoryId=null) {
     const uid = auth.currentUser.uid
 
     let isExist = false;
@@ -99,8 +106,10 @@ async function checkIsCategoryExist(category) {
     const q = query(collection(db, "categories"), where("uid", "==", uid), where("category", "==", category));
     const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach(() => {
-       isExist = true;
+    querySnapshot.forEach((doc) => {
+        if (categoryId !== doc.id) {
+            isExist = true;
+        }
     });
     return isExist;
 } 
@@ -108,5 +117,6 @@ async function checkIsCategoryExist(category) {
 export {
     addCategory,
     editCategory,
+    deleteCategory,
     getUserCategories,
 }

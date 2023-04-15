@@ -34,6 +34,7 @@ async function getUserAccountsFullInfo(uid) {
 
     return accounts;
 }
+
 async function getAccount(accountId) {
 
     const docRef = doc(db, "accounts", accountId);
