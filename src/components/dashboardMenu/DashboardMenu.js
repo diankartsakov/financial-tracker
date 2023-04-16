@@ -7,8 +7,9 @@ import {
     UserOutlined,
     PoweroffOutlined
 } from '@ant-design/icons';
-
 import { Layout, Menu, Typography} from 'antd';
+import "./dashboardMenu.scss";
+import logo from "../../assests/images/logo.png"; 
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 
 const { Sider } = Layout;
@@ -79,6 +80,11 @@ export default function DashboardMenu() {
 
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <div
+                className="logo-wrapper"
+            >
+                <img src={logo} alt="logo" className="logo-wrapper-logo"/>
+            </div>
             <Menu theme="dark" selectedKeys={[menuSelectKey[currentLocation], accountId]} mode="inline" items={items()} />
             <Menu theme="dark" mode="inline" items={logoutItem} />
         </Sider>

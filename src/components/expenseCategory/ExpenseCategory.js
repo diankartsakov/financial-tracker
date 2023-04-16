@@ -10,7 +10,8 @@ import EditCategoryModal from "../editCategoryModal/EditCategoryModal";
 import DeletePopconfirm from "../deletePopconfirm/DeletePopconfirm";
 import NewExpenseModal from "../newExpenseModal/NewExpenseModal";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
-
+import { useAuth } from "../../firebase/auth";
+import { getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
 
 export default function ExpenseCategory({updateCategories,
   data: {
@@ -18,7 +19,8 @@ export default function ExpenseCategory({updateCategories,
 }}) {
     const [modalOpen, setModalOpen] = useState(false);
     const [expenseModalOpen, setExpenseModalOpen] = useState(false);
-    const {accountId, currentAccountName} = useDash();
+    const {accountId, currentAccountName, updateAccountsArr} = useDash();
+    const {authUser: {uid}} = useAuth();
 
     const handleNewExpenseClick = () => {
       setExpenseModalOpen(true);
@@ -32,6 +34,9 @@ export default function ExpenseCategory({updateCategories,
       console.log(data);
       const result = await accountManager.initiateTransaction(...data);
       console.log(result);
+      
+      const accountsFullInfo = await getUserAccountsFullInfo(uid);
+      updateAccountsArr(accountsFullInfo);
 
       setExpenseModalOpen(false);
     };

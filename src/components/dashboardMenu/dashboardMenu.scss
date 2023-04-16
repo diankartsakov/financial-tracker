@@ -1,0 +1,13 @@
+.logo-wrapper {
+    height: 32;
+    margin: 16;
+    background: 'rgba(255, 255, 255, 0.2)';
+    display: flex;
+    justify-content: center;
+
+    &-logo {
+        margin: auto;
+        width: 90%;
+        height: 100%;
+    }
+}

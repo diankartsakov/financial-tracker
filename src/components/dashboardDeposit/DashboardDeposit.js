@@ -4,6 +4,8 @@ import { Row, Col } from 'react-bootstrap';
 import TransferDropdown from '../transferDropdown/TransferDropdown';
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import accountManager from '../../services/AccountManager';
+import { getUserAccountsFullInfo } from '../../services/firebaseFirestoreAccounts';
+import { useAuth } from '../../firebase/auth';
 
 export default function DashboardDeposit() {
   const [depositType, setDepositType] = useState('card');
@@ -13,7 +15,8 @@ export default function DashboardDeposit() {
   const [modalMessage, setmodalMessage] = useState([]);
   const [form] = Form.useForm();
 
-  const { accountId, currentAccountName } = useDash();
+  const { accountId, currentAccountName, updateAccountsArr } = useDash();
+  const {authUser: {uid}} = useAuth();
 
   const handleDepositTypeChange = e => {
     setDepositType(e.target.value);
@@ -48,24 +51,62 @@ export default function DashboardDeposit() {
     }
   };
 
-  const handlePayButtonClick = () => {
-    form.validateFields().then(values => {
-      if (!values.amount) {
+  const handlePayButtonClick = async() => {
+
+    const values = await form.validateFields();
+
+    if (!values.amount) {
         setmodalMessage(['Invalid Amount','Please enter a valid amount.']);
         setModalVisible(true);
         return;
-      }
-      if (depositType === 'card') {
-        accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
-      } else {
+    }
+
+    if (depositType === 'card') {
+        await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+    } else {
         if (!fromAccount) {
-          setmodalMessage(['Missing Information','Please select From Account.']);
-          setModalVisible(true);
-          return;
+        setmodalMessage(['Missing Information','Please select From Account.']);
+        setModalVisible(true);
+        return;
         }
-        accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
-      }
-    });
+        await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
+    }
+
+
+    const accountsFullInfo = await getUserAccountsFullInfo(uid);
+    updateAccountsArr(accountsFullInfo);
+    //OLD
+    // form.validateFields().then(values => {
+    //     if (!values.amount) {
+    //         setmodalMessage(['Invalid Amount','Please enter a valid amount.']);
+    //         setModalVisible(true);
+    //         return;
+    //     }
+
+    //     if (depositType === 'card') {
+    //         accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+    //         console.log("hi deposit");
+    //         return true;
+    //     } else {
+    //         if (!fromAccount) {
+    //         setmodalMessage(['Missing Information','Please select From Account.']);
+    //         setModalVisible(true);
+    //         return;
+    //         }
+    //         accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
+    //         // return true;
+    //     }
+
+    //     console.log("transaction end");
+    // })
+    // .then(res => {
+    //     console.log(res);
+    //     if (res) {
+    //         getUserAccountsFullInfo(uid).then(res => {
+    //             console.log(res);
+    //         })
+    //     }
+    // });
   };
 
   return (

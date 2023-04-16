@@ -33,7 +33,7 @@ export default function DashboardPage() {
                 const currentAccount = accountsIds[0] || null;
                 const accountsArr = await getUserAccountsFullInfo(uid);
                 const userCategories = await getUserCategories(uid);
-
+                console.log(accountsArr);
                 updateAccountId(currentAccount);
                 updateAccountsIds(accountsIds);
                 updateAccountsArr(accountsArr);

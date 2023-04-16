@@ -14,6 +14,7 @@ async function getUserAccounts(uid) {
 
     return accounts;
 }
+
 async function getUserAccountsTransactions(accountIds) {
     
     const transactions = [];
@@ -60,11 +61,15 @@ async function getUserAccountsFullInfo(uid) {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-        const obj = {
-            name: doc._document.data.value.mapValue.fields.name.stringValue,
-            balance: doc._document.data.value.mapValue.fields.amount.stringValue,
-            accountId: doc.id
-        }
+        
+        // const obj = {
+        //     name: doc._document.data.value.mapValue.fields.name.stringValue,
+        //     amount: doc._document.data.value.mapValue.fields.amount,
+        //     accountId: doc.id
+        // }
+        const obj = doc.data();
+        obj.accountId = doc.id;
+        console.log(obj);
 
         accounts.push(obj);
     });

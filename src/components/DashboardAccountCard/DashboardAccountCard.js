@@ -5,27 +5,10 @@ import { getAccount } from '../../services/firebaseFirestoreAccounts';
 import { Link } from 'react-router-dom';
 
 export default function DashboardAccountCard({ currency = 'BGN',  }) {
-    const [balance, setBalance] = useState(0);
-    const [accountName, setAccountName] = useState('');
-    
-    const {
-        accountId,
-        accountsArr
-    } = useDash(); 
-
-    useEffect (() => {
-        if (accountId) {
-            const getBalance = async () => {
-              const acc = await getAccount(accountId);
-
-              setBalance(acc.amount);
-              setAccountName(acc.name);
-            }
-      
-            getBalance();            
-        }
-
-    });
+    const { accountId, accountsArr } = useDash(); 
+    const [ account, setAccount ] = useState(accountsArr.find(acc => accountId === acc.accountId));
+    const [balance, setBalance] = useState(account.amount || 0);
+    const [accountName, setAccountName] = useState(account.name ||'');
     
     const balanceColor = balance >= 0 ? 'green' : 'red';
 
@@ -43,8 +26,6 @@ export default function DashboardAccountCard({ currency = 'BGN',  }) {
         textAlign: 'center',
     };
 
-
-    
     return (
         <>
         {
