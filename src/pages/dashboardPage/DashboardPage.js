@@ -27,6 +27,7 @@ export default function DashboardPage() {
         if (isLoaded) {
             // console.log("no");
         } else {
+            console.log("page download");
             const accounts = async () => {
                 const accountsIds = await getUserAccounts(uid);
                 const currentAccount = accountsIds[0] || null;
