@@ -1,99 +1,125 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "../services/firebaseAuthenticationManager";
 import { Button, Form, Input } from "antd";
-import "./RegisterForm.css";
-
-
-
-
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import "./RegisterForm.scss";
+import { useState } from 'react';
+import AlertMessage from './alertMessage/AlertMessage';
 
 export default function RegisterForm() {
+    const [isSentToServer, setIsSentToServer] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+    const [form] = Form.useForm();
 
     const onFinish = (values) => {
         const {email, password} = values;
-    
+        setIsSentToServer(true);
         register(email, password)
             .then(() => {
                 navigate("/dashboard");
             })
             .catch((error) => {
+                setIsError(true);
                 const errorCode = error.code;
-                const errorMessage = error.message;
-
-                console.log(`${errorCode} - ${errorMessage}`);
+                setErrorMessage(error.code);
             })
+            .finally(() => setIsSentToServer(false));
   };
   
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
 
   return (
     <div className="registerContainer">
       <div className="registerFormDiv">
         <h3>Register</h3>
+        {isError && <AlertMessage type="error" description={errorMessage}/>}
         <Form
-          name="basic"
-          labelCol={{
-            span: 8,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          style={{
-            maxWidth: 600,
-          }}
-          initialValues={{
-            remember: true,
-          }}
+            form={form}
+          name="normal_register"
+          className="register-form"
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
+        //   onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            label="Email"
             name="email"
+            validateTrigger="onBlur"
             rules={[
-              {
-                type: "email",
-                message: "That is not valid Email!",
-                required: true,
-              },
+                {
+                    required: true,
+                    message: 'Email is required',
+                },
+                { 
+                    pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                    message: 'Please enter a valid Email'
+                }
             ]}
           >
-            <Input />
+            <Input className='ft-register-input ft-register-email' prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address"/>
           </Form.Item>
 
           <Form.Item
-            label="Password"
             name="password"
+            validateTrigger="onBlur"
             rules={[
-              {
-                required: true,
-                message: "Please input your password!",
-              },
+                {
+                    required: true,
+                    message: 'Please input your Password!',
+                },
+                {
+                    min: 6,
+                    message: 'Password must be at least 6 characters long.'
+                },
+                ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('confirmPassword') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error('Passwords do not match!'));
+                    },
+                  }),
             ]}
           >
-            <Input.Password />
+            <Input.Password className='ft-register-input ft-register-password' prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password" placeholder="Password" />
           </Form.Item>
 
           <Form.Item
-            label="Confirm Password"
-            name="rePassword"
+            name="confirmPassword"
+            validateTrigger="onBlur"
             rules={[
-              {
-                required: true,
-                message: "Please confirm your password!",
-              },
+                {
+                    required: true,
+                    message: 'Please input your Password!',
+                },
+                {
+                    min: 6,
+                    message: 'Password must be at least 6 characters long.'
+                },
+                ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error('Passwords do not match!'));
+                    },
+                  }),
             ]}
           >
-            <Input.Password />
+             <Input.Password className='ft-register-input ft-register-password' prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password" placeholder="Confirm Password" />
           </Form.Item>
+
+            <div className='split-line'></div>
+            <Form.Item>
+                <Link className="login-form-forgot" to="/login">
+                    Already have an account?
+                </Link>
+            </Form.Item>
 
           <Form.Item id="registerButtonWrapper">
-            <Button type="primary" id="registerButton" htmlType="submit">
-              Register
+            <Button type="primary" className="login-form-button" id="registerButton" htmlType="submit">
+                {isSentToServer ? "Loading..." : "Register"}
             </Button>
           </Form.Item>
         </Form>

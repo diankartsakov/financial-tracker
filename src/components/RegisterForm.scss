@@ -1,24 +1,24 @@
-.loginContainer {
+.registerContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     box-sizing: border-box;
 
-    .loginFormDiv {
+    .registerFormDiv {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 300px;
 
-        .ft-login-input {
+        .ft-register-input {
             width: 300px;
             margin-top: 25px;
             background-color: #F0ECE3
         }
 
-        .ft-login-email, .ft-login-password {
+        .ft-register-email, .ft-register-password {
             border: none;
             border-bottom: 3px solid #25384F;
             background-color: #F0ECE3;
@@ -32,12 +32,12 @@
             background-color: #25384F;
         }
 
-        #normal_login_email, #normal_login_password {
+        #normal_register_email, #normal_register_password, #normal_register_confirmPassword {
             background-color: #F0ECE3;
         }
     }
 
-    .loginFormDiv h3 {
+    .registerFormDiv h3 {
         color: rgba(100, 149, 237, 1);
         font-size: 32px;
         letter-spacing: 3px;
@@ -55,6 +55,40 @@
         border: 3px solid rgba(100, 149, 237, 1);
     }
 
-
 }
+//   .registerFormDiv {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     padding: 20px;
+//     margin: 100px 50px 50px;
+//     border: 2px solid #004AAD;
+//     border-radius: 10%;
+//   }
 
+//   .registerFormDiv h3 {
+
+//     color: #004AAD;;
+
+//   }
+
+//   .registerContainer {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     text-align: center;
+//   }
+
+//   .ant-col {
+//     width: 200px;
+//   }
+
+//   .ant-col.ant-form-item-label {
+//     display: flex;
+//     justify-content: flex-start;
+//   }
+//   #registerButton {
+//     width: 50%;
+//     margin-left: 125px;
+//   }
