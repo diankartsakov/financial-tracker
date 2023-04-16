@@ -40,7 +40,7 @@ async function getUserAccountsTransactions(accountIds) {
             }
 
 
-           transaction.amount = `${transaction.amount.toFixed(2)} BGN`;
+           transaction.amountString = `${transaction.amount.toFixed(2)} BGN`;
     
             transactions.push(transaction);
 

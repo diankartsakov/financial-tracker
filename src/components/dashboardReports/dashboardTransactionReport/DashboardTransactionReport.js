@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Table, DatePicker, Pagination } from 'antd';
 import moment from 'moment';
 import { useDash } from '../../../pages/dashboardPage/DashboardProvider';
-
 import { getUserAccountsTransactions } from '../../../services/firebaseFirestoreAccounts';
 
 export default function DashboardTransactionReport() {
@@ -12,7 +11,7 @@ export default function DashboardTransactionReport() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedTrns, setSelectedTrns] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
 
 
   const { accountsArr } = useDash();
@@ -25,58 +24,48 @@ export default function DashboardTransactionReport() {
     async function getTransactions() {
       const data = await getUserAccountsTransactions(accountIds);
       setTransactions(data);
-      setSelectedTrns(data);
+      setFilteredTransactions(data);
     };
     getTransactions();
   }, []);
 
   useEffect(() => {
-    if (fromDate && toDate) {
-      const filteredData = transactions.filter((item) => {
-        const itemDate = moment(item.date, "YYYY-MM-DDTHH:mm:ss.SSSZ");
-        return itemDate.isBetween(fromDate, toDate);
-      });
-      setSelectedTrns(filteredData);
-    } else if (fromDate) {
-      const filteredData = transactions.filter((item) => {
-        const itemDate = moment(item.date, "YYYY-MM-DDTHH:mm:ss.SSSZ");
-        return itemDate.isSameOrAfter(fromDate);
-      });
-      setSelectedTrns(filteredData);
-    } else if (toDate) {
-      const filteredData = transactions.filter((item) => {
-        const itemDate = moment(item.date, "YYYY-MM-DDTHH:mm:ss.SSSZ");
-        return itemDate.isSameOrBefore(toDate);
-      });
-      setSelectedTrns(filteredData);
-    } else {
-      setSelectedTrns(transactions);
-    }
+
+    // Filter the data based on the search criteria
+    const filteredData = transactions.filter((item) => {
+
+      if (fromDate && toDate) {
+
+        return item.date.valueOf() >= fromDate.valueOf() &&
+          item.date.valueOf() <= toDate.valueOf() ?
+          true :
+          false;
+
+      } else if (fromDate) {
+
+        return item.date.valueOf() >= fromDate.valueOf() ?
+          true :
+          false;
+
+      } else if (toDate) {
+
+        return item.date.valueOf() <= toDate.valueOf() ?
+          true :
+          false;
+      }
+      return true;
+    });
+
+    setFilteredTransactions(filteredData);
   }, [fromDate, toDate, transactions]);
 
 
-
-
-  // Filter the data based on the search criteria
-  const filteredData = selectedTrns.filter((item) => {
-    const itemDate = moment(item.date, "YYYY-MM-DDTHH:mm:ss.SSSZ");
-
-
-    if (fromDate && toDate) {
-      return itemDate.isBetween(fromDate, toDate);
-    } else if (fromDate) {
-      return itemDate.isSameOrAfter(fromDate);
-    } else if (toDate) {
-      return itemDate.isSameOrBefore(toDate);
-    }
-    return true;
-  });
 
   // Sort the data based on the selected column and direction
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState(null);
 
-  const sortedData = filteredData.slice().sort((a, b) => {
+  const sortedData = filteredTransactions.slice().sort((a, b) => {
     if (!sortColumn || !sortDirection) {
       return 0;
     }
@@ -108,7 +97,7 @@ export default function DashboardTransactionReport() {
     },
     {
       title: 'Transaction Amount',
-      dataIndex: 'amount',
+      dataIndex: 'amountString',
       key: 'amount',
       sorter: (a, b) => a.amount - b.amount
     },
@@ -145,13 +134,13 @@ export default function DashboardTransactionReport() {
         <DatePicker
           placeholder="From Date"
           onChange={(value) => {
-            setFromDate(value ? moment(value).format("YYYY-MM-DDTHH:mm:ss.SSSZ") : null);
+            setFromDate(value ? value.toDate().setHours(0, 0, 0, 0) : null);
           }}
         />
         <DatePicker
           placeholder="To Date"
           onChange={(value) => {
-            setToDate(value ? moment(value).format("YYYY-MM-DDTHH:mm:ss.SSSZ") : null);
+            setToDate(value ? value.toDate().setHours(23, 59, 59, 999) : null);
           }}
         />
       </div>
