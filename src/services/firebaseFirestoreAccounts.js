@@ -28,6 +28,19 @@ async function getUserAccountsTransactions(accountIds) {
             let transaction = doc.data();
             transaction.id = doc.id;
             transaction.date = transaction.date.toDate();
+
+            if(transaction.type === 'Expense'){
+                transaction.category = `${transaction.type} / ${transaction.category}`;
+            }
+            if(transaction.type === 'Transfer'){
+
+                transaction.toAccountId ?
+                transaction.category = 'Outgoing Transfer':
+                transaction.category = 'Incoming Transfer';
+            }
+
+
+           transaction.amount = `${transaction.amount.toFixed(2)} BGN`;
     
             transactions.push(transaction);
 

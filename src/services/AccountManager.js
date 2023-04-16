@@ -97,7 +97,7 @@ class AccountManager {
       
       accountName: accountName,
       accountId: accountId,
-      amount: amount,
+      amount: Number(amount),
       type: type,
       category: category,
       date: new Date()
@@ -112,7 +112,7 @@ class AccountManager {
 
         accountName: accountName,
         accountId: fromAccountId,
-        amount: amount,
+        amount: Number(amount),
         type: type,
         category: category,
         date: new Date(),

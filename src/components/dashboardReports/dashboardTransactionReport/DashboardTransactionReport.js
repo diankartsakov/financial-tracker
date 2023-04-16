@@ -62,8 +62,6 @@ export default function DashboardTransactionReport() {
     const itemDate = moment(item.date, "YYYY-MM-DDTHH:mm:ss.SSSZ");
 
 
-    console.log(itemDate);
-
     if (fromDate && toDate) {
       return itemDate.isBetween(fromDate, toDate);
     } else if (fromDate) {
