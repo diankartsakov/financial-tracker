@@ -12,10 +12,13 @@ export default function DashboardAccountCard({ currency = 'BGN',  }) {
     const balanceColor = balance >= 0 ? 'green' : 'red';
 
     useEffect(() => {
-        const accountUpdate = accountsArr.find(acc => accountId === acc.accountId);
-        console.log("update");
-        setBalance(accountUpdate.amount);
-        setAccountName(accountUpdate.name);
+
+        if (accountsArr?.length) {
+            const accountUpdate = accountsArr.find(acc => accountId === acc.accountId);
+            console.log("update");
+            setBalance(accountUpdate.amount);
+            setAccountName(accountUpdate.name);
+        }
     }, [accountId]);
 
     const balanceStyle = {

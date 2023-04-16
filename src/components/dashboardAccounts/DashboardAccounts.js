@@ -67,7 +67,7 @@ export default function DashboardAccounts() {
         console.log('Creating account with name:', values.accountName);
         // handle create account logic here
         const accountId = await accountManager.addAccount(values.accountName, uid);
-        const newAcc = {name: values.accountName, accountId};
+        const newAcc = {name: values.accountName, amount: 0, accountId};
         
         const arr = accountsArr;
         arr.push(newAcc);
