@@ -27,11 +27,11 @@ async function getUserAccountsTransactions(accountIds) {
             
             let transaction = doc.data();
             transaction.id = doc.id;
+            transaction.date = transaction.date.toDate();
     
             transactions.push(transaction);
 
         });
-
     }
 
     console.log(transactions);
