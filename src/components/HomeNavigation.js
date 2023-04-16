@@ -13,10 +13,10 @@ export default function HomeNavigation() {
 					</Link>
 				</div>
 				<ul className="navbar-actions">
-					<li className="navbar-action">
+					<li className="navbar-action navbar-login">
 						<Link to="/login">Login</Link>
 					</li>
-					<li className="navbar-action">
+					<li className="navbar-action navbar-register">
 						<Link to="/register">Register</Link>
 					</li>
 				</ul>						
