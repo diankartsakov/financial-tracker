@@ -23,4 +23,12 @@
             color:#6e6d7a;
         }
     }
+
+    .content-wrapper {
+        display: flex;
+        
+        .content-info-wrapper {
+            width: 30%;
+        }
+    }
 }

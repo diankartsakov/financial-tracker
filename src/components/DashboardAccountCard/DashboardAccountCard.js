@@ -5,12 +5,18 @@ import { getAccount } from '../../services/firebaseFirestoreAccounts';
 import { Link } from 'react-router-dom';
 
 export default function DashboardAccountCard({ currency = 'BGN',  }) {
-    const { accountId, accountsArr } = useDash(); 
-    const [ account, setAccount ] = useState(accountsArr.find(acc => accountId === acc.accountId));
-    const [balance, setBalance] = useState(account.amount || 0);
-    const [accountName, setAccountName] = useState(account.name ||'');
-    
+    const { accountId, accountsArr, currentAccountName } = useDash(); 
+    const [isLoading, setIsLoading] = useState(true);
+    const [balance, setBalance] = useState(0);
+    const [accountName, setAccountName] = useState('');
     const balanceColor = balance >= 0 ? 'green' : 'red';
+
+    useEffect(() => {
+        const accountUpdate = accountsArr.find(acc => accountId === acc.accountId);
+        console.log("update");
+        setBalance(accountUpdate.amount);
+        setAccountName(accountUpdate.name);
+    }, [accountId]);
 
     const balanceStyle = {
         fontSize: '32px',

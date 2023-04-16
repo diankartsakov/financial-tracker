@@ -65,7 +65,6 @@ async function getUserAccountsFullInfo(uid) {
         // }
         const obj = doc.data();
         obj.accountId = doc.id;
-        console.log(obj);
 
         accounts.push(obj);
     });
