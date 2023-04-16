@@ -18,34 +18,30 @@ async function getUserAccountsTransactions(accountIds) {
     
     const transactions = [];
 
-    for(let i = 0; i < accountIds.length; i++) {
-
-        const q = query(collection(db, "transactions"), where("accountId", "==", accountIds[i]));
-        const querySnapshot = await getDocs(q);
-        
-        querySnapshot.forEach((doc) => {
-            
-            let transaction = doc.data();
-            transaction.id = doc.id;
-            transaction.date = transaction.date.toDate();
-
-            if(transaction.type === 'Expense'){
-                transaction.category = `${transaction.type} / ${transaction.category}`;
-            }
-            if(transaction.type === 'Transfer'){
-
-                transaction.toAccountId ?
-                transaction.category = 'Outgoing Transfer':
-                transaction.category = 'Incoming Transfer';
-            }
-
-
-           transaction.amountString = `${transaction.amount.toFixed(2)} BGN`;
+    const q = query(collection(db, "transactions"), where("accountId", "in", accountIds));
+    const querySnapshot = await getDocs(q);
     
-            transactions.push(transaction);
+    querySnapshot.forEach((doc) => {
+        
+        let transaction = doc.data();
+        transaction.id = doc.id;
+        transaction.date = transaction.date.toDate();
 
-        });
-    }
+        if(transaction.type === 'Expense'){
+            transaction.category = `${transaction.type} / ${transaction.category}`;
+        }
+        if(transaction.type === 'Transfer'){
+
+            transaction.toAccountId ?
+            transaction.category = 'Outgoing Transfer':
+            transaction.category = 'Incoming Transfer';
+        }
+
+       transaction.amountString = `${transaction.amount.toFixed(2)} BGN`;
+
+        transactions.push(transaction);
+
+    });
 
     console.log(transactions);
 
