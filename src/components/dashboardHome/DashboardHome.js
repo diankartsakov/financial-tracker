@@ -7,6 +7,7 @@ import "./dashboardHome.scss"
 import { getDateWithSuffixDay } from "../../assests/utils/utils";
 import { getTotalBalance } from "../../assests/utils/dashboardUtils";
 import AccountsDonutChart from "../accountsDonutChart/accountsDonutChart";
+import LogarithmicBarChart from "../accountsDonutChart/accountsDonutChart";
 
 export default function DashboardHome() {
     const {authUser: {email}, authUser: {uid}} = useAuth();
@@ -51,11 +52,9 @@ export default function DashboardHome() {
                             })}  
                             <p>Total balance: {totalBalance.toFixed(2)}BGN</p> 
                         </div>
-                        <AccountsDonutChart style={{width: "50%"}}/>
+                        {accountsArr?.length === 0 ? <div>No Accounts</div> : <LogarithmicBarChart/>}
                     </div>
-                }
-                
-                        
+                }           
             </div>
         </>
     );
