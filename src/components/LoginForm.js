@@ -3,25 +3,42 @@ import { login } from '../services/firebaseAuthenticationManager';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input,} from 'antd';
 import './LoginForm.scss';
+import { useState } from 'react';
+import AlertMessage from './alertMessage/AlertMessage';
 
 export default function LoginForm() {
+    const [isSentToServer, setIsSentToServer] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+
 
     const onFinish = (values) => {
         const {email, password} = values;
+        setIsSentToServer(true);
         login(email, password)
             .then(() => {
                 navigate('/dashboard');
             })
             .catch(error => {
-                console.log(error);
-            });
+                setIsError(true);
+                const errorCode = error.code
+                if (errorCode.includes("auth/")) {
+                    setErrorMessage("Wrong credentials!");
+                } else {
+                    setErrorMessage("Something went wrong... Try Again!");
+                }
+                console.log(typeof error.code);
+                console.log(error.code);
+            })
+            .finally(() => setIsSentToServer(false));
     };
 
     return (
         <div className='loginContainer'>
             <div className='loginFormDiv'>
                 <h3>Login</h3>
+                {isError && <AlertMessage type="error" description={errorMessage}/>}
                 <Form
                     name="normal_login"
                     className="login-form"
@@ -76,7 +93,7 @@ export default function LoginForm() {
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="login-form-button">
-                            Log in
+                            {isSentToServer ? "Loading..." : "Log in"}
                         </Button>
                     </Form.Item>
                 </Form>

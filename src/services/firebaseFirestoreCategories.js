@@ -67,11 +67,11 @@ async function deleteCategory(categoryId) {
     }
 }
 
-async function getUserCategories() {
+async function getUserCategories(uidParam) {
 
     try {
-        const uid = auth.currentUser?.uid;
-    
+        const uid = uidParam || auth.currentUser?.uid;
+
         const categories = [];
     
         const q = query(collection(db, "categories"), where("uid", "==", uid));
@@ -79,7 +79,6 @@ async function getUserCategories() {
         const querySnapshot = await getDocs(q);
         
         querySnapshot.forEach((doc) => {
-            // console.log(doc);
             const docData = {
               id: doc.id,
               category: doc._document.data.value.mapValue.fields.category.stringValue,

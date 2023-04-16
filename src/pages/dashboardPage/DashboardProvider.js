@@ -46,7 +46,6 @@ export default function DashboardProvider({children}) {
     };
 
     const updateCategories = (categories) => {
-        console.log(categories);
         setState(s => {
             return {...s, categories: [...categories]}
         })
