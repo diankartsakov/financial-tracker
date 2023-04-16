@@ -35,7 +35,6 @@ function getDateWithSuffixDay() {
 
     const formattedDate = `${day}${suffix}, ${month} ${year}`;
 
-    console.log(formattedDate);
     function getDaySuffix(day) {
       if (day >= 11 && day <= 13) {
         return 'th';
