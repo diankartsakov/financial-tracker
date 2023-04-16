@@ -27,11 +27,12 @@ export default function DashboardPage() {
         if (isLoaded) {
             // console.log("no");
         } else {
+            console.log("page download");
             const accounts = async () => {
                 const accountsIds = await getUserAccounts(uid);
                 const currentAccount = accountsIds[0] || null;
                 const accountsArr = await getUserAccountsFullInfo(uid);
-                const userCategories = await getUserCategories();
+                const userCategories = await getUserCategories(uid);
 
                 updateAccountId(currentAccount);
                 updateAccountsIds(accountsIds);
@@ -40,10 +41,10 @@ export default function DashboardPage() {
                                         accountsArr.find(acc => acc.accountId === currentAccount)
                                         ?.name
                                         );
-                isLoadedUpdate(true);
                 updateCategories(userCategories);
+                isLoadedUpdate(true);
             };
-
+                                    
             accounts();
         }
     }, []);

@@ -1,8 +1,8 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/homePage/HomePage';
-import Login from './pages/LoginPage';
-import Register from './pages/RegisterPage';
+import Login from './pages/loginPage/LoginPage';
+import Register from './pages/registerPage/RegisterPage';
 import HomeNavigation from './components/HomeNavigation';
 import { useAuth } from './firebase/auth';
 import DashboardPage from './pages/dashboardPage/DashboardPage';

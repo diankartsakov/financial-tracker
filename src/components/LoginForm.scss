@@ -1,0 +1,60 @@
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+
+    .loginFormDiv {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 300px;
+
+        .ft-login-input {
+            width: 300px;
+            margin-top: 25px;
+            background-color: #F0ECE3
+        }
+
+        .ft-login-email, .ft-login-password {
+            border: none;
+            border-bottom: 3px solid #25384F;
+            background-color: #F0ECE3;
+            padding: 10px 15px;
+        }
+
+        .split-line {
+            margin: 15px 0 5px;
+            width: 300px;
+            height: 2px;
+            background-color: #25384F;
+        }
+
+        #normal_login_email, #normal_login_password {
+            background-color: #F0ECE3;
+        }
+    }
+
+    .loginFormDiv h3 {
+        color: rgba(100, 149, 237, 1);
+        font-size: 32px;
+        letter-spacing: 3px;
+    }
+
+    .login-form-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 15px 25px;
+        background-color: white;
+        color: rgba(100, 149, 237, 1);
+        border: 3px solid rgba(100, 149, 237, 1);
+    }
+
+
+}
+
