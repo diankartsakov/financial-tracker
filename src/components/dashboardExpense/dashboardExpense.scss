@@ -4,3 +4,17 @@
     gap: 25px;
     margin-top: 25px;
 }
+
+.expense-account-heading {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    cursor: default;
+
+    .expense-account-name {
+        margin-left: 10px;
+        color: #85C3E9;
+        letter-spacing: 1px;
+        text-decoration: underline;
+    }
+}

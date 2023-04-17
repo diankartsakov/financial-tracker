@@ -20,7 +20,7 @@ export default function CategoryFormModal({onSubmit, categoryName="Create Catego
 
   return (
     <>
-      <Button type="primary" onClick={handleOpen}>
+      <Button type="primary" className="da-btn" onClick={handleOpen}>
           Add Category
       </Button>
       <Modal 

@@ -5,6 +5,7 @@ import { addCategory } from "../../services/firebaseFirestoreCategories";
 import CategoryFormModal from "../categoryFormModal/CategoryFormModal";
 import ExpenseCategory from "../expenseCategory/ExpenseCategory";
 import "./dashboardExpense.scss";
+import { Link } from "react-router-dom";
 
 export default function DashboardExpense() {
     const {currentAccountName, categories, updateCategories} = useDash();
@@ -16,7 +17,7 @@ export default function DashboardExpense() {
 
     return (
         <>
-            <h1>{currentAccountName} EXPENSE</h1>
+            <h1 className="expense-account-heading">Current Account: <Link to="/dashboard/accounts" className="expense-account-name">{currentAccountName}</Link></h1>
             <CategoryFormModal onSubmit={addCategory}/>
             <div className="categoriesWrapper">{
                 isLoading ?

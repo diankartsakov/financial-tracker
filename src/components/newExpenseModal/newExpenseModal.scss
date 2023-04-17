@@ -1,8 +1,91 @@
 .ft-new-expense-form {
     border: none;
     background-color: white;
+    display: flex;
+    align-items: flex-start;
 
-    .ft-new-expense-form {  
-            
+    .ant-alert-with-description {
+        margin: 10px auto;
     }
+
+    .ft-expense-amount-item > .ant-form-item-row {  
+        display: flex;
+    
+        .label-cost-amount {
+            font-size: 18px;
+            width: 200px;
+            align-self: end;
+        }
+        
+        .ft-expense-amount-input {
+            border: none;
+            border-radius: 0;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            font-size: 22px;
+            border-bottom: 2px solid #25384F;
+        }
+
+        .ft-expense-amount-input:focus {
+            outline: none;
+        }
+
+        p {
+            font-size: 18px;
+            align-self: end;
+        }
+    }
+
+    .ft-expense-pay-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        width: 200px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        padding: 5px;
+    }
+}
+
+.ft-expense-amount-item {
+    display: flex;
+    align-items: center;
+  
+    .ant-form-item-label {
+      flex: 1;
+    }
+  
+    .ft-expense-amount-input {
+      margin-right: 10px;
+    }
+  
+    p {
+      margin: 0;
+    }
+  }
+
+.ft-expense-category {
+    font-size: 18px;
+    font-weight: 500;
+    &-name {
+        font-weight: 400;
+        letter-spacing: 1px;
+    }
+}
+
+.ft-expense-costs {
+    font-size: 18px;
+    font-weight: 500;
+    &-value {
+        font-weight: 400;
+        letter-spacing: 1px;
+    }
+}
+
+.ft-div-line {
+    width: 100%;
+    height: 1px;
+    background-color: lightgray;
 }
