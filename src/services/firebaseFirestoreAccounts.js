@@ -87,7 +87,7 @@ async function getUserAccountsTransactions(accountIds=[]) {
 
     });
 
-    console.log(transactions);
+    // console.log(transactions);
 
     return transactions;
 }

@@ -11,14 +11,6 @@ function getAccountName(arrOfObjects, id) {
     return arrOfObjects.find(obj => obj.accountId === id)?.name;
 }
 
-// function getHighestAmount(arrOfObjects) {
-    
-// }
-
-// function getLowestAmount(arrOfObjects) {
-
-// }
-
 export { 
     getTotalBalance, 
     getCurrentAccountBalance,

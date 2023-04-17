@@ -65,17 +65,17 @@ export default function DashboardHome() {
                             }/>
                             <ProfileCardInfo className="ft-profile-card" title="Current Account Balance"
                             content={<p>{getCurrentAccountBalance(accountsArr, accountId)?.toFixed(2) || 0} BGN</p>}/>
-                            <ProfileCardInfo className="ft-profile-card" title="Total Accounts" content={<p>{accountsArr.length}</p>}/>
-                            <ProfileCardInfo className="ft-profile-card" title="Total Balance"
+                            <ProfileCardInfo className="ft-profile-card" title="Overall Accounts Count" content={<p>{accountsArr.length}</p>}/>
+                            <ProfileCardInfo className="ft-profile-card" title="Overall Amount"
                             content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
                             
-                            <ProfileCardInfo className="ft-profile-card" title="Total Transactions"
+                            <ProfileCardInfo className="ft-profile-card" title="Overall Transactions Count"
                             content={<p>{transactionsInfo.totalCount || 0}</p>}/>
                             
-                            <ProfileCardInfo className="ft-profile-card" title="Total Deposits"
+                            <ProfileCardInfo className="ft-profile-card" title="Overall  Deposits Count"
                             content={<p>{transactionsInfo.deposit || 0}</p>}/>
                             
-                            <ProfileCardInfo className="ft-profile-card" title="Total Expenses"
+                            <ProfileCardInfo className="ft-profile-card" title="Overall  Expenses Count"
                             content={<p>{transactionsInfo.expense || 0}</p>}/>
                         </div>
                         <div className="donut-wrapper">

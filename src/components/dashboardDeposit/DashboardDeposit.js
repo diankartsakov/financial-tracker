@@ -64,6 +64,7 @@ export default function DashboardDeposit() {
       return;
     }
 
+
     if (depositType !== 'card' && !fromAccount) {
       setmodalMessage(['Missing Information', 'Please select From Account.']);
       setModalVisible(true);
@@ -77,26 +78,29 @@ export default function DashboardDeposit() {
       setConfirmationData(values);
       
     }
-
-
   }; 
 
   const handlePayButtonClick = async () => {
 
+    let result = {}; 
+
     if (depositType === 'card') {
-      await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+
     } else {
-      if (!fromAccount) {
-        setmodalMessage(['Missing Information', 'Please select From Account.']);
-        setModalVisible(true);
-        return;
-      }
-      await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
+
+        if (!fromAccount) {
+          setmodalMessage(['Missing Information','Please select From Account.']);
+          setModalVisible(true);
+          return;
+        }
+
+        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
     }
 
+    console.log(result);
     const accountsFullInfo = await getUserAccountsFullInfo(uid);
     updateAccountsArr(accountsFullInfo);
-
   };
 
   return (
