@@ -1,7 +1,7 @@
 import {  DownOutlined  } from '@ant-design/icons';
 import {  Dropdown, Space, Button } from  "antd";
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function TransferDropdown(props) {
     const { accountId, accountsArr } = useDash();

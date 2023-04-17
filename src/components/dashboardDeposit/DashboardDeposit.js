@@ -94,8 +94,6 @@ export default function DashboardDeposit() {
       await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
     }
 
-
-
     const accountsFullInfo = await getUserAccountsFullInfo(uid);
     updateAccountsArr(accountsFullInfo);
 
