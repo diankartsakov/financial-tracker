@@ -5,8 +5,8 @@ import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import accountManager from '../../services/AccountManager';
 import { getUserAccountsFullInfo } from '../../services/firebaseFirestoreAccounts';
 import { useAuth } from '../../firebase/auth';
+import { Spin } from 'antd';
 import './DashboardDeposit.scss';
-
 
 export default function DashboardDeposit() {
   const [depositType, setDepositType] = useState('card');
@@ -16,9 +16,10 @@ export default function DashboardDeposit() {
   const [modalMessage, setmodalMessage] = useState([]);
   const [confirmationData, setConfirmationData] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
 
-  const { accountId, currentAccountName, accountsArr, updateAccountsArr } = useDash();
+  const { accountId, currentAccountName, updateAccountsArr } = useDash();
   const { authUser: { uid } } = useAuth();
 
   const handleDepositTypeChange = e => {
@@ -82,6 +83,8 @@ export default function DashboardDeposit() {
 
   const handlePayButtonClick = async () => {
 
+    setIsLoading(true);
+
     let result = {}; 
 
     if (depositType === 'card') {
@@ -92,6 +95,7 @@ export default function DashboardDeposit() {
         if (!fromAccount) {
           setmodalMessage(['Missing Information','Please select From Account.']);
           setModalVisible(true);
+          setIsLoading(false);
           return;
         }
 
@@ -101,6 +105,9 @@ export default function DashboardDeposit() {
     console.log(result);
     const accountsFullInfo = await getUserAccountsFullInfo(uid);
     updateAccountsArr(accountsFullInfo);
+
+    setIsLoading(false);
+
   };
 
   return (
@@ -191,6 +198,8 @@ export default function DashboardDeposit() {
       </div>)}
       {currentStep === 1 && (
         <div className='deposit-form-details'>
+
+          <Spin spinning={isLoading}>
           <Form 
           //onFinish={()=>{}}
           >
@@ -235,9 +244,24 @@ export default function DashboardDeposit() {
 
             </Form.Item>
           </Form>
+          </Spin>
         </div>
 
       )}
+      {/* {currentStep === 3 && (
+        {
+          isLoading 
+          ? 
+          <>
+
+          </> 
+          :
+          <>
+          </> 
+        }
+
+
+      )} */}
 
     </>
   );
