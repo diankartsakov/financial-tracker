@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Form, Input, Radio, Button, Modal, Steps } from 'antd';
+import { Form, Input, Radio, Button, Modal, Steps, Result } from 'antd';
 import TransferDropdown from '../transferDropdown/TransferDropdown';
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import accountManager from '../../services/AccountManager';
 import { getUserAccountsFullInfo } from '../../services/firebaseFirestoreAccounts';
 import { useAuth } from '../../firebase/auth';
+import { Spin } from 'antd';
 import './DashboardDeposit.scss';
-
+import { Link } from 'react-router-dom';
 
 export default function DashboardDeposit() {
   const [depositType, setDepositType] = useState('card');
@@ -16,9 +17,11 @@ export default function DashboardDeposit() {
   const [modalMessage, setmodalMessage] = useState([]);
   const [confirmationData, setConfirmationData] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successfulTransaction, setSuccessfulTransaction] = useState({});
   const [form] = Form.useForm();
 
-  const { accountId, currentAccountName, accountsArr, updateAccountsArr } = useDash();
+  const { accountId, currentAccountName, updateAccountsArr } = useDash();
   const { authUser: { uid } } = useAuth();
 
   const handleDepositTypeChange = e => {
@@ -76,31 +79,38 @@ export default function DashboardDeposit() {
     if (values) {
       setCurrentStep(1);
       setConfirmationData(values);
-      
+
     }
-  }; 
+  };
 
   const handlePayButtonClick = async () => {
 
-    let result = {}; 
+    setIsLoading(true);
+
+    let result = {};
 
     if (depositType === 'card') {
-        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+      result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
 
     } else {
 
-        if (!fromAccount) {
-          setmodalMessage(['Missing Information','Please select From Account.']);
-          setModalVisible(true);
-          return;
-        }
+      if (!fromAccount) {
+        setmodalMessage(['Missing Information', 'Please select From Account.']);
+        setModalVisible(true);
+        setIsLoading(false);
+        return;
+      }
 
-        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
+      result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
     }
 
     console.log(result);
     const accountsFullInfo = await getUserAccountsFullInfo(uid);
     updateAccountsArr(accountsFullInfo);
+    setSuccessfulTransaction(result);
+    setIsLoading(false);
+    setCurrentStep(2);
+
   };
 
   return (
@@ -137,14 +147,14 @@ export default function DashboardDeposit() {
         {modalMessage[1]}
       </Modal>
 
-      {currentStep === 0 && (<div className='deposit-form-details'>
-        <Form form={form} onFinish={handleContinueToCheckoutClick}>
+      {currentStep === 0 && (<div className='da-deposit-form-details'>
+        <Form className='da-ant-form' form={form} onFinish={handleContinueToCheckoutClick}>
           <h3>Deposit Form</h3>
-          <Form.Item label="Amount" name="amount" rules={[{ required: true, message: 'Please enter a valid amount' }]}>
+          <Form.Item className='da-ant-form-item' label="Amount" name="amount" rules={[{ required: true, message: 'Please enter a valid amount' }]}>
             <Input type="number" name="amount" onChange={handleAmountChange} />
           </Form.Item>
 
-          <Form.Item label="Deposit Type" name="depositType" initialValue="card">
+          <Form.Item className='da-ant-form-item' label="Deposit Type" name="depositType" initialValue="card">
             <Radio.Group onChange={handleDepositTypeChange} value={depositType}>
               <Radio value="card">Card Deposit</Radio>
               <Radio value="account">Transfer from Account</Radio>
@@ -154,89 +164,125 @@ export default function DashboardDeposit() {
           {depositType === 'card' && (
             <>
 
-              <Form.Item label="Card Number" name="cardNumber" rules={[{ required: true, message: 'Please enter a valid card number' }]}>
+              <Form.Item className='da-ant-form-item' label="Card Number" name="cardNumber" rules={[{ required: true, message: 'Please enter a valid card number' }]}>
                 <Input type="text" maxLength={16} />
               </Form.Item>
 
-              <Form.Item label="Expiration Date" name="expirationDate" rules={[{ required: true, message: 'Please enter a valid expiration date' }]}>
+              <Form.Item className='da-ant-form-item' label="Expiration Date" name="expirationDate" rules={[{ required: true, message: 'Please enter a valid expiration date' }]}>
                 <Input type="month" name="expirationDate" placeholder="MM/YY" />
               </Form.Item>
 
 
 
-              <Form.Item label="CVV" name="cvv" rules={[{ required: true, message: 'Please enter a valid CVV' }]}>
+              <Form.Item className='da-ant-form-item' label="CVV" name="cvv" rules={[{ required: true, message: 'Please enter a valid CVV' }]}>
                 <Input type="number" name="cvv" />
               </Form.Item>
 
 
 
-              <Form.Item label="Card Holder Name" name="cardHolderName" rules={[{ required: true, message: 'Please enter your full names.' }]}>
+              <Form.Item className='da-ant-form-item' label="Card Holder Name" name="cardHolderName" rules={[{ required: true, message: 'Please enter your full names.' }]}>
                 <Input type="text" name="cardHolderName" />
               </Form.Item>
             </>
           )}
 
           {depositType === 'account' && (
-            <Form.Item label="From Account">
-              <TransferDropdown onSelect={handleFromAccountSelect} currentAcc = {fromAccount}></TransferDropdown>
+            <Form.Item className='da-ant-form-item' label="From Account">
+              <TransferDropdown onSelect={handleFromAccountSelect} currentAcc={fromAccount}></TransferDropdown>
             </Form.Item>
           )}
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
+          <Form.Item className='da-ant-form-item'>
+            <Button className='da-btn' type="primary" htmlType="submit">
               Continue to Checkout
             </Button>
           </Form.Item>
         </Form>
       </div>)}
       {currentStep === 1 && (
-        <div className='deposit-form-details'>
-          <Form 
-          //onFinish={()=>{}}
-          >
-            <Form.Item><h3>Confirm Transaction Details</h3></Form.Item>
-            <Form.Item>Amount: {`${Number(confirmationData.amount).toFixed(2)} BGN`}</Form.Item>
-            <Form.Item><p>Deposit Type: {confirmationData.depositType}</p></Form.Item>
+        <div className='da-deposit-form-details'>
 
-            {confirmationData.depositType === 'card' && (
-              <>
-                <Form.Item>
-                  <p>Card Number: {confirmationData.cardNumber}</p>
+          <Spin spinning={isLoading}>
+            <Form className='da-ant-form'
+            //onFinish={()=>{}}
+            >
+              <Form.Item className='da-ant-form-item'><h3>Confirm Transaction Details</h3></Form.Item>
+              <Form.Item className='da-ant-form-item'>Amount: {`${Number(confirmationData.amount).toFixed(2)} BGN`}</Form.Item>
+              <Form.Item className='da-ant-form-item'><p>Deposit Type: {confirmationData.depositType}</p></Form.Item>
+
+              {confirmationData.depositType === 'card' && (
+                <>
+                  <Form.Item className='da-ant-form-item'>
+                    <p>Card Number: {confirmationData.cardNumber}</p>
+                  </Form.Item>
+                  <Form.Item className='da-ant-form-item'>
+                    <p>Expiration Date: {confirmationData.expirationDate}</p>
+
+                  </Form.Item >
+                  <Form.Item className='da-ant-form-item'>
+                    <p>CVV: {confirmationData.cvv}</p>
+
+                  </Form.Item>
+                  <Form.Item className='da-ant-form-item'>
+                    <p>Card Holder Name: {confirmationData.cardHolderName}</p>
+                  </Form.Item>
+
+                </>
+              )}
+              {confirmationData.depositType === 'account' && (
+
+                <Form.Item className='da-ant-form-item'>
+                  <p>From Account: {fromAccount.label}</p>
                 </Form.Item>
-                <Form.Item>
-                  <p>Expiration Date: {confirmationData.expirationDate}</p>
 
-                </Form.Item>
-                <Form.Item>
-                  <p>CVV: {confirmationData.cvv}</p>
+              )}
+              <Form.Item className='da-ant-form-item'>
 
-                </Form.Item>
-                <Form.Item>
-                  <p>Card Holder Name: {confirmationData.cardHolderName}</p>
-                </Form.Item>
+                <Button className='da-btn' type="primary" onClick={() => setCurrentStep(0)}>
+                  Back
+                </Button>
+                <Button className='da-btn' type="primary" onClick={handlePayButtonClick}>
+                  Confirm Payment
+                </Button>
 
-              </>
-            )}
-            {confirmationData.depositType === 'account' && (
-
-              <Form.Item>
-                <p>From Account: {fromAccount.label}</p>
               </Form.Item>
-
-            )}
-            <Form.Item>
-
-              <Button type="secondary" onClick={() => setCurrentStep(0)}>
-                Back
-              </Button>
-              <Button type="secondary" onClick={handlePayButtonClick}>
-                Confirm Payment
-              </Button>
-
-            </Form.Item>
-          </Form>
+            </Form>
+          </Spin>
         </div>
 
+      )}
+      {currentStep === 2 && !successfulTransaction.error && (
+        <>
+          <Result
+            status="success"
+            title="Transaction Processed Successfully !"
+            subTitle={successfulTransaction.message}
+            extra={[
+              <Link to = '/dashboard/accounts'>
+              <Button className='da-btn' type="primary" key='successGoToAcc'>Go To Accounts</Button>
+              </Link>,
+              <Link to = '/dashboard/reports'>
+              <Button className='da-btn' type="primary"key='successGoToReports'>Go To Reports</Button>
+              </Link>,
+            ]}
+          >
+          </Result>
+
+        </>
+      )}
+      {currentStep === 2 && successfulTransaction.error && (
+        <Result
+          status="error"
+          title="Submission Failed"
+          subTitle={successfulTransaction.message}
+          extra={[
+            <Link to = '/dashboard/accounts'>
+            <Button className='da-btn' type="primary" key='failedGoToAcc'>Go To Accounts</Button>
+            </Link>,
+            <Button className='da-btn' type="primary" key='failedTryAgain' onClick={()=>{setCurrentStep(0);}}>Try Again</Button>
+          ]}
+        >
+        </Result>
       )}
 
     </>

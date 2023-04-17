@@ -1,0 +1,62 @@
+.da-account-form-details {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.da-account-form-balance {
+    
+    font-size: 48px;
+    font-weight: bold;
+    color: #228B22;
+    text-align: center;
+    margin-bottom: 20px;
+        
+}
+.da-account-form-name {
+
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 10px;
+
+}
+
+.da-account-form-card {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px #25384F;;
+    border-radius: 10px;
+}
+
+.da-account-form-buttons {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+
+}
+
+.da-account-form-no-account {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: red;
+}
+
+.da-btn {
+
+    background-color: #25384F;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+
+    :hover {
+        transform: scale(1.1);
+    }
+}
+

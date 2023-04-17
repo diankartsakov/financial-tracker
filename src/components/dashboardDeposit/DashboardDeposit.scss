@@ -1,18 +1,18 @@
-.ant-form-item {
+.da-ant-form-item {
     margin-bottom: 20px;
     width: 100%;
 
     :not(:last-child) {}
 }
 
-.deposit-form-details {
+.da-deposit-form-details {
     margin-top: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.ant-form {
+.da-ant-form {
     border: 3px solid #25384F;
     border-radius: 15%;
     padding: 4vh;
@@ -34,6 +34,18 @@
         background-color: #25384F;
         color: white;
 
+    }
+}
+
+.da-btn {
+
+    margin: 10px;
+    background-color: #25384F;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+
+    :hover {
+        transform: scale(1.1);
     }
 }
 

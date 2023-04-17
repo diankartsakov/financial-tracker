@@ -5,6 +5,7 @@ import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import accountManager from '../../services/AccountManager';
 import AccountsDrowpdown from '../accountDropdown/AccountsDropdown';
 import DashboardAccountCard from '../dashboardAccountCard/DashboardAccountCard';
+import './DashboardAccounts.scss';
 
 function NewAccountModal({onCreate}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,7 +30,7 @@ function NewAccountModal({onCreate}) {
   
     return (
       <>
-        <Button type="primary" onClick={showModal}>Add Account</Button>
+        <Button className='da-btn' type="primary" onClick={showModal}>Add Account</Button>
         <Modal
           open={isModalOpen}
           title="Create New Account"
