@@ -15,13 +15,18 @@ async function getUserAccounts(uid) {
     return accounts;
 }
 
-async function getUserAccountsTransactionsCounts(accountIds) {
+async function getUserAccountsTransactionsCounts(accountIds=[]) {
+    console.log(accountIds);
     const transactionsInfo = {
         expense: 0,
         deposit: 0,
         transfer: 0,
         totalCount: 0,
     };
+
+    if (accountIds.length === 0) {
+        return transactionsInfo;
+    }
 
     const transfersIds = [];
 
@@ -49,9 +54,13 @@ async function getUserAccountsTransactionsCounts(accountIds) {
 }
 
 
-async function getUserAccountsTransactions(accountIds) {
+async function getUserAccountsTransactions(accountIds=[]) {
     
     const transactions = [];
+
+    if (accountIds.length === 0) {
+        return transactions;
+    }
 
     const q = query(collection(db, "transactions"), where("accountId", "in", accountIds));
     const querySnapshot = await getDocs(q);

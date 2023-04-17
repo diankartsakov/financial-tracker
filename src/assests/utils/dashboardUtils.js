@@ -5,13 +5,6 @@ function getTotalBalance(arrOfObjects) {
 }
 
 function getCurrentAccountBalance(arrOfObjects, id) {
-    const result = arrOfObjects.find(obj => {
-        console.log(obj);
-        console.log(id);
-        // obj.accountId === id
-    
-    });
-    console.log(result);
     return arrOfObjects.find(obj => obj.accountId === id)?.amount;
 }
 
