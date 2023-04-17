@@ -61,52 +61,25 @@ export default function DashboardDeposit() {
         return;
     }
 
+    let result = {}; 
+
     if (depositType === 'card') {
-        await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+
     } else {
+
         if (!fromAccount) {
-        setmodalMessage(['Missing Information','Please select From Account.']);
-        setModalVisible(true);
-        return;
+          setmodalMessage(['Missing Information','Please select From Account.']);
+          setModalVisible(true);
+          return;
         }
-        await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
+
+        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
     }
 
-
+    console.log(result);
     const accountsFullInfo = await getUserAccountsFullInfo(uid);
     updateAccountsArr(accountsFullInfo);
-    //OLD
-    // form.validateFields().then(values => {
-    //     if (!values.amount) {
-    //         setmodalMessage(['Invalid Amount','Please enter a valid amount.']);
-    //         setModalVisible(true);
-    //         return;
-    //     }
-
-    //     if (depositType === 'card') {
-    //         accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
-    //         console.log("hi deposit");
-    //         return true;
-    //     } else {
-    //         if (!fromAccount) {
-    //         setmodalMessage(['Missing Information','Please select From Account.']);
-    //         setModalVisible(true);
-    //         return;
-    //         }
-    //         accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
-    //         // return true;
-    //     }
-
-    //     console.log("transaction end");
-    // })
-    // .then(res => {
-    //     console.log(res);
-    //     if (res) {
-    //         getUserAccountsFullInfo(uid).then(res => {
-    //             console.log(res);
-    //         })
-    //     }
-    // });
   };
 
   return (

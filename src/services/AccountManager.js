@@ -20,6 +20,11 @@ class AccountManager {
     }
   };
 
+  validateAccountBalance =  async (accountId, amount) => {
+    let acc = await getAccount(accountId);
+    return acc.amount - amount >= 0;
+  };
+
   validateBalance = async (accountId, amount) => {
 
     let acc = await getAccount(accountId);
@@ -62,87 +67,159 @@ class AccountManager {
 
   };
 
+
+
   // Add a new transaction to the "transactions" collection
+  initiateTransaction = async(accountName, accountId, amount, type, category, fromAccountId) => {
 
-  initiateTransaction = async (accountName, accountId, amount, type, category, fromAccountId) => {
+    let remainingBalance = 0;
+    
+    if (type !== "Deposit") {
+        const idForValidateBalance = type === "Expense" ? accountId : fromAccountId;
+        const isBalanceValid = await this.validateAccountBalance(idForValidateBalance, amount)
+    
+        if (!isBalanceValid) {
+            console.log("Insufficient Funds !");
+            return{ok: false, error: true, message: "Insufficient Funds !"}
+        }
 
-
-    // type = 'Transfer' , Expense, Deposit
-    // category = 'Card Deposit' , 'Internal Transfer' or Expense Category
-
-    let remainingBalance;
-
-    if (type === 'Expense') {
-
-      remainingBalance = await this.validateBalance(accountId, amount);
-
-    }
-    else if (type === 'Transfer') {
-
-      console.log ("Enter Transfer case to Validate");
-
-      remainingBalance = await this.validateBalance(fromAccountId, amount);
-
+        remainingBalance = await this.validateBalance(idForValidateBalance, amount); 
     }
 
-    if (remainingBalance < 0 && type !== 'Deposit') {
-
-      console.log('Insufficient Funds !!!');
-
-      return;
-
-    }
-
-    let transaction = {
-      
-      accountName: accountName,
-      accountId: accountId,
-      amount: Number(amount),
-      type: type,
-      category: category,
-      date: new Date()
-
-    };
-
-    if (fromAccountId) { // type = 'Transfer'
-
-      transaction.fromAccountId = fromAccountId;
-
-      let toAccTransaction = {
-
+    const transactionAcc =  {
         accountName: accountName,
-        accountId: fromAccountId,
+        accountId: accountId,
         amount: Number(amount),
         type: type,
         category: category,
-        date: new Date(),
-        toAccountId: accountId
-
-      };
-
-      await Promise.all([
-        this.addTransction(transaction), 
-        this.updateBalance(accountId, amount, true),
-        this.addTransction(toAccTransaction),
-        this.updateBalance(fromAccountId, remainingBalance)
-      ]);
-
+        date: new Date()
     }
-    else {
-      type === 'Expense' ? 
-      await Promise.all([
-        this.addTransction(transaction), 
-        this.updateBalance(accountId, remainingBalance)
-      ]) :  // type = 'Deposit'
-      await Promise.all([
-        this.addTransction(transaction), 
-        this.updateBalance(accountId, amount, true)
-      ]);
+    
+    if (type === "Transfer") {
+        if (!fromAccountId) {
+            return  {ok: false, error: true, message:"From account is not selected!"}
+        }
 
+        transactionAcc.fromAccountId = fromAccountId;
+
+        const toAccTransaction = {
+            accountName: accountName,
+            accountId: fromAccountId,
+            amount: Number(amount),
+            type: type,
+            category: category,
+            date: new Date(),
+            toAccountId: accountId
+        }
+
+        const result = await Promise.all([
+            this.addTransction(transactionAcc), 
+            this.updateBalance(accountId, amount, true),
+            this.addTransction(toAccTransaction),
+            this.updateBalance(fromAccountId, remainingBalance)
+        ]);
+        // console.log(result);    
+        return  {ok: true, error: false, message: `You transfer ${amount} BGN.`}
+    } else if (type === "Expense") {
+        const result =  await Promise.all([
+            this.addTransction(transactionAcc), 
+            this.updateBalance(accountId, remainingBalance)
+          ]);
+        //   console.log(result);
+        return {ok: true, error: false, message: `You pay ${amount} BGN for ${category}`}
+    } else {
+        const result = await Promise.all([
+            this.addTransction(transactionAcc), 
+            this.updateBalance(accountId, amount, true)
+        ]);
+
+        // console.log(result);
+        return  {ok: true, error: false, message: `You deposit ${amount} BGN.`}
     }
+  }
 
-  };
-}
+//   initiateTransaction = async (accountName, accountId, amount, type, category, fromAccountId) => {
+
+
+//     // type = 'Transfer' , Expense, Deposit
+//     // category = 'Card Deposit' , 'Internal Transfer' or Expense Category
+
+//     let remainingBalance;
+
+//     if (type === 'Expense') {
+
+//       remainingBalance = await this.validateBalance(accountId, amount);
+
+//     }
+//     else if (type === 'Transfer') {
+
+//       console.log ("Enter Transfer case to Validate");
+
+//       remainingBalance = await this.validateBalance(fromAccountId, amount);
+
+//     }
+
+//     if (remainingBalance < 0 && type !== 'Deposit') {
+
+//       console.log('Insufficient Funds !!!');
+
+//       return;
+
+//     }
+
+//     let transaction = {
+      
+//       accountName: accountName,
+//       accountId: accountId,
+//       amount: Number(amount),
+//       type: type,
+//       category: category,
+//       date: new Date()
+
+//     };
+
+//     if (fromAccountId) { // type = 'Transfer'
+
+//       transaction.fromAccountId = fromAccountId;
+
+//       let toAccTransaction = {
+
+//         accountName: accountName,
+//         accountId: fromAccountId,
+//         amount: Number(amount),
+//         type: type,
+//         category: category,
+//         date: new Date(),
+//         toAccountId: accountId
+
+//       };
+
+//     const result = await Promise.all([
+//         this.addTransction(transaction), 
+//         this.updateBalance(accountId, amount, true),
+//         this.addTransction(toAccTransaction),
+//         this.updateBalance(fromAccountId, remainingBalance)
+//       ]);
+
+//         console.log(result);    
+
+//     }
+//     else {
+//       const result = type === 'Expense' ? 
+//       await Promise.all([
+//         this.addTransction(transaction), 
+//         this.updateBalance(accountId, remainingBalance)
+//       ]) :  // type = 'Deposit'
+//       await Promise.all([
+//         this.addTransction(transaction), 
+//         this.updateBalance(accountId, amount, true)
+//       ]);
+      
+
+//     }
+
+};
+
 
 let accountManager = new AccountManager();
 
