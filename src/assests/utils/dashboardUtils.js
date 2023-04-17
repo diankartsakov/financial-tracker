@@ -7,6 +7,9 @@ function getTotalBalance(arrOfObjects) {
 function getCurrentAccountBalance(arrOfObjects, id) {
     return arrOfObjects.find(obj => obj.accountId === id)?.amount;
 }
+function getAccountName(arrOfObjects, id) {
+    return arrOfObjects.find(obj => obj.accountId === id)?.name;
+}
 
 // function getHighestAmount(arrOfObjects) {
     
@@ -18,5 +21,6 @@ function getCurrentAccountBalance(arrOfObjects, id) {
 
 export { 
     getTotalBalance, 
-    getCurrentAccountBalance
+    getCurrentAccountBalance,
+    getAccountName
 }
