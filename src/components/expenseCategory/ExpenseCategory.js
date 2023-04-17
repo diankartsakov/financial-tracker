@@ -19,30 +19,32 @@ export default function ExpenseCategory({updateCategories,
 }}) {
     const [modalOpen, setModalOpen] = useState(false);
     const [expenseModalOpen, setExpenseModalOpen] = useState(false);
+    const [serverResult, setServerResult] = useState("");
     const {accountId, currentAccountName, updateAccountsArr} = useDash();
     const {authUser: {uid}} = useAuth();
 
     const handleNewExpenseClick = () => {
-      setExpenseModalOpen(true);
+        setExpenseModalOpen(true);
     };
     const handleModalCancel = () => {
-      setExpenseModalOpen(false);
+        setExpenseModalOpen(false);
+        setServerResult("");
     };
   
     const handleExpenseCreate = async (amount) => {
-      const data = [currentAccountName, accountId, amount, "Expense", category, ]
-      console.log(data);
-      const result = await accountManager.initiateTransaction(...data);
-      console.log(result);
-      
-      const accountsFullInfo = await getUserAccountsFullInfo(uid);
-      updateAccountsArr(accountsFullInfo);
+        const data = [currentAccountName, accountId, amount, "Expense", category, ]
+        console.log(data);
+        const result = await accountManager.initiateTransaction(...data);
+        console.log(result);
+        setServerResult(result);
+        const accountsFullInfo = await getUserAccountsFullInfo(uid);
+        updateAccountsArr(accountsFullInfo);
 
-      setExpenseModalOpen(false);
+        return result;
     };
 
     const handleSettingsClick = (e) => {
-      setModalOpen(true);
+        setModalOpen(true);
     };
     
     const handleDeleteCategory = async () => {
@@ -93,10 +95,11 @@ export default function ExpenseCategory({updateCategories,
                 }}/>
         }
          <NewExpenseModal
-        open={expenseModalOpen}
-        onCancel={handleModalCancel}
-        category={category}
-        onSubmit={handleExpenseCreate}
+            open={expenseModalOpen}
+            onCancel={handleModalCancel}
+            category={category}
+            onSubmit={handleExpenseCreate}
+            serverResult={serverResult}
         />
       </>
     );

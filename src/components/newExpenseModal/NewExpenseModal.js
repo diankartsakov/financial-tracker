@@ -1,11 +1,13 @@
-import { Modal, Form, Input, Button } from 'antd';
-import { useState } from 'react';
+import { Modal, Form, Input, Spin, Button } from 'antd';
+import { useEffect, useState } from 'react';
 import AlertMessage from '../alertMessage/AlertMessage';
 import { isValidNumber } from '../../assests/utils/validations';
+import "./newExpenseModal.scss";
 
-export default function NewExpenseModal({ open, onCancel, category, onSubmit }) {
-    const [amount, setAmount] = useState("");
+export default function NewExpenseModal({ open, onCancel, category, onSubmit, serverResult,}) {
+    const [amount, setAmount] = useState(0);
     const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const onAmountChange = (e) => {
         const amountInput = e.target.value;
@@ -17,8 +19,18 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit }) 
         }
     }
 
-    const handleOk = () => {
-    onSubmit(amount);
+    useEffect(() => {
+        return () => {
+            setAmount(0);
+        }
+    }, [open]);
+
+    
+    const handleOk = async () => {
+        setIsLoading(true);
+        const result = await onSubmit(amount);
+        setIsLoading(false);
+        console.log(result);
     };
 
   return (
@@ -35,19 +47,28 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit }) 
         </Button>,
       ]}
     >
-      <Form layout="vertical">
-        {isError && <AlertMessage description={"Invalid Amount. Please enter a positive numeric value."}/>}
-        <Form.Item label="Category">
-          <Input value={category} disabled />
-        </Form.Item>
-        <Form.Item
-          label="Amount"
-          name="amount"
-          rules={[{ required: true, message: 'Please enter an amount' }]}
-        >
-          <Input type="number" value={amount} onChange={onAmountChange} />
-        </Form.Item>
-      </Form>
+        <Spin spinning={isLoading}>
+            {serverResult 
+            ?
+                serverResult.ok ? "Success" : "Failed"
+
+            :
+
+            <Form layout="vertical" className="ft-new-expense-form">
+                {isError && <AlertMessage description={"Invalid Amount. Please enter a positive numeric value."}/>}
+                <p className='category'>Category: {category}</p>
+                <Form.Item
+                label="Amount"
+
+                rules={[{ required: true, message: 'Please enter an amount' }]}
+                >
+                <Input type="number" className="ft-expense-amount" value={amount} onChange={onAmountChange} />
+                </Form.Item>
+            </Form>
+        }
+            
+        </Spin>
+     
     </Modal>
   );
 };
