@@ -148,13 +148,13 @@ export default function DashboardDeposit() {
       </Modal>
 
       {currentStep === 0 && (<div className='da-deposit-form-details'>
-        <Form form={form} onFinish={handleContinueToCheckoutClick}>
+        <Form className='da-ant-form' form={form} onFinish={handleContinueToCheckoutClick}>
           <h3>Deposit Form</h3>
-          <Form.Item label="Amount" name="amount" rules={[{ required: true, message: 'Please enter a valid amount' }]}>
+          <Form.Item className='da-ant-form-item' label="Amount" name="amount" rules={[{ required: true, message: 'Please enter a valid amount' }]}>
             <Input type="number" name="amount" onChange={handleAmountChange} />
           </Form.Item>
 
-          <Form.Item label="Deposit Type" name="depositType" initialValue="card">
+          <Form.Item className='da-ant-form-item' label="Deposit Type" name="depositType" initialValue="card">
             <Radio.Group onChange={handleDepositTypeChange} value={depositType}>
               <Radio value="card">Card Deposit</Radio>
               <Radio value="account">Transfer from Account</Radio>
@@ -164,35 +164,35 @@ export default function DashboardDeposit() {
           {depositType === 'card' && (
             <>
 
-              <Form.Item label="Card Number" name="cardNumber" rules={[{ required: true, message: 'Please enter a valid card number' }]}>
+              <Form.Item className='da-ant-form-item' label="Card Number" name="cardNumber" rules={[{ required: true, message: 'Please enter a valid card number' }]}>
                 <Input type="text" maxLength={16} />
               </Form.Item>
 
-              <Form.Item label="Expiration Date" name="expirationDate" rules={[{ required: true, message: 'Please enter a valid expiration date' }]}>
+              <Form.Item className='da-ant-form-item' label="Expiration Date" name="expirationDate" rules={[{ required: true, message: 'Please enter a valid expiration date' }]}>
                 <Input type="month" name="expirationDate" placeholder="MM/YY" />
               </Form.Item>
 
 
 
-              <Form.Item label="CVV" name="cvv" rules={[{ required: true, message: 'Please enter a valid CVV' }]}>
+              <Form.Item className='da-ant-form-item' label="CVV" name="cvv" rules={[{ required: true, message: 'Please enter a valid CVV' }]}>
                 <Input type="number" name="cvv" />
               </Form.Item>
 
 
 
-              <Form.Item label="Card Holder Name" name="cardHolderName" rules={[{ required: true, message: 'Please enter your full names.' }]}>
+              <Form.Item className='da-ant-form-item' label="Card Holder Name" name="cardHolderName" rules={[{ required: true, message: 'Please enter your full names.' }]}>
                 <Input type="text" name="cardHolderName" />
               </Form.Item>
             </>
           )}
 
           {depositType === 'account' && (
-            <Form.Item label="From Account">
+            <Form.Item className='da-ant-form-item' label="From Account">
               <TransferDropdown onSelect={handleFromAccountSelect} currentAcc={fromAccount}></TransferDropdown>
             </Form.Item>
           )}
 
-          <Form.Item>
+          <Form.Item className='da-ant-form-item'>
             <Button type="primary" htmlType="submit">
               Continue to Checkout
             </Button>
@@ -203,27 +203,27 @@ export default function DashboardDeposit() {
         <div className='da-deposit-form-details'>
 
           <Spin spinning={isLoading}>
-            <Form
+            <Form className='da-ant-form'
             //onFinish={()=>{}}
             >
-              <Form.Item><h3>Confirm Transaction Details</h3></Form.Item>
-              <Form.Item>Amount: {`${Number(confirmationData.amount).toFixed(2)} BGN`}</Form.Item>
-              <Form.Item><p>Deposit Type: {confirmationData.depositType}</p></Form.Item>
+              <Form.Item className='da-ant-form-item'><h3>Confirm Transaction Details</h3></Form.Item>
+              <Form.Item className='da-ant-form-item'>Amount: {`${Number(confirmationData.amount).toFixed(2)} BGN`}</Form.Item>
+              <Form.Item className='da-ant-form-item'><p>Deposit Type: {confirmationData.depositType}</p></Form.Item>
 
               {confirmationData.depositType === 'card' && (
                 <>
-                  <Form.Item>
+                  <Form.Item className='da-ant-form-item'>
                     <p>Card Number: {confirmationData.cardNumber}</p>
                   </Form.Item>
-                  <Form.Item>
+                  <Form.Item className='da-ant-form-item'>
                     <p>Expiration Date: {confirmationData.expirationDate}</p>
 
-                  </Form.Item>
-                  <Form.Item>
+                  </Form.Item >
+                  <Form.Item className='da-ant-form-item'>
                     <p>CVV: {confirmationData.cvv}</p>
 
                   </Form.Item>
-                  <Form.Item>
+                  <Form.Item className='da-ant-form-item'>
                     <p>Card Holder Name: {confirmationData.cardHolderName}</p>
                   </Form.Item>
 
@@ -231,12 +231,12 @@ export default function DashboardDeposit() {
               )}
               {confirmationData.depositType === 'account' && (
 
-                <Form.Item>
+                <Form.Item className='da-ant-form-item'>
                   <p>From Account: {fromAccount.label}</p>
                 </Form.Item>
 
               )}
-              <Form.Item>
+              <Form.Item className='da-ant-form-item'>
 
                 <Button type="secondary" onClick={() => setCurrentStep(0)}>
                   Back
