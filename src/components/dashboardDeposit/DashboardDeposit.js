@@ -74,7 +74,7 @@ export default function DashboardDeposit() {
       return;
 
     }
-    console.log(values);
+    // console.log(values);
 
     if (values) {
       setCurrentStep(1);
@@ -104,7 +104,7 @@ export default function DashboardDeposit() {
       result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
     }
 
-    console.log(result);
+    // console.log(result);
     const accountsFullInfo = await getUserAccountsFullInfo(uid);
     updateAccountsArr(accountsFullInfo);
     setSuccessfulTransaction(result);

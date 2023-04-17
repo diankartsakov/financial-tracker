@@ -2,7 +2,7 @@
 import { useAuth } from "../../firebase/auth";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { useEffect, useState } from "react";
-import { Skeleton } from 'antd';
+import { Empty, Skeleton } from 'antd';
 import "./dashboardHome.scss"
 import { getDateWithSuffixDay } from "../../assests/utils/utils";
 import { getCurrentAccountBalance, getTotalBalance } from "../../assests/utils/dashboardUtils";
@@ -79,7 +79,11 @@ export default function DashboardHome() {
                             content={<p>{transactionsInfo.expense || 0}</p>}/>
                         </div>
                         <div className="donut-wrapper">
-                            {accountsArr?.length === 0 ? <div>No Accounts</div> : <LogarithmicBarChart/>}
+                            {accountsArr?.length === 0 ? 
+                            <>
+                                <h2 className="ft-donut-no-accounts-heading">Accounts</h2>
+                                <div className="ft-donut-no-accounts"><Empty/></div>
+                            </> : <LogarithmicBarChart/>}
                         </div>
                     </div>
                 }           

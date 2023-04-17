@@ -13,21 +13,21 @@ class AccountManager {
         uid: uid
       });
 
-      console.log("Account created, ID: ", docRef.id);
+      // console.log("Account created, ID: ", docRef.id);
       return docRef.id;
     } catch (e) {
-      console.error("Error creating account: ", e);
+      // console.error("Error creating account: ", e);
     }
   };
 
   validateAccountBalance =  async (accountId, amount) => {
-    console.log(accountId)
+    // console.log(accountId)
     let acc = await getAccount(accountId);
     return acc.amount - amount >= 0;
   };
 
   validateBalance = async (accountId, amount) => {
-    console.log(accountId)
+    // console.log(accountId)
     let acc = await getAccount(accountId);
 
     return acc.amount - amount;
@@ -59,11 +59,11 @@ class AccountManager {
 
       const docRef = await addDoc(collection(db, "transactions"), transaction);
 
-      console.log("Document written with ID: ", docRef.id);
+      // console.log("Document written with ID: ", docRef.id);
 
 
     } catch (e) {
-      console.error("Error adding document: ", e);
+      // console.error("Error adding document: ", e);
     }
 
   };
@@ -80,7 +80,7 @@ class AccountManager {
         const isBalanceValid = await this.validateAccountBalance(idForValidateBalance, amount)
     
         if (!isBalanceValid) {
-            console.log("Insufficient Funds !");
+            // console.log("Insufficient Funds !");
             return{ok: false, error: true, message: "Insufficient Funds !"}
         }
 

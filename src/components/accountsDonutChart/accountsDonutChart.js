@@ -4,7 +4,7 @@ import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 
 const LogarithmicBarChart = () => {
     const {accountsArr} = useDash();
-    console.log(accountsArr);
+    // console.log(accountsArr);
     const accountData = accountsArr.map(acc => {
         return {name: acc.name, amount: acc.amount}
     });

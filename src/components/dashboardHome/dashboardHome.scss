@@ -93,6 +93,19 @@
         .donut-wrapper {
             width: 50%;
             height: 70vh;
+
+            .ft-donut-no-accounts {
+                height: 70%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 10px;
+                box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5)
+            }
+
+            .ft-donut-no-accounts-heading {
+                text-align: center;
+            }
         }
     }
 

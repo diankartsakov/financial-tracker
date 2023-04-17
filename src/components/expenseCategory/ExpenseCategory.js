@@ -33,9 +33,9 @@ export default function ExpenseCategory({updateCategories,
   
     const handleExpenseCreate = async (amount) => {
         const data = [currentAccountName, accountId, amount, "Expense", category, ]
-        console.log(data);
+        // console.log(data);
         const result = await accountManager.initiateTransaction(...data);
-        console.log(result);
+        // console.log(result);
         setServerResult(result);
         const accountsFullInfo = await getUserAccountsFullInfo(uid);
         updateAccountsArr(accountsFullInfo);
