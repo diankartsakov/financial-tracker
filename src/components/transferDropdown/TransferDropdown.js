@@ -1,11 +1,11 @@
 import {  DownOutlined  } from '@ant-design/icons';
 import {  Dropdown, Space, Button } from  "antd";
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function TransferDropdown(props) {
     const { accountId, accountsArr } = useDash();
-    const [fromAccount, setfromAccount] = useState('Choose Account');
+    const [fromAccount, setfromAccount] = useState(props.currentAcc? props.currentAcc :'Choose Account');
 
     const items = accountsArr.map(a => {
         return {
@@ -20,7 +20,7 @@ export default function TransferDropdown(props) {
         const acc = items.find(a => a.key === key);
 
         setfromAccount(acc);
-        props.onSelect(key);
+        props.onSelect(acc);
 
     };
     
