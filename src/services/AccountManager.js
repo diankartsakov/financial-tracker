@@ -21,12 +21,13 @@ class AccountManager {
   };
 
   validateAccountBalance =  async (accountId, amount) => {
+    console.log(accountId)
     let acc = await getAccount(accountId);
     return acc.amount - amount >= 0;
   };
 
   validateBalance = async (accountId, amount) => {
-
+    console.log(accountId)
     let acc = await getAccount(accountId);
 
     return acc.amount - amount;

@@ -95,7 +95,7 @@ export default function DashboardDeposit() {
           return;
         }
 
-        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
+        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
     }
 
     console.log(result);
