@@ -4,6 +4,14 @@ function getTotalBalance(arrOfObjects) {
     }, 0);
 }
 
+function getHighestAmount(arrOfObjects) {
+    
+}
+
+function getLowestAmount(arrOfObjects) {
+
+}
+
 export { 
     getTotalBalance
 }

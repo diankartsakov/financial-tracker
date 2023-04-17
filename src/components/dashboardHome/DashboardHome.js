@@ -6,8 +6,9 @@ import { Skeleton } from 'antd';
 import "./dashboardHome.scss"
 import { getDateWithSuffixDay } from "../../assests/utils/utils";
 import { getTotalBalance } from "../../assests/utils/dashboardUtils";
-import AccountsDonutChart from "../accountsDonutChart/accountsDonutChart";
+import { Link } from 'react-router-dom';
 import LogarithmicBarChart from "../accountsDonutChart/accountsDonutChart";
+import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
 
 export default function DashboardHome() {
     const {authUser: {email}, authUser: {uid}} = useAuth();
@@ -15,6 +16,7 @@ export default function DashboardHome() {
         accountId,
         accountsIds,
         accountsArr,
+        currentAccountName,
         isLoaded,
         isLoadedUpdate
     } = useDash();
@@ -42,7 +44,22 @@ export default function DashboardHome() {
                 :
                     <div className="content-wrapper">
                         <div className="content-info-wrapper">
-                            <p>Is Loaded DashContext: {isLoaded ? "true" : "false"}</p>
+                            <ProfileCardInfo className="ft-profile-card" title="Current Account" content={<Link to={"accounts"}>{currentAccountName}</Link>}/>
+                            <ProfileCardInfo className="ft-profile-card" title="Total Accounts" content={<p>{accountsArr.length}</p>}/>
+                            <ProfileCardInfo className="ft-profile-card" title="Total Balance"
+                            content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
+                            
+                            <ProfileCardInfo className="ft-profile-card" title="Total Balance"
+                            content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
+                            
+                            <ProfileCardInfo className="ft-profile-card" title="Total Balance"
+                            content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
+                            
+                            <ProfileCardInfo className="ft-profile-card" title="Total Balance"
+                            content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
+                            
+                            
+                            {/* <p>Is Loaded DashContext: {isLoaded ? "true" : "false"}</p>
                             <p>Current AccountID: {accountId ? accountId : `${accountId}`}</p>
                             <p>Account IDS: {accountsIds?.length ? accountsIds.join(", ") : "[]"}</p>
                             {accountsArr.map(acc => {
@@ -50,7 +67,7 @@ export default function DashboardHome() {
                                     <p key={acc.accountId}>{acc.name} with balance: {acc.amount}</p>
                                 )
                             })}  
-                            <p>Total balance: {totalBalance.toFixed(2)}BGN</p> 
+                            <p>Total balance: {totalBalance.toFixed(2)}BGN</p>  */}
                         </div>
                         <div className="donut-wrapper">
                             {accountsArr?.length === 0 ? <div>No Accounts</div> : <LogarithmicBarChart/>}

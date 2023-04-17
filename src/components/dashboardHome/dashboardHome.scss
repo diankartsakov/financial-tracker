@@ -27,17 +27,74 @@
     .content-wrapper {
         margin-top: 25px;
         display: flex;
+        align-items: center;
         gap: 25px;
-        height: 50%;
+        min-height: 50%;
+        // overflow: auto;
         
         .content-info-wrapper {
             width: 50%;
-            border: 1px solid black;
+            padding: 5px;
+            // border: 1px solid black;
+            display: flex;
+            // justify-content: space-evenly;
+            justify-content: center;
+            align-content: flex-start;
+            gap: 25px;
+            flex-wrap: wrap;
+
+            .ft-profile-card {
+                width: 40%;
+                // min-width: 250px;
+                max-width: 250px;
+
+                height: 100%;
+                max-height: 100px;
+                box-shadow: 3px 4px 10px 0px rgba(0, 0, 0, 0.5);
+                
+                .ant-card-head {
+                    color: #25384F;
+                    font-weight: 500;
+                    height: 50px;
+                    text-align: center;
+                }
+
+                .ant-card-body {
+                    background-color: #25384F;
+                    font-weight: 500;
+                    color: white;
+                    padding: 12px 24px;
+                    height: 50px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    overflow: hidden;
+                }
+
+                a {
+                    color: white;
+                    margin: 0;
+                    text-decoration: underline;
+                    font-weight: 700;
+                    letter-spacing: 1px;
+                }
+
+                p {
+                    // color: white;
+                    font-weight: 700;
+                    font-size: 18px;
+                    margin: 0;
+                    text-align: center;
+                 
+                }
+            }
+
         }
 
         .donut-wrapper {
             width: 50%;
-            border: 1px solid blue;
+            height: 50vh;
+            // border: 1px solid blue;
         }
     }
 
