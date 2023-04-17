@@ -1,0 +1,39 @@
+.ant-form-item {
+    margin-bottom: 20px;
+    width: 100%;
+
+    :not(:last-child) {}
+}
+
+.deposit-form-details {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ant-form {
+    border: 3px solid #25384F;
+    border-radius: 15%;
+    padding: 4vh;
+    background-color: RGB(92, 184, 92,0.7);
+
+    h3 {
+        color: #25384F;
+        font-size: 32px;
+        margin: 16px;
+    }
+}
+
+.ant-form-item-control-input-content {
+    display: flex;
+    justify-content: center;
+    
+    .ant-btn {
+        margin: 10px;
+        background-color: #25384F;
+        color: white;
+
+    }
+}
+
