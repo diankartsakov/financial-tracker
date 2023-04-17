@@ -10,6 +10,7 @@ import {
 import { Layout, Menu, Typography} from 'antd';
 import "./dashboardMenu.scss";
 import logo from "../../assests/images/logo.png"; 
+import dashboardLogo from "../../assests/images/dashboard_logo.webp";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 
 const { Sider } = Layout;
@@ -50,8 +51,8 @@ export default function DashboardMenu() {
     }
 
     const items = () => [
-        getItem(<Link to="">Profile</Link>, '1', <UserOutlined />),
-        getItem(<Link to="accounts" component={Typography.Link}>Accouts</Link>, '2', <WalletOutlined />,
+        getItem(<Link to="" className="ft-accounts-link">Profile</Link>, '1', <UserOutlined />),
+        getItem(<Link to="accounts" className="ft-accounts-link" component={Typography.Link}>Accouts</Link>, '2', <WalletOutlined />,
             accounts
             ?
                 accounts.map(a => {
@@ -59,15 +60,13 @@ export default function DashboardMenu() {
                     updateAccountId(a.accountId);
                     updateCurrentAccountName(a.name);
                     navigate("accounts");
-                }}>{a.name}</p>, a.accountId))})
+                }} className="ft-accounts-subaccounts-p">{a.name}</p>, a.accountId))})
             :
                 []
             ,
         ),
-        getItem(<Link to="reports">Reports</Link>, '3', <PieChartOutlined />, [
-          getItem('Tom', '3.1'),
-          getItem('Bill', '3.2'),
-          getItem('Alex', '3.3'),
+        getItem(<Link to="reports" className="ft-accounts-link">Reports</Link>, '3', <PieChartOutlined />, [
+          getItem(<Link to="reports">Table</Link>, '3.1'),
         ]),
     ];
     
@@ -79,11 +78,11 @@ export default function DashboardMenu() {
     )];
 
     return (
-        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <Sider className="ft-sider-menu" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
             <div
                 className="logo-wrapper"
             >
-                <img src={logo} alt="logo" className="logo-wrapper-logo"/>
+                <img src={dashboardLogo} alt="logo" className="logo-wrapper-logo"/>
             </div>
             <Menu theme="dark" selectedKeys={[menuSelectKey[currentLocation], accountId]} mode="inline" items={items()} />
             <Menu theme="dark" mode="inline" items={logoutItem} />

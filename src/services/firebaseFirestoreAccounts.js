@@ -16,7 +16,6 @@ async function getUserAccounts(uid) {
 }
 
 async function getUserAccountsTransactionsCounts(accountIds=[]) {
-    console.log(accountIds);
     const transactionsInfo = {
         expense: 0,
         deposit: 0,

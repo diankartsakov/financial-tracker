@@ -1,13 +1,33 @@
-.logo-wrapper {
-    height: 32;
-    margin: 16;
-    background: 'rgba(255, 255, 255, 0.2)';
-    display: flex;
-    justify-content: center;
+.ft-sider-menu {
+    height: 100vh;
+    max-height: 100vh;
 
-    &-logo {
-        margin: auto;
-        width: 90%;
-        height: 100%;
+    .logo-wrapper {
+        height: 32;
+        margin: 16;
+        background: 'rgba(255, 255, 255, 0.2)';
+        display: flex;
+        justify-content: center;
+    
+        &-logo {
+            margin: auto;
+            width: 90%;
+            height: 100%;
+        }
+    }
+
+    .ft-accounts-link {
+        color: white;
     }
 }
+
+
+.ft-accounts-subaccounts-p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: center;
+    overflow: hidden;
+    font-size: 14px
+}
+

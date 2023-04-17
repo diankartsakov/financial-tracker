@@ -27,13 +27,13 @@ export default function DashboardPage() {
         if (isLoaded) {
             // console.log("no");
         } else {
-            console.log("page download");
+            // console.log("page download");
             const accounts = async () => {
                 const accountsIds = await getUserAccounts(uid);
                 const currentAccount = accountsIds[0] || null;
                 const accountsArr = await getUserAccountsFullInfo(uid);
                 const userCategories = await getUserCategories(uid);
-                console.log(accountsArr);
+                // console.log(accountsArr);
                 updateAccountId(currentAccount);
                 updateAccountsIds(accountsIds);
                 updateAccountsArr(accountsArr);

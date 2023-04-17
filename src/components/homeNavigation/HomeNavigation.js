@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import './HomeNavigation.scss';
-import logo from '../assests/images/logo.png';
+import logo from '../../assests/images/logo.png';
 
 export default function HomeNavigation() {
 	return (
@@ -13,12 +13,16 @@ export default function HomeNavigation() {
 					</Link>
 				</div>
 				<ul className="navbar-actions">
-					<li className="navbar-action navbar-login">
-						<Link to="/login">Login</Link>
-					</li>
-					<li className="navbar-action navbar-register">
-						<Link to="/register">Register</Link>
-					</li>
+					<Link className="navbar-action navbar-login" to="/login">
+						<li >
+							Login
+						</li>
+					</Link>
+					<Link className="navbar-action navbar-register" to="/register">
+						<li >
+							Register
+						</li>
+					</Link>
 				</ul>						
 			</div>
 		</nav>

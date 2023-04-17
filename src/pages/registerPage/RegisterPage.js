@@ -1,4 +1,4 @@
-import RegisterForm from '../../components/RegisterForm';
+import RegisterForm from '../../components/registerForm/RegisterForm';
 import "./registerPage.scss";
 import registerLogo from "../../assests/images/imageedit_7_7773866332.png";
 export default function RegisterPage () {

@@ -31,7 +31,7 @@ export default function DashboardHome() {
         const getTransactionsInfo = async() => {
             const info = await getUserAccountsTransactionsCounts(accountsIds);
             const currentTotalBalance = getTotalBalance(accountsArr);
-            console.log(info);
+            // console.log(info);
             setTransactionsInfo(info);
             setTotalBalance(currentTotalBalance);
             setIsLoading(false);

@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../services/firebaseAuthenticationManager';
+import { login } from '../../services/firebaseAuthenticationManager';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input,} from 'antd';
 import './LoginForm.scss';
 import { useState } from 'react';
-import AlertMessage from './alertMessage/AlertMessage';
+import AlertMessage from '../alertMessage/AlertMessage';
 
 export default function LoginForm() {
     const [isSentToServer, setIsSentToServer] = useState(false);

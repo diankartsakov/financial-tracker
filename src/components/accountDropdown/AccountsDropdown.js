@@ -17,16 +17,26 @@ export default function AccountsDrowpdown({accountName, onSelect, accountAdded: 
                     key: a.accountId,
                 };
             });
+
+            if (items.length === 0) {
+                items.push({
+                    label: "Empty Account List",
+                    key: "no-acc",
+                })
+            }
+
             setItems(items);
             setIsAccountAdd(false);
         }
     }, [accountsArr, isAccountAdd, isLoaded, setIsAccountAdd]);
 
-    const onClick = ({ key }) => {
-
+    const onClick = ({key}) => {
         const acc = items.find(a => a.key === key);
 
-        onSelect(acc);
+        if (acc) {
+            onSelect(acc);
+        }
+        
     };
 
     return (

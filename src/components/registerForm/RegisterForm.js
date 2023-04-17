@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../services/firebaseAuthenticationManager";
+import { register } from "../../services/firebaseAuthenticationManager";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import "./RegisterForm.scss";
 import { useState } from 'react';
-import AlertMessage from './alertMessage/AlertMessage';
+import AlertMessage from '../alertMessage/AlertMessage';
 
 export default function RegisterForm() {
     const [isSentToServer, setIsSentToServer] = useState(false);
@@ -28,7 +28,6 @@ export default function RegisterForm() {
             .finally(() => setIsSentToServer(false));
   };
   
-
   return (
     <div className="registerContainer">
       <div className="registerFormDiv">
@@ -70,14 +69,6 @@ export default function RegisterForm() {
                     min: 6,
                     message: 'Password must be at least 6 characters long.'
                 },
-                ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue('confirmPassword') === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(new Error('Passwords do not match!'));
-                    },
-                  }),
             ]}
           >
             <Input.Password className='ft-register-input ft-register-password' prefix={<LockOutlined className="site-form-item-icon" />}

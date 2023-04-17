@@ -88,7 +88,7 @@ export default function DashboardAccounts() {
     <>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <h1>{currentAccountName ? currentAccountName : "Accounts"} </h1>
+                <h1>{currentAccountName ? currentAccountName : "No Accounts"} </h1>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: "10px" }}>
               <AccountsDrowpdown accountName={currentAccountName} onSelect={handleAccountSelect} accountAdded={{isAccountAdd, setIsAccountAdd}}/>
