@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Radio, Button, Modal, Steps } from 'antd';
+import { Form, Input, Radio, Button, Modal, Steps, Result } from 'antd';
 import TransferDropdown from '../transferDropdown/TransferDropdown';
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import accountManager from '../../services/AccountManager';
@@ -7,6 +7,7 @@ import { getUserAccountsFullInfo } from '../../services/firebaseFirestoreAccount
 import { useAuth } from '../../firebase/auth';
 import { Spin } from 'antd';
 import './DashboardDeposit.scss';
+import { Link } from 'react-router-dom';
 
 export default function DashboardDeposit() {
   const [depositType, setDepositType] = useState('card');
@@ -17,6 +18,7 @@ export default function DashboardDeposit() {
   const [confirmationData, setConfirmationData] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [successfulTransaction, setSuccessfulTransaction] = useState({});
   const [form] = Form.useForm();
 
   const { accountId, currentAccountName, updateAccountsArr } = useDash();
@@ -77,36 +79,37 @@ export default function DashboardDeposit() {
     if (values) {
       setCurrentStep(1);
       setConfirmationData(values);
-      
+
     }
-  }; 
+  };
 
   const handlePayButtonClick = async () => {
 
     setIsLoading(true);
 
-    let result = {}; 
+    let result = {};
 
     if (depositType === 'card') {
-        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+      result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
 
     } else {
 
-        if (!fromAccount) {
-          setmodalMessage(['Missing Information','Please select From Account.']);
-          setModalVisible(true);
-          setIsLoading(false);
-          return;
-        }
+      if (!fromAccount) {
+        setmodalMessage(['Missing Information', 'Please select From Account.']);
+        setModalVisible(true);
+        setIsLoading(false);
+        return;
+      }
 
-        result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
+      result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
     }
 
     console.log(result);
     const accountsFullInfo = await getUserAccountsFullInfo(uid);
     updateAccountsArr(accountsFullInfo);
-
+    setSuccessfulTransaction(result);
     setIsLoading(false);
+    setCurrentStep(2);
 
   };
 
@@ -144,7 +147,7 @@ export default function DashboardDeposit() {
         {modalMessage[1]}
       </Modal>
 
-      {currentStep === 0 && (<div className='deposit-form-details'>
+      {currentStep === 0 && (<div className='da-deposit-form-details'>
         <Form form={form} onFinish={handleContinueToCheckoutClick}>
           <h3>Deposit Form</h3>
           <Form.Item label="Amount" name="amount" rules={[{ required: true, message: 'Please enter a valid amount' }]}>
@@ -185,7 +188,7 @@ export default function DashboardDeposit() {
 
           {depositType === 'account' && (
             <Form.Item label="From Account">
-              <TransferDropdown onSelect={handleFromAccountSelect} currentAcc = {fromAccount}></TransferDropdown>
+              <TransferDropdown onSelect={handleFromAccountSelect} currentAcc={fromAccount}></TransferDropdown>
             </Form.Item>
           )}
 
@@ -197,71 +200,90 @@ export default function DashboardDeposit() {
         </Form>
       </div>)}
       {currentStep === 1 && (
-        <div className='deposit-form-details'>
+        <div className='da-deposit-form-details'>
 
           <Spin spinning={isLoading}>
-          <Form 
-          //onFinish={()=>{}}
-          >
-            <Form.Item><h3>Confirm Transaction Details</h3></Form.Item>
-            <Form.Item>Amount: {`${Number(confirmationData.amount).toFixed(2)} BGN`}</Form.Item>
-            <Form.Item><p>Deposit Type: {confirmationData.depositType}</p></Form.Item>
+            <Form
+            //onFinish={()=>{}}
+            >
+              <Form.Item><h3>Confirm Transaction Details</h3></Form.Item>
+              <Form.Item>Amount: {`${Number(confirmationData.amount).toFixed(2)} BGN`}</Form.Item>
+              <Form.Item><p>Deposit Type: {confirmationData.depositType}</p></Form.Item>
 
-            {confirmationData.depositType === 'card' && (
-              <>
+              {confirmationData.depositType === 'card' && (
+                <>
+                  <Form.Item>
+                    <p>Card Number: {confirmationData.cardNumber}</p>
+                  </Form.Item>
+                  <Form.Item>
+                    <p>Expiration Date: {confirmationData.expirationDate}</p>
+
+                  </Form.Item>
+                  <Form.Item>
+                    <p>CVV: {confirmationData.cvv}</p>
+
+                  </Form.Item>
+                  <Form.Item>
+                    <p>Card Holder Name: {confirmationData.cardHolderName}</p>
+                  </Form.Item>
+
+                </>
+              )}
+              {confirmationData.depositType === 'account' && (
+
                 <Form.Item>
-                  <p>Card Number: {confirmationData.cardNumber}</p>
-                </Form.Item>
-                <Form.Item>
-                  <p>Expiration Date: {confirmationData.expirationDate}</p>
-
-                </Form.Item>
-                <Form.Item>
-                  <p>CVV: {confirmationData.cvv}</p>
-
-                </Form.Item>
-                <Form.Item>
-                  <p>Card Holder Name: {confirmationData.cardHolderName}</p>
+                  <p>From Account: {fromAccount.label}</p>
                 </Form.Item>
 
-              </>
-            )}
-            {confirmationData.depositType === 'account' && (
-
+              )}
               <Form.Item>
-                <p>From Account: {fromAccount.label}</p>
+
+                <Button type="secondary" onClick={() => setCurrentStep(0)}>
+                  Back
+                </Button>
+                <Button type="secondary" onClick={handlePayButtonClick}>
+                  Confirm Payment
+                </Button>
+
               </Form.Item>
-
-            )}
-            <Form.Item>
-
-              <Button type="secondary" onClick={() => setCurrentStep(0)}>
-                Back
-              </Button>
-              <Button type="secondary" onClick={handlePayButtonClick}>
-                Confirm Payment
-              </Button>
-
-            </Form.Item>
-          </Form>
+            </Form>
           </Spin>
         </div>
 
       )}
-      {/* {currentStep === 3 && (
-        {
-          isLoading 
-          ? 
-          <>
+      {currentStep === 2 && !successfulTransaction.error && (
+        <>
+          <Result
+            status="success"
+            title="Transaction Processed Successfully !"
+            subTitle={successfulTransaction.message}
+            extra={[
+              <Link to = '/dashboard/accounts'>
+              <Button type="secondary" key='successGoToAcc'>Go To Accounts</Button>
+              </Link>,
+              <Link to = '/dashboard/reports'>
+              <Button type="secondary"key='successGoToReports'>Go To Reports</Button>
+              </Link>,
+            ]}
+          >
+          </Result>
 
-          </> 
-          :
-          <>
-          </> 
-        }
-
-
-      )} */}
+        </>
+      )}
+      {currentStep === 2 && successfulTransaction.error && (
+        <Result
+          status="error"
+          title="Submission Failed"
+          subTitle={successfulTransaction.message}
+          extra={[
+            <Link to = '/dashboard/accounts'>
+            <Button type="secondary" key='failedGoToAcc'>Go To Accounts</Button>
+            </Link>,
+            <Button type="secondary" key='failedTryAgain' onClick={()=>{setCurrentStep(0);}}>Try Again</Button>
+          ]}
+        >
+        </Result>
+      )}
 
     </>
   );
