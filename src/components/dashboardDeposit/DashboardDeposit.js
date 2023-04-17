@@ -193,7 +193,7 @@ export default function DashboardDeposit() {
           )}
 
           <Form.Item className='da-ant-form-item'>
-            <Button type="primary" htmlType="submit">
+            <Button className='da-btn' type="primary" htmlType="submit">
               Continue to Checkout
             </Button>
           </Form.Item>
@@ -238,10 +238,10 @@ export default function DashboardDeposit() {
               )}
               <Form.Item className='da-ant-form-item'>
 
-                <Button type="secondary" onClick={() => setCurrentStep(0)}>
+                <Button className='da-btn' type="primary" onClick={() => setCurrentStep(0)}>
                   Back
                 </Button>
-                <Button type="secondary" onClick={handlePayButtonClick}>
+                <Button className='da-btn' type="primary" onClick={handlePayButtonClick}>
                   Confirm Payment
                 </Button>
 
@@ -259,10 +259,10 @@ export default function DashboardDeposit() {
             subTitle={successfulTransaction.message}
             extra={[
               <Link to = '/dashboard/accounts'>
-              <Button type="secondary" key='successGoToAcc'>Go To Accounts</Button>
+              <Button className='da-btn' type="primary" key='successGoToAcc'>Go To Accounts</Button>
               </Link>,
               <Link to = '/dashboard/reports'>
-              <Button type="secondary"key='successGoToReports'>Go To Reports</Button>
+              <Button className='da-btn' type="primary"key='successGoToReports'>Go To Reports</Button>
               </Link>,
             ]}
           >
@@ -277,9 +277,9 @@ export default function DashboardDeposit() {
           subTitle={successfulTransaction.message}
           extra={[
             <Link to = '/dashboard/accounts'>
-            <Button type="secondary" key='failedGoToAcc'>Go To Accounts</Button>
+            <Button className='da-btn' type="primary" key='failedGoToAcc'>Go To Accounts</Button>
             </Link>,
-            <Button type="secondary" key='failedTryAgain' onClick={()=>{setCurrentStep(0);}}>Try Again</Button>
+            <Button className='da-btn' type="primary" key='failedTryAgain' onClick={()=>{setCurrentStep(0);}}>Try Again</Button>
           ]}
         >
         </Result>
