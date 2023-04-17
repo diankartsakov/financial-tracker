@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { Skeleton } from 'antd';
 import "./dashboardHome.scss"
 import { getDateWithSuffixDay } from "../../assests/utils/utils";
-import { getTotalBalance } from "../../assests/utils/dashboardUtils";
+import { getCurrentAccountBalance, getTotalBalance } from "../../assests/utils/dashboardUtils";
 import { Link } from 'react-router-dom';
 import LogarithmicBarChart from "../accountsDonutChart/accountsDonutChart";
 import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
+import { getUserAccountsTransactionsCounts } from "../../services/firebaseFirestoreAccounts";
 
 export default function DashboardHome() {
     const {authUser: {email}, authUser: {uid}} = useAuth();
@@ -23,12 +24,20 @@ export default function DashboardHome() {
     const [isLoading, setIsLoading] = useState(true);
     const [currentDate] = useState(getDateWithSuffixDay());
     const [totalBalance, setTotalBalance] = useState(0);
+    const [transactionsInfo, setTransactionsInfo] = useState({});
 
     useEffect(() => {
-        const currentTotalBalance = getTotalBalance(accountsArr);
-        setTotalBalance(currentTotalBalance);
-        setIsLoading(false)
-        
+
+        const getTransactionsInfo = async() => {
+            const info = await getUserAccountsTransactionsCounts(accountsIds);
+            const currentTotalBalance = getTotalBalance(accountsArr);
+            console.log(info);
+            setTransactionsInfo(info);
+            setTotalBalance(currentTotalBalance);
+            setIsLoading(false);
+        }
+
+        getTransactionsInfo()
     }, []);
 
     return (
@@ -40,34 +49,34 @@ export default function DashboardHome() {
                 </div>
                 {isLoading 
                 ?
+                <>
                     <Skeleton active />
+                </>
+
                 :
                     <div className="content-wrapper">
                         <div className="content-info-wrapper">
-                            <ProfileCardInfo className="ft-profile-card" title="Current Account" content={<Link to={"accounts"}>{currentAccountName}</Link>}/>
+                            <ProfileCardInfo className="ft-profile-card" title="Current Account" content={
+                                currentAccountName 
+                                ?
+                                <Link to={"accounts"}>{currentAccountName}</Link>
+                                :
+                                <p>No current account</p>
+                            }/>
+                            <ProfileCardInfo className="ft-profile-card" title="Current Account Balance"
+                            content={<p>{getCurrentAccountBalance(accountsArr, accountId)?.toFixed(2) || 0} BGN</p>}/>
                             <ProfileCardInfo className="ft-profile-card" title="Total Accounts" content={<p>{accountsArr.length}</p>}/>
                             <ProfileCardInfo className="ft-profile-card" title="Total Balance"
                             content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
                             
-                            <ProfileCardInfo className="ft-profile-card" title="Total Balance"
-                            content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
+                            <ProfileCardInfo className="ft-profile-card" title="Total Transactions"
+                            content={<p>{transactionsInfo.totalCount || 0}</p>}/>
                             
-                            <ProfileCardInfo className="ft-profile-card" title="Total Balance"
-                            content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
+                            <ProfileCardInfo className="ft-profile-card" title="Total Deposits"
+                            content={<p>{transactionsInfo.deposit || 0}</p>}/>
                             
-                            <ProfileCardInfo className="ft-profile-card" title="Total Balance"
-                            content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>
-                            
-                            
-                            {/* <p>Is Loaded DashContext: {isLoaded ? "true" : "false"}</p>
-                            <p>Current AccountID: {accountId ? accountId : `${accountId}`}</p>
-                            <p>Account IDS: {accountsIds?.length ? accountsIds.join(", ") : "[]"}</p>
-                            {accountsArr.map(acc => {
-                                return (
-                                    <p key={acc.accountId}>{acc.name} with balance: {acc.amount}</p>
-                                )
-                            })}  
-                            <p>Total balance: {totalBalance.toFixed(2)}BGN</p>  */}
+                            <ProfileCardInfo className="ft-profile-card" title="Total Expenses"
+                            content={<p>{transactionsInfo.expense || 0}</p>}/>
                         </div>
                         <div className="donut-wrapper">
                             {accountsArr?.length === 0 ? <div>No Accounts</div> : <LogarithmicBarChart/>}

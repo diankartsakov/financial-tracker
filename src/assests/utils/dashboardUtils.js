@@ -4,14 +4,26 @@ function getTotalBalance(arrOfObjects) {
     }, 0);
 }
 
-function getHighestAmount(arrOfObjects) {
+function getCurrentAccountBalance(arrOfObjects, id) {
+    const result = arrOfObjects.find(obj => {
+        console.log(obj);
+        console.log(id);
+        // obj.accountId === id
     
+    });
+    console.log(result);
+    return arrOfObjects.find(obj => obj.accountId === id)?.amount;
 }
 
-function getLowestAmount(arrOfObjects) {
+// function getHighestAmount(arrOfObjects) {
+    
+// }
 
-}
+// function getLowestAmount(arrOfObjects) {
+
+// }
 
 export { 
-    getTotalBalance
+    getTotalBalance, 
+    getCurrentAccountBalance
 }

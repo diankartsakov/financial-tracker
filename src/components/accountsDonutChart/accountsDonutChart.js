@@ -12,13 +12,16 @@ const LogarithmicBarChart = () => {
     var options = {
         series: accountData.map(account => account.amount),
         chart: {
-          width: '100%',
+          width: '50%',
+          height: "100%",
           type: 'donut',
         },
         plotOptions: {
           pie: {
             startAngle: -90,
             endAngle: 270,
+            width: "50%",
+            height: "100%",
           },
         },
         dataLabels: {
@@ -72,7 +75,7 @@ const LogarithmicBarChart = () => {
           {
             breakpoint: 1600,
             chart: {
-                height: "90%",
+                height: "100%",
             },
             options: {
               legend: {          

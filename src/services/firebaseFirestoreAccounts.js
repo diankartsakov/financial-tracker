@@ -15,6 +15,40 @@ async function getUserAccounts(uid) {
     return accounts;
 }
 
+async function getUserAccountsTransactionsCounts(accountIds) {
+    const transactionsInfo = {
+        expense: 0,
+        deposit: 0,
+        transfer: 0,
+        totalCount: 0,
+    };
+
+    const transfersIds = [];
+
+    const q = query(collection(db, "transactions"), where("accountId", "in", accountIds));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+        
+        const transaction = doc.data(); 
+        const id = doc.id;
+
+        if(transaction.type === 'Expense') {
+            transactionsInfo.expense++;
+        } else if (transaction.type === 'Transfer' && !transfersIds.includes(id)){
+            transactionsInfo.transfer++;
+            transfersIds.push(id);
+        } else if(transaction.type === 'Deposit') {
+            transactionsInfo.deposit++;
+        }
+
+        transactionsInfo.totalCount++;
+    });
+
+    return transactionsInfo;
+}
+
+
 async function getUserAccountsTransactions(accountIds) {
     
     const transactions = [];
@@ -89,6 +123,7 @@ async function getAccount(accountId) {
 export {
     getUserAccounts,
     getUserAccountsTransactions,
+    getUserAccountsTransactionsCounts,
     getUserAccountsFullInfo,
     getAccount
 }
