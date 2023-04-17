@@ -52,7 +52,9 @@ export default function DashboardHome() {
                             })}  
                             <p>Total balance: {totalBalance.toFixed(2)}BGN</p> 
                         </div>
-                        {accountsArr?.length === 0 ? <div>No Accounts</div> : <LogarithmicBarChart/>}
+                        <div className="donut-wrapper">
+                            {accountsArr?.length === 0 ? <div>No Accounts</div> : <LogarithmicBarChart/>}
+                        </div>
                     </div>
                 }           
             </div>

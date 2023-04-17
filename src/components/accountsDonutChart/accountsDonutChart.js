@@ -12,7 +12,7 @@ const LogarithmicBarChart = () => {
     var options = {
         series: accountData.map(account => account.amount),
         chart: {
-          width: 380,
+          width: '100%',
           type: 'donut',
         },
         plotOptions: {
@@ -42,10 +42,17 @@ const LogarithmicBarChart = () => {
               const account = accountData[seriesIndex];
               const amount = value.toFixed(2) + " BGN";
               return `${account.name} - ${amount}`;
-            }
+            },
+            title: {formater: (seriesName) => "",},
           }
         },
         legend: {
+          width: "50%",
+          position: 'right',
+          fontSize: '14px',
+          fontWeight: 700,
+          offsetY: 25,
+          offsetX: 0,
           formatter: function (val, opts) {
             const accountIndex = opts.seriesIndex;
             const account = accountData[accountIndex];
@@ -55,16 +62,24 @@ const LogarithmicBarChart = () => {
         },
         title: {
           text: 'Accounts',
+          align: "center",
+          style: {
+            fontSize:  '24px',
+            fontWeight:  'bold',
+          },
         },
         responsive: [
           {
-            breakpoint: 480,
+            breakpoint: 1600,
+            chart: {
+                height: "90%",
+            },
             options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: 'bottom',
+              legend: {          
+                offsetY: 15,
+                offsetX: 0,
+                position: "bottom",
+                fontSize: "12px",
               },
             },
           },
@@ -76,8 +91,8 @@ const LogarithmicBarChart = () => {
         options={options}
         series={options.series}
         type="donut"
-        height={"650px"}
-        width={'650px'}
+        height={"100%"}
+        width={"100%"}
         />
     );
 };
