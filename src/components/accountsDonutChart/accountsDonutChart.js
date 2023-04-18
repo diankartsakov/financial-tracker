@@ -4,110 +4,125 @@ import "./accountsDonutChart.scss";
 
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 
-const LogarithmicBarChart = () => {
-    const {accountsArr} = useDash();
+
+export default function AccountsDonutChart() {
+      const {accountsArr} = useDash();
 
     const accountData = accountsArr.map(acc => {
         return {name: acc.name, amount: acc.amount}
     });
 
+
     const options = {
-        series: accountData.map(account => account.amount),
-        chart: {
-          width: '100%',
-          height: "100%",
-          type: 'donut',
-        },
-        plotOptions: {
-          pie: {
-            startAngle: -90,
-            endAngle: 270,
-            size: "100%",
-            // width: "50%",
-            // height: "100%",
-          },
-        },
-        dataLabels: {
-          enabled: true,
-          offset: -5,
-          dropShadow: {
-            enabled: true,
-            top: 2,
-            left: 2,
-            blur: 2,
-            opacity: 0.15
-          }
-        },
-        fill: {
-          type: 'gradient',
-        },
-        tooltip: {
-          enabled: true,
-          y: {
-            formatter: function (value, { seriesIndex }) {
-              const account = accountData[seriesIndex];
-              const amount = value.toFixed(2) + " BGN";
-              return `${account.name} - ${amount}`;
+        "chart": {
+            "animations": {
+                "enabled": false
             },
-            title: {formater: (seriesName) => "",},
-          }
+            "background": "#F5F5F5",
+            "dropShadow": {
+                "top": 0
+            },
+            "foreColor": "black",
+            "fontFamily": "Roboto",
+            "height": 501,
+            "id": "OcvDT",
+            "toolbar": {
+                "show": true,
+            },
+            "type": "donut",
+            "width": 604
         },
-        legend: {
-          width: "50%",
-          position: 'right',
-          fontSize: '14px',
-          fontWeight: 700,
-          offsetY: 25,
-          offsetX: 0,
-          formatter: function (val, opts) {
-            const accountIndex = opts.seriesIndex;
-            const account = accountData[accountIndex];
-            const amount = account.amount.toFixed(2) + " BGN";
-            return `${account.name} - ${amount}`;
-          },
+        "series": accountData.map(account => account.amount),
+        "plotOptions": {
+            "bar": {
+                "borderRadius": 10
+            },
+            "radialBar": {
+                "hollow": {
+                    "background": "#fff"
+                },
+            },
+            "pie": {
+                "donut": {
+                    "size": "70%",
+                }
+            }
+        },
+        "dataLabels": {
+            enabled: true,
+            "style": {
+                "fontWeight": 700
+            },
+            "background": {
+                "foreColor": "#0B0B0B",
+                "opacity": 1
+            },
+            dropShadow: {
+                enabled: true,
+                top: 2,
+                left: 2,
+                blur: 2,
+                opacity: 0.15
+              }
+        },
+        "tooltip": {
+            enabled: true,
+            "fillSeriesColor": true,
+            y: {formatter: function (values, { seriesIndex }) {
+                // debugger
+                const account = accountData[seriesIndex];
+                const amount = account.amount.toFixed(2) + " BGN";
+                // console.log(amount);
+                return `${amount}`;
+              }},
+        },
+        "fill": {
+            "opacity": 1
+        },
+        "grid": {
+            "borderColor": "#6e7eaa",
+            "padding": {
+                "right": 0,
+                "left": 0
+            }
         },
         title: {
-          text: 'Accounts',
-          align: "center",
-          style: {
-            fontSize:  '24px',
-            fontWeight:  'bold',
-          },
+            text: 'Accounts',
+            align: "center",
+            style: {
+              fontSize:  '24px',
+              fontWeight:  'bold',
+            },
         },
-        responsive: [
-          {
-            breakpoint: 1600,
-            chart: {
-                height: "100%",
+        "labels": accountData.map(account => account.name),
+        
+        "legend": {
+            "fontSize": 16,
+            "fontWeight": 500,
+            "offsetX": 0,
+            "offsetY": 0,
+            "position": "bottom",
+            "itemMargin": {
+                "vertical": 0
             },
-            plotOptions: {
-              pie: {
-                donut: {
-                  size: '75%', // Customize this value as a percentage of the chart size
-                },
-              },
-            },
-            options: {
-              legend: {          
-                offsetY: 15,
-                offsetX: 0,
-                position: "bottom",
-                fontSize: "12px",
-              },
-            },
-          },
-        ],
-      };
+            formatter: function (val, opts) {
+                const accountIndex = opts.seriesIndex;
+                const account = accountData[accountIndex];
+                const amount = account.amount.toFixed(2) + " BGN";
+                return `${account.name} - ${amount}`;
+        },
+        "theme": {
+            "palette": "palette4"
+        },
+    }
+}
 
-    return (
-            <ReactApexChart
+
+    return <ReactApexChart
             options={options}
             series={options.series}
             type="donut"
             height={"100%"}
             width={"100%"}
             />
-    );
-};
-
-export default LogarithmicBarChart;
+}

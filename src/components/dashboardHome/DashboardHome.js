@@ -7,9 +7,10 @@ import "./dashboardHome.scss"
 import { getDateWithSuffixDay } from "../../assests/utils/utils";
 import { getCurrentAccountBalance, getTotalBalance } from "../../assests/utils/dashboardUtils";
 import { Link } from 'react-router-dom';
-import LogarithmicBarChart from "../accountsDonutChart/accountsDonutChart";
+import LogarithmicBarChart from "../accountsDonutChart/LogarithmicBarChartDemo";
 import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
 import { getUserAccountsTransactionsCounts } from "../../services/firebaseFirestoreAccounts";
+import AccountsDonutChart from "../accountsDonutChart/accountsDonutChart";
 
 export default function DashboardHome() {
     const {authUser: {email}, authUser: {uid}} = useAuth();
@@ -79,11 +80,14 @@ export default function DashboardHome() {
                             content={<p>{transactionsInfo.expense || 0}</p>}/>
                         </div>
                         <div className="donut-wrapper">
-                            {accountsArr?.length === 0 ? 
+                            {   accountsArr?.length === 0 ? 
                             <>
                                 <h2 className="ft-donut-no-accounts-heading">Accounts</h2>
                                 <div className="ft-donut-no-accounts"><Empty/></div>
-                            </> : <LogarithmicBarChart/>}
+                            </>
+                            : 
+                                <AccountsDonutChart/>
+                            }
                         </div>
                     </div>
                 }           
