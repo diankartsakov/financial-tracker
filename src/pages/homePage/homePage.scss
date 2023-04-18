@@ -36,6 +36,13 @@
                 font-weight: 600;
             }
         }
+
+        .gif-wrapper {
+            img {
+                position: relative;
+                z-index: 5;
+            }
+        }
     }
 }
 

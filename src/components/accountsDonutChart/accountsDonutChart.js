@@ -1,18 +1,20 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
+import "./accountsDonutChart.scss";
+
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 
 const LogarithmicBarChart = () => {
     const {accountsArr} = useDash();
-    // console.log(accountsArr);
+
     const accountData = accountsArr.map(acc => {
         return {name: acc.name, amount: acc.amount}
     });
 
-    var options = {
+    const options = {
         series: accountData.map(account => account.amount),
         chart: {
-          width: '50%',
+          width: '100%',
           height: "100%",
           type: 'donut',
         },
@@ -20,8 +22,9 @@ const LogarithmicBarChart = () => {
           pie: {
             startAngle: -90,
             endAngle: 270,
-            width: "50%",
-            height: "100%",
+            size: "100%",
+            // width: "50%",
+            // height: "100%",
           },
         },
         dataLabels: {
@@ -77,6 +80,13 @@ const LogarithmicBarChart = () => {
             chart: {
                 height: "100%",
             },
+            plotOptions: {
+              pie: {
+                donut: {
+                  size: '75%', // Customize this value as a percentage of the chart size
+                },
+              },
+            },
             options: {
               legend: {          
                 offsetY: 15,
@@ -90,13 +100,13 @@ const LogarithmicBarChart = () => {
       };
 
     return (
-        <ReactApexChart
-        options={options}
-        series={options.series}
-        type="donut"
-        height={"100%"}
-        width={"100%"}
-        />
+            <ReactApexChart
+            options={options}
+            series={options.series}
+            type="donut"
+            height={"100%"}
+            width={"100%"}
+            />
     );
 };
 
