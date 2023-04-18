@@ -4,7 +4,7 @@ import { useAuth } from "../../firebase/auth";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import accountManager from '../../services/AccountManager';
 import AccountsDrowpdown from '../accountDropdown/AccountsDropdown';
-import DashboardAccountCard from '../dashboardAccountCard/DashboardAccountCard';
+import DashboardAccountCard from '../DashboardAccountCard/DashboardAccountCard';
 import './DashboardAccounts.scss';
 
 function NewAccountModal({onCreate}) {
