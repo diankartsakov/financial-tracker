@@ -18,6 +18,7 @@ import PageDoesNotExist from './pages/pageDoesNotExist/PageDoesNotExist';
 import DashboardReports from './components/dashboardReports/DashboardReports';
 import ReportProvider from './components/dashboardReports/DashboardReportsProvider';
 import PieChartExpense from './components/pieChartExpenseCategories/PieChartExpense';
+import StackedColumnExpense from './components/stackedColumnExpense/StackedColumnExpense';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
                                     }>  
                                         <Route path='history' element={<DashboardTransactionReport/>}></Route>
                                         <Route path='pie-chart-expense' element={<PieChartExpense/>}></Route>
+                                        <Route path='stacked-column-expense' element={<StackedColumnExpense/>}></Route>
                                     </Route> 
                                     <Route path='accounts' element= {<DashboardAccounts/>}/>
                                     <Route path='expense' element= {<DashboardExpense/>}/> 

@@ -6,14 +6,14 @@ import { useReport } from "./DashboardReportsProvider";
 import { useEffect } from "react";
 import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
 import { getExpenses } from "../../assests/utils/dataGenerator";
-import ReportsDropdown from "../reportsDropdown/ReportsDropdown";
+import "./dashboardReports.scss";
 
 export default function DashboardReports() {
-    const { currentAccountName, accountId } = useDash();
+    const { currentAccountName, accountId, accountsIds } = useDash();
     const {
         isLoaded,
         reportAccount,
-        transactions,
+        // transactions,
         isLoadedUpdate,
         updateTransactionsArr,
         updateReportAccount,
@@ -26,7 +26,7 @@ export default function DashboardReports() {
             // console.log("effect start");
             const reports = async () => {
                 // const userTransactions = await getUserAccountsTransactions(accountsIds);
-                const userTransactions = getExpenses(50);
+                const userTransactions = getExpenses(300);
                 // console.log(userTransactions);
                 updateReportAccount({
                     reportAccountId: accountId,
@@ -58,11 +58,19 @@ export default function DashboardReports() {
                 <>
                     <div className="ft-report-cards">
                         <h2 style={{borderBottom: "5px solid black"}}>EXPENSES</h2>
-                            <Link to="pie-chart-expense"  style={{
-                                display: "inline-block",
-                                width: "200px", border: "3px solid black",
-                            }}><ProfileCardInfo title="Pie Chart Expense"/></Link>
+                            <div className="ft-report-cards-expense">
+                                <Link to="pie-chart-expense"  style={{
+                                    display: "inline-block",
+                                    width: "200px", border: "3px solid black",
+                                }}><ProfileCardInfo title="Pie Chart Expense"/></Link>
+                                <Link to="stacked-column-expense"  style={{
+                                    display: "inline-block",
+                                    width: "200px", border: "3px solid black",
+                                }}><ProfileCardInfo title="Stacked Column Expense"/></Link>
+                            </div>
+
                         <h2 style={{borderBottom: "5px solid black"}}>HISTORY</h2>
+
                         <Link to="history"  style={{
                             display: "inline-block",
                             width: "200px", border: "3px solid black",
