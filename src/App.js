@@ -15,7 +15,7 @@ import DashboardDeposit from './components/dashboardDeposit/DashboardDeposit';
 import LoadingPage from './components/loadingPage/LoadingPage';
 import NotAuthorizedPage from './pages/notAuthorizedPage/NotAuthorizedPage';
 import PageDoesNotExist from './pages/pageDoesNotExist/PageDoesNotExist';
-import DashboardReports from './components/dashboardReports/dashboardTransactionReport/DashboardReports';
+import DashboardReports from './components/dashboardReports/DashboardReports';
 
 
 function App() {
