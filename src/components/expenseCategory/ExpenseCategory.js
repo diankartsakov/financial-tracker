@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -30,17 +30,36 @@ export default function ExpenseCategory({updateCategories,
         setExpenseModalOpen(false);
         setServerResult("");
     };
-  
-    const handleExpenseCreate = async (amount) => {
-        const data = [currentAccountName, accountId, amount, "Expense", category, ]
-        // console.log(data);
-        const result = await accountManager.initiateTransaction(...data);
-        // console.log(result);
-        setServerResult(result);
-        const accountsFullInfo = await getUserAccountsFullInfo(uid);
-        updateAccountsArr(accountsFullInfo);
 
-        return result;
+
+
+    const handleExpenseCreate = async (amount,delay) => {
+
+        const data = [currentAccountName, accountId, amount, "Expense", category]
+
+        if(delay === 'none'){
+
+          const result = await accountManager.initiateTransaction(...data);
+          // console.log(result);
+          setServerResult(result);
+            
+          return result;
+
+        }
+        else {
+
+          data.push(delay);
+
+          const result = await accountManager.initiateFrozenTransaction(...data);
+          
+          setServerResult(result);
+
+        }
+
+        const accountsFullInfo = await getUserAccountsFullInfo(uid);
+          updateAccountsArr(accountsFullInfo);
+
+
     };
 
     const handleSettingsClick = (e) => {
