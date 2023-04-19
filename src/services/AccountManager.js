@@ -36,6 +36,7 @@ class AccountManager {
 
   updateBalance = async (accountId, balance, increase) => {
 
+
     const accRef = doc(db, "accounts", accountId);
 
     if(increase) {
@@ -90,7 +91,7 @@ class AccountManager {
     const transactionAcc =  {
         accountName: accountName,
         accountId: accountId,
-        amount: Number(amount),
+        amount: Number(amount.toFixed(2)),
         type: type,
         category: category,
         date: new Date()
@@ -106,7 +107,7 @@ class AccountManager {
         const toAccTransaction = {
             accountName: accountName,
             accountId: fromAccountId,
-            amount: Number(amount),
+            amount: Number(amount.toFixed(2)),
             type: type,
             category: category,
             date: new Date(),
