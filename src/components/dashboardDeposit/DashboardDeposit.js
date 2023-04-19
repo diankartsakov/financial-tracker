@@ -8,6 +8,7 @@ import { useAuth } from '../../firebase/auth';
 import { Spin } from 'antd';
 import './DashboardDeposit.scss';
 import { Link } from 'react-router-dom';
+import { isValidNumber } from '../../assests/utils/validations';
 
 export default function DashboardDeposit() {
   const [depositType, setDepositType] = useState('card');
@@ -30,10 +31,17 @@ export default function DashboardDeposit() {
 
   const handleAmountChange = e => {
     const newAmount = e.target.value;
-    if (newAmount < 0) {
-      setmodalMessage(['Invalid Amount', 'Please enter a valid amount.']);
+
+    console.log(typeof newAmount);
+    if (newAmount < 0) { 
+      setmodalMessage(['Invalid Amount', 'Please enter a positive amount.']);
       setModalVisible(true);
-    } else {
+    } else if (!isValidNumber(newAmount) && e.target.value.length !== 0){ // if the input does not match the regex
+
+      setmodalMessage(['Invalid Amount', "Please enter a valid amount in the following format: 'X.XX'."]);
+      setModalVisible(true);
+    }
+    else {
       setAmount(newAmount);
     }
   };
@@ -44,7 +52,9 @@ export default function DashboardDeposit() {
 
   const handleOk = () => {
     setModalVisible(false);
-    if (modalMessage[1] === 'Please enter a valid amount.') {
+    if (modalMessage[1] === 'Please enter a positive amount.' ||
+        modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
+    ) {
       form.resetFields(['amount']);
     }
 
@@ -52,7 +62,10 @@ export default function DashboardDeposit() {
 
   const handleCancel = () => {
     setModalVisible(false);
-    if (modalMessage[1] === 'Please enter a valid amount.') {
+    if (modalMessage[1] === 'Please enter a positive amount.' || 
+        modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
+    
+    ) {
       form.resetFields(['amount']);
     }
   };
@@ -151,7 +164,7 @@ export default function DashboardDeposit() {
         <Form className='da-ant-form' form={form} onFinish={handleContinueToCheckoutClick}>
           <h3>Deposit Form</h3>
           <Form.Item className='da-ant-form-item' label="Amount" name="amount" rules={[{ required: true, message: 'Please enter a valid amount' }]}>
-            <Input type="number" name="amount" onChange={handleAmountChange} />
+            <Input type="number" name="amount" value={amount} onChange={handleAmountChange} />
           </Form.Item>
 
           <Form.Item className='da-ant-form-item' label="Deposit Type" name="depositType" initialValue="card">

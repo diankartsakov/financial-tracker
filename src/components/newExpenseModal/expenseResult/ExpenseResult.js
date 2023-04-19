@@ -12,7 +12,7 @@ export default function ExpenseResult({ok, message, onCancel}) {
                         status="success"
                         title={message}
                         extra={[
-                        <Link to="/dashboard/reports">
+                        <Link key="to-reports" to="/dashboard/reports">
                             <Button type="primary" key="console">
                                 To Reports
                             </Button>                       

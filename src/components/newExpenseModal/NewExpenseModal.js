@@ -31,7 +31,7 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit, se
 		if (isValidNumber(amount) && amount > 0) {
             isError && setIsError(false);
 			setIsLoading(true);
-			const result = await onSubmit(amount);
+			const result = await onSubmit(Number(amount));
 			setIsLoading(false);
 			// console.log(result);
 		} else {
