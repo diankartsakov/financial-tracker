@@ -6,15 +6,53 @@
 
 }
 
-.da-account-form-balance {
+.da-account-form-balance,
+.da-account-form-balance-frozen {
     
     font-size: 48px;
     font-weight: bold;
-    color: #228B22;
-    text-align: center;
-    margin-bottom: 20px;
         
 }
+
+.da-account-form-balance {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border: 2px solid #228B22;
+    border-radius: 5%;
+
+
+    .da-account-form-balance-label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      
+      .da-account-form-balance-value {
+        color: #228B22;
+
+        
+      }
+  }
+.da-account-form-balance-frozen {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border: 2px solid #22a9ca;
+    border-radius: 5%;
+
+    .da-account-form-balance-frozen-label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      
+      .da-account-form-balance-frozen-value {
+        color: #22a9ca;
+
+      }
+  }
+  
+
+
 .da-account-form-name {
 
     font-size: 24px;
