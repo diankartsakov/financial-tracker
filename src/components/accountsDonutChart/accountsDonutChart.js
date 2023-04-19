@@ -9,7 +9,7 @@ export default function AccountsDonutChart() {
       const {accountsArr} = useDash();
 
     const accountData = accountsArr.map(acc => {
-        return {name: acc.name, amount: acc.amount}
+        return {name: acc.name, amount: Number(acc.amount)}
     });
 
     const options = {
@@ -107,7 +107,7 @@ export default function AccountsDonutChart() {
             formatter: function (val, opts) {
                 const accountIndex = opts.seriesIndex;
                 const account = accountData[accountIndex];
-                const amount = account.amount.toFixed(2) + " BGN";
+                const amount = account.amount + " BGN";
                 return `${account.name} - ${amount}`;
         },
         "theme": {

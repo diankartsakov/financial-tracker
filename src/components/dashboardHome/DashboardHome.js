@@ -64,7 +64,7 @@ export default function DashboardHome() {
                                 <p>No current account</p>
                             }/>
                             <ProfileCardInfo className="ft-profile-card" title="Current Account Balance"
-                            content={<p>{getCurrentAccountBalance(accountsArr, accountId)?.toFixed(2) || 0} BGN</p>}/>
+                            content={<p>{getCurrentAccountBalance(accountsArr, accountId) || 0} BGN</p>}/>
                             <ProfileCardInfo className="ft-profile-card" title="Overall Accounts Count" content={<p>{accountsArr.length}</p>}/>
                             <ProfileCardInfo className="ft-profile-card" title="Overall Amount"
                             content={<p>{getTotalBalance(accountsArr).toFixed(2)} BGN</p>}/>

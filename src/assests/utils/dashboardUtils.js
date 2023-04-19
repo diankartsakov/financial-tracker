@@ -1,6 +1,6 @@
 function getTotalBalance(arrOfObjects) {
     return arrOfObjects.reduce((acc, value) => {
-        return acc + value.amount;
+        return acc + Number(value.amount);
     }, 0);
 }
 
