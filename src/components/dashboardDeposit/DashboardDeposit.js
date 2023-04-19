@@ -22,7 +22,7 @@ export default function DashboardDeposit() {
   const [successfulTransaction, setSuccessfulTransaction] = useState({});
   const [form] = Form.useForm();
 
-  const { accountId, currentAccountName, updateAccountsArr } = useDash();
+  const { accountId, currentAccountName, accountsArr, updateAccountsArr } = useDash();
   const { authUser: { uid } } = useAuth();
 
   const handleDepositTypeChange = e => {
@@ -96,6 +96,7 @@ export default function DashboardDeposit() {
   };
 
   const handlePayButtonClick = async () => {
+    
 
     setIsLoading(true);
 

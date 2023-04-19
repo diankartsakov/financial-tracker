@@ -10,8 +10,8 @@ class AccountManager {
 
       const docRef = await addDoc(collection(db, "accounts"), {
         name: accountName,
-        amount: 0,
-        frozenAmount: 0,
+        amount: '0',
+        frozenAmount: '0',
         uid: uid
       });
 
@@ -45,7 +45,7 @@ class AccountManager {
     else {
 
       await updateDoc(accRef, {
-        amount: balance
+        amount: balance.toFixed(2)
       });
     }
 
@@ -97,7 +97,7 @@ class AccountManager {
 
     await Promise.all([
       addDoc(collection(db, "transactions"), transaction),
-      this.updateFrozenBalance(accountId, amount, true)
+      this.updateFrozenBalance(accountId, amount, remainingBalance, true)
     ]);
 
     return { 
@@ -109,14 +109,14 @@ class AccountManager {
 
   };
 
-  updateFrozenBalance = async (accountId, balance, increase) => {
+  updateFrozenBalance = async (accountId, balance,remainingBalance, increase) => {
 
     const accRef = doc(db, "accounts", accountId);
 
     if (increase) {
       await updateDoc(accRef, {
         frozenAmount: increment(balance),
-        amount: increment(-balance)
+        amount: remainingBalance.toFixed(2)
       });
 
     }
