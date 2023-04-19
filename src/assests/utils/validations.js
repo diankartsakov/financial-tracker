@@ -1,5 +1,6 @@
 function isValidNumber(input) {
-    const regex = /^[0-9]+(\.[0-9]+)?$/;
+
+    const regex = /^\d+(\.\d{1,2})?$/;
     const isValidNumber = regex.test(input);   
 
     return isValidNumber;
