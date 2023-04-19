@@ -18,6 +18,24 @@ export default function DashboardTransactionReport() {
   // });
 
   useEffect(() => {
+
+    transactions.forEach((transaction) => {
+        
+      if(transaction.type === 'Expense'){
+          transaction.category = `${transaction.type} / ${transaction.category}`;
+      }
+      if(transaction.type === 'Transfer'){
+
+          transaction.toAccountId ?
+          transaction.category = 'Outgoing Transfer':
+          transaction.category = 'Incoming Transfer';
+      }
+
+     transaction.amountString = `${transaction.amount.toFixed(2)} BGN`;
+
+
+  })
+
     // console.log("useEffectRender");
     // Filter the data based on the search criteria
     const filteredData = transactions.filter((item) => {
@@ -90,7 +108,7 @@ export default function DashboardTransactionReport() {
     },
     {
       title: 'Category',
-      dataIndex: 'category',
+      dataIndex: 'mixedCategory',
       key: 'category',
       sorter: (a, b) => a.category.localeCompare(b.category)
     }
