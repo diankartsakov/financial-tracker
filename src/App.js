@@ -68,7 +68,6 @@ function App() {
                                     <Route path={'/dashboard/reports'} element={<NotAuthorizedPage/>}/>
                                     <Route path={'/dashboard/deposit'} element={<NotAuthorizedPage/>}/>
                                     <Route path={'/dashboard/expense'} element={<NotAuthorizedPage/>}/>
-
                                     <Route path={'*'} element={<PageDoesNotExist/>}></Route>                        
                                 </Routes>
                             </>

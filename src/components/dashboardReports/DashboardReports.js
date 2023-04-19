@@ -5,18 +5,18 @@ import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { useReport } from "./DashboardReportsProvider";
 import { useEffect } from "react";
 import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
+import { getExpenses } from "../../assests/utils/dataGenerator";
+import ReportsDropdown from "../reportsDropdown/ReportsDropdown";
 
 export default function DashboardReports() {
     const {currentAccountName, accountId, accountsIds} = useDash();
     const {
         isLoaded,
-        reportAccountName,
-        reportAccountId,
+        reportAccount,
         transactions,
-        updateReportAccountId,
         isLoadedUpdate,
         updateTransactionsArr,
-        updateCurrentReportAccountName,
+        updateReportAccount,
     } = useReport();
 
     useEffect(() => {
@@ -25,11 +25,14 @@ export default function DashboardReports() {
         } else {
             console.log("effect start");
             const reports = async () => {
-                const userTransactions = await getUserAccountsTransactions(accountsIds);
-                
-                updateReportAccountId(accountId);
+                // const userTransactions = await getUserAccountsTransactions(accountsIds);
+                const userTransactions = getExpenses(25);
+                console.log(userTransactions);
+                updateReportAccount({
+                    reportAccountId: accountId,
+                    reportAccountName: currentAccountName,
+                });
                 updateTransactionsArr(userTransactions);
-                updateCurrentReportAccountName(currentAccountName);
                 console.log("effect middle");
                 isLoadedUpdate(true);
             }
@@ -61,6 +64,7 @@ export default function DashboardReports() {
             :
                 <>
                     <h2>Hello</h2>
+                    <ReportsDropdown/>
                     <Outlet/>                
                 </>
             }

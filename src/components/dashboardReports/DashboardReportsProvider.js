@@ -2,21 +2,26 @@ import React, { useContext, useState } from 'react';
 
 const ReportContext = React.createContext({
     isLoaded: false,
-    reportAccountId: null,
+    reportAccount: {
+        reportAccountId: null,
+        reportAccountName: null,
+    },
     transactions: [],
 });
 
 export default function ReportProvider({children}) {
     const [state, setState] = useState({
         isLoaded: false,
-        reportAccountName: null,
-        reportAccountId: null,
+        reportAccount: {
+            reportAccountId: null,
+            reportAccountName: null,
+        },
         transactions: [],
     });
 
-    const updateReportAccountId = (reportAccountId) => {
+    const updateReportAccount = (reportAccount) => {
         setState(s => { 
-            return {...s, reportAccountId: reportAccountId };
+            return {...s, reportAccount: reportAccount };
         });
     };
 
@@ -32,18 +37,11 @@ export default function ReportProvider({children}) {
         });
     };
 
-    const updateCurrentReportAccountName = (currentAccountName) => {
-        setState(s => { 
-            return {...s, currentAccountName: currentAccountName};
-        });
-    };
-
     const value = {
         ...state,
-        updateReportAccountId,
+        updateReportAccount,
         isLoadedUpdate,
         updateTransactionsArr,
-        updateCurrentReportAccountName,
     };
 
     return (
