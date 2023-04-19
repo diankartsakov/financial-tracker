@@ -16,6 +16,7 @@ import LoadingPage from './components/loadingPage/LoadingPage';
 import NotAuthorizedPage from './pages/notAuthorizedPage/NotAuthorizedPage';
 import PageDoesNotExist from './pages/pageDoesNotExist/PageDoesNotExist';
 import DashboardReports from './components/dashboardReports/DashboardReports';
+import ReportProvider from './components/dashboardReports/DashboardReportsProvider';
 
 
 function App() {
@@ -38,7 +39,11 @@ function App() {
                                     </DashboardProvider>
                                 }>
                                     <Route path='' element={<DashboardHome/>}/>
-                                    <Route path='reports' element={<DashboardReports/>}>  
+                                    <Route path='reports' element={
+                                        <ReportProvider>
+                                            <DashboardReports/>
+                                        </ReportProvider>
+                                    }>  
                                         <Route path='history' element={<DashboardTransactionReport/>}></Route>
                                     </Route> 
                                     <Route path='accounts' element= {<DashboardAccounts/>}/>

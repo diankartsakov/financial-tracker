@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Table, DatePicker, Pagination } from 'antd';
 import moment from 'moment';
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
-import { getUserAccountsTransactions } from '../../services/firebaseFirestoreAccounts';
+import { useReport } from '../dashboardReports/DashboardReportsProvider';
 
-export default function DashboardTransactionReport({data="no"}) {
-  console.log(data);
-  const [transactions, setTransactions] = useState([]);
+export default function DashboardTransactionReport() {
+  const {transactions} = useReport();
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,22 +14,12 @@ export default function DashboardTransactionReport({data="no"}) {
 
 
   const { accountsArr } = useDash();
-
   const accountIds = accountsArr.map(account => {
     return account.accountId;
   });
 
   useEffect(() => {
-    async function getTransactions() {
-      const data = await getUserAccountsTransactions(accountIds);
-      setTransactions(data);
-      setFilteredTransactions(data);
-    };
-    getTransactions();
-  }, []);
-
-  useEffect(() => {
-
+    console.log("useEffectRender");
     // Filter the data based on the search criteria
     const filteredData = transactions.filter((item) => {
 
@@ -58,7 +47,6 @@ export default function DashboardTransactionReport({data="no"}) {
 
     setFilteredTransactions(filteredData);
   }, [fromDate, toDate, transactions]);
-
 
 
   // Sort the data based on the selected column and direction
