@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 
-const DashboardContext = React.createContext({
-    // accountId: null,
-    // accountsIds: null,
+const ReportContext = React.createContext({
     isLoaded: false,
     reportAccountId: null,
     transactions: [],
@@ -10,26 +8,15 @@ const DashboardContext = React.createContext({
 
 export default function ReportProvider({children}) {
     const [state, setState] = useState({
-        // accountId: null,
-        // accountsIds: null,
         isLoaded: false,
-    reportAccountId: null,
-    transactions: [],
-        isLoaded: false,
-        accountsArr: null,
-        currentAccountName: null,
-        categories: [],
+        reportAccountName: null,
+        reportAccountId: null,
+        transactions: [],
     });
 
-    const updateAccountId = (accountId) => {
+    const updateReportAccountId = (reportAccountId) => {
         setState(s => { 
-            return {...s, accountId: accountId };
-        });
-    };
-
-    const updateAccountsIds = (accountsIds) => {
-        setState(s => {
-            return {...s, accountsIds: accountsIds };
+            return {...s, reportAccountId: reportAccountId };
         });
     };
 
@@ -38,38 +25,32 @@ export default function ReportProvider({children}) {
             return {...s, isLoaded: isLoaded};
         });
     };
-    const updateAccountsArr = (accountsArr) => {
+
+    const updateTransactionsArr = (transactions) => {
         setState(s => { 
-            return {...s, accountsArr: accountsArr};
+            return {...s, transactions: transactions};
         });
     };
-    const updateCurrentAccountName = (currentAccountName) => {
+
+    const updateCurrentReportAccountName = (currentAccountName) => {
         setState(s => { 
             return {...s, currentAccountName: currentAccountName};
         });
     };
 
-    const updateCategories = (categories) => {
-        setState(s => {
-            return {...s, categories: [...categories]}
-        })
-    }
-
     const value = {
         ...state,
-        updateAccountId,
-        updateAccountsIds,
+        updateReportAccountId,
         isLoadedUpdate,
-        updateAccountsArr,
-        updateCurrentAccountName,
-        updateCategories,
+        updateTransactionsArr,
+        updateCurrentReportAccountName,
     };
 
     return (
-        <DashboardContext.Provider value={value}>
+        <ReportContext.Provider value={value}>
             {children}
-        </DashboardContext.Provider>
+        </ReportContext.Provider>
     );
 }
 
-export const useDash = () => useContext(DashboardContext);
+export const useReport = () => useContext(ReportContext);

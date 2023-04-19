@@ -6,7 +6,7 @@ import Register from './pages/registerPage/RegisterPage';
 import HomeNavigation from './components/homeNavigation/HomeNavigation';
 import { useAuth } from './firebase/auth';
 import DashboardPage from './pages/dashboardPage/DashboardPage';
-import DashboardTransactionReport from './components/dashboardReports/dashboardTransactionReport/DashboardTransactionReport';
+import DashboardTransactionReport from './components/dashboardTransactionReport/DashboardTransactionReport';
 import DashboardHome from './components/dashboardHome/DashboardHome';
 import DashboardAccounts from './components/dashboardAccounts/DashboardAccounts';
 import DashboardProvider from './pages/dashboardPage/DashboardProvider';
@@ -16,6 +16,7 @@ import LoadingPage from './components/loadingPage/LoadingPage';
 import NotAuthorizedPage from './pages/notAuthorizedPage/NotAuthorizedPage';
 import PageDoesNotExist from './pages/pageDoesNotExist/PageDoesNotExist';
 import DashboardReports from './components/dashboardReports/DashboardReports';
+import ReportProvider from './components/dashboardReports/DashboardReportsProvider';
 
 
 function App() {
@@ -38,7 +39,11 @@ function App() {
                                     </DashboardProvider>
                                 }>
                                     <Route path='' element={<DashboardHome/>}/>
-                                    <Route path='reports' element={<DashboardReports/>}>  
+                                    <Route path='reports' element={
+                                        <ReportProvider>
+                                            <DashboardReports/>
+                                        </ReportProvider>
+                                    }>  
                                         <Route path='history' element={<DashboardTransactionReport/>}></Route>
                                     </Route> 
                                     <Route path='accounts' element= {<DashboardAccounts/>}/>
