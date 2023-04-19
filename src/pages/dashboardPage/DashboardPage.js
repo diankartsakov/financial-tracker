@@ -57,10 +57,10 @@ export default function DashboardPage() {
             <Layout style={{ minHeight: "100vh" }}>
                 <DashboardMenu accountsArr={accountsArr}></DashboardMenu>
                 <Layout className="site-layout">
-                    <Content style={{ margin: "16px" }}>
+                    <Content style={{ margin: "16px", overflow: "auto" }}>
                     <div
                         className="site-layout-background"
-                        style={{ padding: 24, minHeight: 360 }}
+                        style={{ padding: 24, minHeight: 360, overflow:"auto"}}
                     >
                         <Outlet/>   
                     </div>

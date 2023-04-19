@@ -15,6 +15,7 @@ import DashboardDeposit from './components/dashboardDeposit/DashboardDeposit';
 import LoadingPage from './components/loadingPage/LoadingPage';
 import NotAuthorizedPage from './pages/notAuthorizedPage/NotAuthorizedPage';
 import PageDoesNotExist from './pages/pageDoesNotExist/PageDoesNotExist';
+import DashboardReports from './components/dashboardReports/dashboardTransactionReport/DashboardReports';
 
 
 function App() {
@@ -37,7 +38,9 @@ function App() {
                                     </DashboardProvider>
                                 }>
                                     <Route path='' element={<DashboardHome/>}/>
-                                    <Route path='reports' element={<DashboardTransactionReport/>}/>   
+                                    <Route path='reports' element={<DashboardReports/>}>  
+                                        <Route path='history' element={<DashboardTransactionReport/>}></Route>
+                                    </Route> 
                                     <Route path='accounts' element= {<DashboardAccounts/>}/>
                                     <Route path='expense' element= {<DashboardExpense/>}/> 
                                     <Route path='deposit' element= {<DashboardDeposit/>}/> 

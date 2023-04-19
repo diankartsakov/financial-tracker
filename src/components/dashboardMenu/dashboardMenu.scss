@@ -1,6 +1,9 @@
-.ft-sider-menu {
+#ft-sider-menu.ft-sider-menu {
     height: 100vh;
     max-height: 100vh;
+    position: sticky;
+    top: 0px;
+    left: 0px;
 
     .logo-wrapper {
         height: 32;

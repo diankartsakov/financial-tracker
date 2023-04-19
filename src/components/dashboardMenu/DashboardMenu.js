@@ -66,7 +66,7 @@ export default function DashboardMenu() {
             ,
         ),
         getItem(<Link to="reports" className="ft-accounts-link">Reports</Link>, '3', <PieChartOutlined />, [
-          getItem(<Link to="reports">Table</Link>, '3.1'),
+          getItem(<Link to="reports/history">Table</Link>, '3.1'),
         ]),
     ];
     
@@ -78,7 +78,7 @@ export default function DashboardMenu() {
     )];
 
     return (
-        <Sider className="ft-sider-menu" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <Sider className="ft-sider-menu" id="ft-sider-menu" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
             <div
                 className="logo-wrapper"
             >
