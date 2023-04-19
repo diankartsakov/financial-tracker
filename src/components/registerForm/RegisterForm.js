@@ -16,7 +16,7 @@ export default function RegisterForm() {
     const onFinish = (values) => {
         const {email, password} = values;
         setIsSentToServer(true);
-        register(email, password)
+        register(email.trim(), password)
             .then(() => {
                 navigate("/dashboard");
             })
@@ -49,7 +49,7 @@ export default function RegisterForm() {
                     message: 'Email is required',
                 },
                 { 
-                    pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                    pattern: /^\s*\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+\s*$/,
                     message: 'Please enter a valid Email'
                 }
             ]}
@@ -67,7 +67,8 @@ export default function RegisterForm() {
                 },
                 {
                     min: 6,
-                    message: 'Password must be at least 6 characters long.'
+                    pattern: /^\S{6,}$/,
+                    message: 'Password must be at least 6 characters long. No spaces allowed.'
                 },
             ]}
           >
