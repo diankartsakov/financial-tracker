@@ -17,9 +17,9 @@ export default function DashboardAccountCard({ currency = 'BGN', }) {
         if (accountsArr?.length) {
             const accountUpdate = accountsArr.find(acc => accountId === acc.accountId);
             // console.log("update");
-            setBalance(accountUpdate.amount);
+            setBalance(Number(accountUpdate.amount));
             setAccountName(accountUpdate.name);
-            setfrozenBalance(accountUpdate.frozenAmount);
+            setfrozenBalance(Number(accountUpdate.frozenAmount));
         }
     }, [accountId]);
 
