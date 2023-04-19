@@ -1,6 +1,7 @@
 import { db } from '../firebase/firebase.js';
 import { doc, updateDoc, addDoc, collection, increment } from "firebase/firestore";
 import { getAccount } from './firebaseFirestoreAccounts.js';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 class AccountManager {
 
@@ -10,6 +11,7 @@ class AccountManager {
       const docRef = await addDoc(collection(db, "accounts"), {
         name: accountName,
         amount: 0,
+        frozenAmount: 0,
         uid: uid
       });
 
@@ -20,11 +22,6 @@ class AccountManager {
     }
   };
 
-  validateAccountBalance =  async (accountId, amount) => {
-    // console.log(accountId)
-    let acc = await getAccount(accountId);
-    return acc.amount - amount >= 0;
-  };
 
   validateBalance = async (accountId, amount) => {
     // console.log(accountId)
@@ -39,14 +36,14 @@ class AccountManager {
 
     const accRef = doc(db, "accounts", accountId);
 
-    if(increase) {
+    if (increase) {
       await updateDoc(accRef, {
         amount: increment(balance)
-    });
+      });
 
     }
     else {
-  
+
       await updateDoc(accRef, {
         amount: balance
       });
@@ -70,72 +67,139 @@ class AccountManager {
   };
 
 
+  initiateFrozenTransaction = async (accountName, accountId, amount, type, category, when) => {
 
-  // Add a new transaction to the "transactions" collection
-  initiateTransaction = async(accountName, accountId, amount, type, category, fromAccountId) => {
+    const remainingBalance = await this.validateBalance(accountId, amount);
 
-    let remainingBalance = 0;
-    
-    if (type !== "Deposit") {
-        const idForValidateBalance = type === "Expense" ? accountId : fromAccountId.key;
-        const isBalanceValid = await this.validateAccountBalance(idForValidateBalance, amount)
-    
-        if (!isBalanceValid) {
-            // console.log("Insufficient Funds !");
-            return{ok: false, error: true, message: "Insufficient Funds !"}
-        }
-
-        remainingBalance = await this.validateBalance(idForValidateBalance, amount); 
+    if (remainingBalance < 0) {
+      // console.log("Insufficient Funds !");
+      return { ok: false, error: true, message: "Insufficient Funds !" };
     }
 
-    const transactionAcc =  {
+    const today = new Date();
+
+    let unfreezeDate = when === 'one-month' ?
+                      new Date(today.getFullYear(), today.getMonth() + 1, today.getDate()) :
+                      new Date(today.setDate(today.getDate() + 7));
+
+    const transaction = {
+      accountName: accountName,
+      accountId: accountId,
+      amount: Number(amount.toFixed(2)),
+      type: type,
+      category: category,
+      date: today,
+      isFrozen: true,
+      unfreezeDate: unfreezeDate
+    };
+
+    console.log(transaction);
+
+    await Promise.all([
+      addDoc(collection(db, "transactions"), transaction),
+      this.updateFrozenBalance(accountId, amount, true)
+    ]);
+
+    return { 
+      ok: true, 
+      error: false, 
+      message: `Your '${category}' transaction for ${amount.toFixed(2)} BGN will be 
+      processed on ${unfreezeDate.getDate()}-${unfreezeDate.getMonth() + 1}-${unfreezeDate.getFullYear()}. 
+      ${amount.toFixed(2)} BGN was moved to your Frozen Balance.` }
+
+  };
+
+  updateFrozenBalance = async (accountId, balance, increase) => {
+
+    const accRef = doc(db, "accounts", accountId);
+
+    if (increase) {
+      await updateDoc(accRef, {
+        frozenAmount: increment(balance),
+        amount: increment(-balance)
+      });
+
+    }
+    else {
+
+      await updateDoc(accRef, {
+        frozenAmount: increment(-balance),
+        amount: increment(balance)
+      });
+    }
+
+  };
+
+
+
+
+  // Add a new transaction to the "transactions" collection
+  initiateTransaction = async (accountName, accountId, amount, type, category, fromAccountId) => {
+
+    let remainingBalance = 0;
+
+    if (type !== "Deposit") {
+      const validateBalanceId = type === "Expense" ? accountId : fromAccountId.key;
+
+      remainingBalance = await this.validateBalance(validateBalanceId, amount);
+
+      if (remainingBalance < 0) {
+        // console.log("Insufficient Funds !");
+        return { ok: false, error: true, message: "Insufficient Funds !" };
+      }
+
+
+    }
+
+    const transactionAcc = {
+      accountName: accountName,
+      accountId: accountId,
+      amount: Number(amount.toFixed(2)),
+      type: type,
+      category: category,
+      date: new Date(),
+      isFrozen: false
+    }
+
+    if (type === "Transfer") {
+      if (!fromAccountId) {
+        return { ok: false, error: true, message: "From account is not selected!" }
+      }
+
+      transactionAcc.fromAccountId = fromAccountId.key;
+
+      const toAccTransaction = {
         accountName: accountName,
-        accountId: accountId,
+        accountId: fromAccountId,
         amount: Number(amount.toFixed(2)),
         type: type,
         category: category,
-        date: new Date()
-    }
-    
-    if (type === "Transfer") {
-        if (!fromAccountId) {
-            return  {ok: false, error: true, message:"From account is not selected!"}
-        }
+        date: new Date(),
+        toAccountId: accountId
+      }
 
-        transactionAcc.fromAccountId = fromAccountId.key;
+      await Promise.all([
+        this.addTransction(transactionAcc),
+        this.updateBalance(accountId, amount, true),
+        this.addTransction(toAccTransaction),
+        this.updateBalance(fromAccountId.key, remainingBalance)
+      ]);
 
-        const toAccTransaction = {
-            accountName: accountName,
-            accountId: fromAccountId,
-            amount: Number(amount.toFixed(2)),
-            type: type,
-            category: category,
-            date: new Date(),
-            toAccountId: accountId
-        }
-
-        await Promise.all([
-            this.addTransction(transactionAcc), 
-            this.updateBalance(accountId, amount, true),
-            this.addTransction(toAccTransaction),
-            this.updateBalance(fromAccountId.key, remainingBalance)
-        ]);
-   
-        return  {ok: true, error: false, message: `You have successfully transferred ${amount} BGN from '${fromAccountId.label}' account.`}
+      return { ok: true, error: false, message: `You have successfully transferred ${amount} BGN from '${fromAccountId.label}' account.` }
     } else if (type === "Expense") {
-        await Promise.all([
-            this.addTransction(transactionAcc), 
-            this.updateBalance(accountId, remainingBalance)
-          ]);
+      await Promise.all([
+        this.addTransction(transactionAcc),
+        this.updateBalance(accountId, remainingBalance)
+      ]);
 
-        return {ok: true, error: false, message: `You have successfully paid ${amount} BGN for ${category}.`}
+      return { ok: true, error: false, message: `You have successfully paid ${amount} BGN for ${category}.` }
     } else {
-        await Promise.all([
-            this.addTransction(transactionAcc), 
-            this.updateBalance(accountId, amount, true)
-        ]);
+      await Promise.all([
+        this.addTransction(transactionAcc),
+        this.updateBalance(accountId, amount, true)
+      ]);
 
-        return  {ok: true, error: false, message: `You have successfully deposited ${amount} BGN.`}
+      return { ok: true, error: false, message: `You have successfully deposited ${amount} BGN.` }
     }
   }
 
