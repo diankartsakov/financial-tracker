@@ -1,9 +1,10 @@
-import { Outlet, Link} from "react-router-dom";
+import { Outlet, Link, useLocation} from "react-router-dom";
 // import AccountsDrowpdown from "../accountDropdown/AccountsDropdown";
 import { getUserAccountsTransactions } from '../../services/firebaseFirestoreAccounts';
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { useReport } from "./DashboardReportsProvider";
 import { useEffect } from "react";
+import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
 
 export default function DashboardReports() {
     const {currentAccountName, accountId, accountsIds} = useDash();
@@ -37,14 +38,32 @@ export default function DashboardReports() {
 
             console.log("effect end" );
         }
-    })
+    });
+
+    const location = useLocation().pathname
+                        .split("/")
+                        .slice(1);
+
+    const currentLocation = location[2] || location[1];
 
     return (
         <>
             <h2>Reports</h2>
-            {/* <AccountsDrowpdown accountName={currentAccountName} onSelect={onSelect} accountAdded={accountAdded}/> */}
-            <Link to="history">Transactons History</Link>
-            <Outlet/>
+            { 
+                currentLocation === "reports"
+            ?
+                <div className="ft-report-cards">
+                    <Link to="history"  style={{
+                        display: "inline-block",
+                        width: "200px", border: "3px solid black",
+                    }}><ProfileCardInfo title="History"/></Link>
+                </div>
+            :
+                <>
+                    <h2>Hello</h2>
+                    <Outlet/>                
+                </>
+            }
         </>
     )
 }

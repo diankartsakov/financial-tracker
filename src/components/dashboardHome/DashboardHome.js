@@ -7,7 +7,6 @@ import "./dashboardHome.scss"
 import { getDateWithSuffixDay } from "../../assests/utils/utils";
 import { getCurrentAccountBalance, getTotalBalance } from "../../assests/utils/dashboardUtils";
 import { Link } from 'react-router-dom';
-import LogarithmicBarChart from "../accountsDonutChart/LogarithmicBarChartDemo";
 import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
 import { getUserAccountsTransactionsCounts } from "../../services/firebaseFirestoreAccounts";
 import AccountsDonutChart from "../accountsDonutChart/accountsDonutChart";

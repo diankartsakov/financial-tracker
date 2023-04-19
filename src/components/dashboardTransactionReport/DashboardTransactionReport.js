@@ -12,14 +12,13 @@ export default function DashboardTransactionReport() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
 
-
   const { accountsArr } = useDash();
-  const accountIds = accountsArr.map(account => {
-    return account.accountId;
-  });
+  // const accountIds = accountsArr.map(account => {
+  //   return account.accountId;
+  // });
 
   useEffect(() => {
-    console.log("useEffectRender");
+    // console.log("useEffectRender");
     // Filter the data based on the search criteria
     const filteredData = transactions.filter((item) => {
 
