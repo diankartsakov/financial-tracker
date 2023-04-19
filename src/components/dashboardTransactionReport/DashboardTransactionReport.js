@@ -5,8 +5,8 @@ import moment from 'moment';
 import { useDash } from '../../../pages/dashboardPage/DashboardProvider';
 import { getUserAccountsTransactions } from '../../../services/firebaseFirestoreAccounts';
 
-export default function DashboardTransactionReport() {
-
+export default function DashboardTransactionReport({data="no"}) {
+  console.log(data);
   const [transactions, setTransactions] = useState([]);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
