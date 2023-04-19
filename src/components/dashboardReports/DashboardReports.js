@@ -74,7 +74,7 @@ export default function DashboardReports() {
 
             :
                 <>
-                    <h2>Hello</h2>
+                    <h2>Current Account: {reportAccount.reportAccountName}</h2>
                     <ReportsDropdown/>
                     <Outlet/>                
                 </>
