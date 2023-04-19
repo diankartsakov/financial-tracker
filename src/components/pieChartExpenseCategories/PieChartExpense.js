@@ -7,14 +7,10 @@ import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
 import { DatePicker, Space } from 'antd';
 import { getExpensesTransactionForMonthYear } from '../../assests/utils/reportDataManipulation';
-import { logRoles } from '@testing-library/react';
-const { RangePicker } = DatePicker;
 
 export default function PieChartExpense() {
     const {transactions, reportAccount, isLoaded} = useReport();
     const [expenseTransactions, setExpenseTransactions] = useState([]);
-    // const [series, setSeries] = useState([]);
-    // const [monthYearSeries, setMonthYearSeries ] = useState([]);
     const [reportTransactions, setReportTransactions] = useState([]);
     const [monthYear, setMonthYear] = useState({
         month: new Date().getMonth(),
@@ -22,6 +18,33 @@ export default function PieChartExpense() {
     });
 
     // console.log(monthYear);
+
+    useEffect(() => {
+        if (isLoaded) {
+            const currentReportExpenseTransactions = transactions.filter(transaction => transaction.type === "Expense");
+            // console.log(currentReportExpenseTransactions);
+
+            const accountReportTransactions =  getExpensesTransactionForMonthYear({
+                arr: currentReportExpenseTransactions,
+                reportAccountId: reportAccount.reportAccountId,
+                month: monthYear.month,
+                year: monthYear.year,
+            });
+
+            setExpenseTransactions(currentReportExpenseTransactions);
+            setReportTransactions(accountReportTransactions);
+        } else {
+            const accountReportTransactions =  getExpensesTransactionForMonthYear({
+                arr: expenseTransactions,
+                reportAccountId: reportAccount.reportAccountId,
+                month: monthYear.month,
+                year: monthYear.year,
+            });
+
+            setReportTransactions(accountReportTransactions);
+        }
+        
+    }, [reportAccount, isLoaded, monthYear]);
 
     const onChangeDate = (value) => {
         if (value) {
@@ -36,90 +59,6 @@ export default function PieChartExpense() {
             })
         }
     }
-    // console.log(isLoaded);
-    // console.log(reportTransactions);
-
-    useEffect(() => {
-        if (isLoaded) {
-            const currentReportExpenseTransactions = transactions.filter(transaction => transaction.type === "Expense");
-            const accountReportTransactions = currentReportExpenseTransactions
-                .filter(transaction => transaction.accountId === reportAccount.reportAccountId)
-                .reduce((acc, expense) => {
-                    const { category, date } = expense;
-
-                    const dateExpense = {
-                        month: date.getMonth(),
-                        year: date.getFullYear(),
-                    }
-
-                    const isInDateRange = dateExpense.month === monthYear.month && dateExpense.year === monthYear.year;
-                   
-                    if (isInDateRange) {
-                        if (!acc[category]) {
-                        acc[category] = [];
-                        }
-                        acc[category].push(expense);
-                    }
-                    
-                    return acc;
-                  }, {});
-
-            const accountReportTransactions2 =  getExpensesTransactionForMonthYear({
-                arr: currentReportExpenseTransactions,
-                reportAccountId: reportAccount.reportAccountId,
-                month: monthYear.month,
-                year: monthYear.year,
-            });
-
-            console.log("old ->", accountReportTransactions);
-            console.log("new ->", accountReportTransactions2);
-            
-            // const seriesData = Object.keys(accountReportTransactions).map(key => {
-            //     return accountReportTransactions[key].reduce((acc, { amount }) => {
-            //         return acc + amount;
-            //     }, 0);
-            // });    
-            
-            // console.log("on loading");
-            // setSeries(seriesData);
-            setExpenseTransactions(currentReportExpenseTransactions);
-            setReportTransactions(accountReportTransactions);
-        } else {
-            // console.log("second use effect")
-            const accountReportTransactions = expenseTransactions.filter(transaction => transaction.accountId === reportAccount.reportAccountId)
-            .reduce((acc, expense) => {
-                const { category,  date  } = expense;
-
-                const dateExpense = {
-                    month: date.getMonth(),
-                    year: date.getFullYear(),
-                }
-
-                const isInDateRange = dateExpense.month === monthYear.month && dateExpense.year === monthYear.year;
-               
-                if (isInDateRange) {
-                    if (!acc[category]) {
-                    acc[category] = [];
-                    }
-                    acc[category].push(expense);
-                }
-
-                return acc;
-              }, {});
-
-            //   const seriesData =  Object.keys(accountReportTransactions).map(key => {
-            //     return accountReportTransactions[key].reduce((acc, { amount }) => {
-            //         return acc + amount;
-            //     }, 0);
-            // });    
-            
-            // setSeries(seriesData);
-            setReportTransactions(accountReportTransactions);
-        }
-        
-
-        // setIsLoading(false);
-    }, [reportAccount, isLoaded, monthYear]);
 
     const options = {
         "chart": {
@@ -171,9 +110,6 @@ export default function PieChartExpense() {
             "fillSeriesColor": true,
             "theme": "dark",
             y: {formatter: function (values, { seriesIndex, globals: {seriesNames} }) {
-                // debugger
-                // console.log(seriesIndex);
-                // const account = reportTransactions[seriesNames];
                 const amount = reportTransactions[seriesNames[seriesIndex]].reduce((acc, {amount}) => {   
                     return acc + amount;
                     }, 0);
@@ -217,10 +153,10 @@ export default function PieChartExpense() {
 
     
     return (<>
-        <div> 
+        <div className="filter-wrapper"> 
             <ReportsDropdown/>
             <Space direction="vertical" size={12}>
-                <DatePicker  onChange={(value) => onChangeDate(value)} picker="month" />
+                <DatePicker onChange={(value) => onChangeDate(value)} picker="month" />
             </Space>
 
         </div>
