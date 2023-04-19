@@ -14,7 +14,6 @@ export default function TransferDropdown(props) {
         };
     }).filter(e => e.key !== accountId);
 
-
     const onClick = ({ key }) => {
 
         const acc = items.find(a => a.key === key);

@@ -16,8 +16,8 @@ export default function DashboardExpense() {
     }, []);
 
     return (
-        <>
-            <h1 className="expense-account-heading">Current Account: <Link to="/dashboard/accounts" className="expense-account-name">{currentAccountName}</Link></h1>
+        <>  <h1 className="expense-account-heading"> User expense Categories</h1>
+            <h1 className="expense-account-heading">Expense for: <Link to="/dashboard/accounts" className="expense-account-name">{currentAccountName}</Link></h1>
             <CategoryFormModal onSubmit={addCategory}/>
             <div className="categoriesWrapper">{
                 isLoading ?

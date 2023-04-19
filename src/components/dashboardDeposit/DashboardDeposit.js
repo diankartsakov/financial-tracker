@@ -32,7 +32,6 @@ export default function DashboardDeposit() {
   const handleAmountChange = e => {
     const newAmount = e.target.value;
 
-    console.log(typeof newAmount);
     if (newAmount < 0) { 
       setmodalMessage(['Invalid Amount', 'Please enter a positive amount.']);
       setModalVisible(true);
@@ -42,7 +41,7 @@ export default function DashboardDeposit() {
       setModalVisible(true);
     }
     else {
-      setAmount(newAmount);
+      setAmount(Number(newAmount));
     }
   };
 
@@ -114,7 +113,7 @@ export default function DashboardDeposit() {
         return;
       }
 
-      result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount.key);
+      result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
     }
 
     // console.log(result);
@@ -271,10 +270,10 @@ export default function DashboardDeposit() {
             title="Transaction Processed Successfully !"
             subTitle={successfulTransaction.message}
             extra={[
-              <Link to = '/dashboard/accounts'>
+              <Link key='successGoToAccLink' to = '/dashboard/accounts'>
               <Button className='da-btn' type="primary" key='successGoToAcc'>Go To Accounts</Button>
               </Link>,
-              <Link to = '/dashboard/reports'>
+              <Link key='successGoToReportsLink' to = '/dashboard/reports'>
               <Button className='da-btn' type="primary"key='successGoToReports'>Go To Reports</Button>
               </Link>,
             ]}
