@@ -26,7 +26,7 @@ export default function DashboardReports() {
             // console.log("effect start");
             const reports = async () => {
                 // const userTransactions = await getUserAccountsTransactions(accountsIds);
-                const userTransactions = getExpenses(25);
+                const userTransactions = getExpenses(50);
                 // console.log(userTransactions);
                 updateReportAccount({
                     reportAccountId: accountId,
@@ -75,7 +75,7 @@ export default function DashboardReports() {
             :
                 <>
                     <h2>Current Account: {reportAccount.reportAccountName}</h2>
-                    <ReportsDropdown/>
+                    {/* <ReportsDropdown/> */}
                     <Outlet/>                
                 </>
             }
