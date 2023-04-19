@@ -16,7 +16,7 @@ export default function LoginForm() {
     const onFinish = (values) => {
         const {email, password} = values;
         setIsSentToServer(true);
-        login(email, password)
+        login(email.trim(), password)
             .then(() => {
                 navigate('/dashboard');
             })
@@ -53,7 +53,7 @@ export default function LoginForm() {
                                 message: 'Email is required',
                             },
                             { 
-                                pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                                pattern: /^\s*\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+\s*$/,
                                 message: 'Please enter a valid Email'
                             }
                         ]}
