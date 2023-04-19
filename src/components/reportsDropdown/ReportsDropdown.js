@@ -1,21 +1,20 @@
 import {  DownOutlined  } from '@ant-design/icons';
 import {  Dropdown, Space, Button } from  "antd";
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useReport } from '../dashboardReports/DashboardReportsProvider';
 
 export default function ReportsDropdown() {
-    const { accountId, accountsArr } = useDash();
+    const { accountsArr } = useDash();
     const { reportAccount, updateReportAccount } = useReport();
-    console.log(reportAccount);
-    // const [fromAccount, setfromAccount] = useState(props.currentAcc? props.currentAcc :'Choose Account');
+    // console.log(reportAccount);
 
     const items = accountsArr.map(a => {
         return {
             label: a.name,
             key: a.accountId,
         };
-    }).filter(e => e.key !== accountId);
+    }).filter(e => e.key !== reportAccount.reportAccountId);
 
     const onClick = ({ key }) => {
         const acc = items.find(a => a.key === key);

@@ -9,7 +9,7 @@ import { getExpenses } from "../../assests/utils/dataGenerator";
 import ReportsDropdown from "../reportsDropdown/ReportsDropdown";
 
 export default function DashboardReports() {
-    const {currentAccountName, accountId, accountsIds} = useDash();
+    const { currentAccountName, accountId } = useDash();
     const {
         isLoaded,
         reportAccount,
@@ -21,25 +21,25 @@ export default function DashboardReports() {
 
     useEffect(() => {
         if (isLoaded) {
-            console.log("Loaded already");
+            // console.log("Loaded already");
         } else {
-            console.log("effect start");
+            // console.log("effect start");
             const reports = async () => {
                 // const userTransactions = await getUserAccountsTransactions(accountsIds);
                 const userTransactions = getExpenses(25);
-                console.log(userTransactions);
+                // console.log(userTransactions);
                 updateReportAccount({
                     reportAccountId: accountId,
                     reportAccountName: currentAccountName,
                 });
                 updateTransactionsArr(userTransactions);
-                console.log("effect middle");
+                // console.log("effect middle");
                 isLoadedUpdate(true);
             }
 
             reports().then();
 
-            console.log("effect end" );
+            // console.log("effect end" );
         }
     });
 
@@ -55,12 +55,23 @@ export default function DashboardReports() {
             { 
                 currentLocation === "reports"
             ?
-                <div className="ft-report-cards">
-                    <Link to="history"  style={{
-                        display: "inline-block",
-                        width: "200px", border: "3px solid black",
-                    }}><ProfileCardInfo title="History"/></Link>
-                </div>
+                <>
+                    <div className="ft-report-cards">
+                        <h2 style={{borderBottom: "5px solid black"}}>EXPENSES</h2>
+                            <Link to="pie-chart-expense"  style={{
+                                display: "inline-block",
+                                width: "200px", border: "3px solid black",
+                            }}><ProfileCardInfo title="Pie Chart Expense"/></Link>
+                        <h2 style={{borderBottom: "5px solid black"}}>HISTORY</h2>
+                        <Link to="history"  style={{
+                            display: "inline-block",
+                            width: "200px", border: "3px solid black",
+                        }}><ProfileCardInfo title="History"/></Link>
+                    </div>
+                
+                </>
+            
+
             :
                 <>
                     <h2>Hello</h2>

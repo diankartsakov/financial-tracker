@@ -65,9 +65,12 @@ export default function DashboardMenu() {
                 []
             ,
         ),
-        getItem(<Link to="reports" className="ft-accounts-link">Reports</Link>, '3', <PieChartOutlined />, [
-          getItem(<Link to="reports/history">Table</Link>, '3.1'),
-        ]),
+        getItem(<Link to="reports" className="ft-accounts-link">Reports</Link>, '3', 
+        <PieChartOutlined />, 
+        // [
+        //   getItem(<Link to="reports/history">Table</Link>, '3.1'),
+        // ]
+        ),
     ];
     
     const logoutItem = [

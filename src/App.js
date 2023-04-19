@@ -17,6 +17,7 @@ import NotAuthorizedPage from './pages/notAuthorizedPage/NotAuthorizedPage';
 import PageDoesNotExist from './pages/pageDoesNotExist/PageDoesNotExist';
 import DashboardReports from './components/dashboardReports/DashboardReports';
 import ReportProvider from './components/dashboardReports/DashboardReportsProvider';
+import PieChartExpense from './components/pieChartExpenseCategories/PieChartExpense';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                                         </ReportProvider>
                                     }>  
                                         <Route path='history' element={<DashboardTransactionReport/>}></Route>
+                                        <Route path='pie-chart-expense' element={<PieChartExpense/>}></Route>
                                     </Route> 
                                     <Route path='accounts' element= {<DashboardAccounts/>}/>
                                     <Route path='expense' element= {<DashboardExpense/>}/> 
