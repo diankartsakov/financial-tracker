@@ -70,14 +70,15 @@ async function getUserAccountsTransactions(accountIds=[]) {
         transaction.id = doc.id;
         transaction.date = transaction.date.toDate();
 
+
         if(transaction.type === 'Expense'){
-            transaction.category = `${transaction.type} / ${transaction.category}`;
+            transaction.mixedCategory = `${transaction.type} / ${transaction.category}`;
         }
         if(transaction.type === 'Transfer'){
 
             transaction.toAccountId ?
-            transaction.category = 'Outgoing Transfer':
-            transaction.category = 'Incoming Transfer';
+            transaction.mixedCategory = 'Outgoing Transfer':
+            transaction.mixedCategory = 'Incoming Transfer';
         }
 
        transaction.amountString = `${transaction.amount.toFixed(2)} BGN`;
