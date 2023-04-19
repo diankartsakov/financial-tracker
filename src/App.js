@@ -37,7 +37,7 @@ function App() {
                                     </DashboardProvider>
                                 }>
                                     <Route path='' element={<DashboardHome/>}/>
-                                    <Route path='reports' element= {<DashboardTransactionReport/>}/>   
+                                    <Route path='reports' element={<DashboardTransactionReport/>}/>   
                                     <Route path='accounts' element= {<DashboardAccounts/>}/>
                                     <Route path='expense' element= {<DashboardExpense/>}/> 
                                     <Route path='deposit' element= {<DashboardDeposit/>}/> 

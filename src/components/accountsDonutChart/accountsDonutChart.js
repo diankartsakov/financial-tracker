@@ -12,7 +12,6 @@ export default function AccountsDonutChart() {
         return {name: acc.name, amount: acc.amount}
     });
 
-
     const options = {
         "chart": {
             "animations": {

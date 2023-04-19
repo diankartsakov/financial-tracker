@@ -56,11 +56,11 @@ export default function DashboardMenu() {
             accounts
             ?
                 accounts.map(a => {
-                return (getItem(<p onClick={() => {
+                return (getItem(<Link to="accounts" onClick={() => {
                     updateAccountId(a.accountId);
                     updateCurrentAccountName(a.name);
                     navigate("accounts");
-                }} className="ft-accounts-subaccounts-p">{a.name}</p>, a.accountId))})
+                }} className="ft-accounts-subaccounts-p">{a.name}</Link>, a.accountId))})
             :
                 []
             ,

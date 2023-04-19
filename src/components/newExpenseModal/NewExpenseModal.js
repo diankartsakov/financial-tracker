@@ -44,7 +44,7 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit, se
       open={open}
       title="New Expense"
       onCancel={onCancel}
-	  width={"600px"}
+	    width={"600px"}
       footer={
 		serverResult ?
 				[]
@@ -78,9 +78,7 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit, se
 					<Button type="primary" onClick={handleOk} className='ft-expense-pay-btn'>Pay</Button>
                 </Form>
               </>
-
         }
-            
         </Spin>
      
     </Modal>
