@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
 import { DatePicker, Space } from 'antd';
-import { convertDataToDayColumnsSeries, getDaysInMonth, getExpenseTransactionsByDaysForMonth, getExpensesTransactionForMonthYear } from '../../assests/utils/reportDataManipulation';
+import { convertDataToDayColumnsSeries, getDaysInMonth, getExpenseTransactionsByDaysForMonth, getExpensesTransactionForMonthYear, getMonthName } from '../../assests/utils/reportDataManipulation';
 
 export default function StackedColumnExpense() {
     const {transactions, reportAccount, isLoaded} = useReport();
@@ -20,18 +20,18 @@ export default function StackedColumnExpense() {
     useEffect(() => {
         if (isLoaded && isLoading) {
             const currentReportExpenseTransactions = transactions.filter(transaction => transaction.type === "Expense");
-            // console.log(currentReportExpenseTransactions);
-
+            console.log(currentReportExpenseTransactions);
+            
             const accountReportTransactions = getExpenseTransactionsByDaysForMonth({
                 arr: currentReportExpenseTransactions,
                 reportAccountId: reportAccount.reportAccountId,
                 month: monthYear.month,
                 year: monthYear.year,
             });
-            // console.log(accountReportTransactions);
+            console.log(accountReportTransactions);
             setExpenseTransactions(currentReportExpenseTransactions);
-            setIsLoading(false);
             setReportTransactions(accountReportTransactions);
+            setIsLoading(false);
         } else {
             const accountReportTransactions = getExpenseTransactionsByDaysForMonth({
                 arr: expenseTransactions,
@@ -39,10 +39,7 @@ export default function StackedColumnExpense() {
                 month: monthYear.month,
                 year: monthYear.year,
             });
-            getDaysInMonth(monthYear.year,monthYear.month);
-            const convertedToSeries = convertDataToDayColumnsSeries(accountReportTransactions);
-            console.log(convertedToSeries);
-            // console.log(accountReportTransactions);
+
             setReportTransactions(accountReportTransactions);
         }
         
@@ -119,13 +116,21 @@ export default function StackedColumnExpense() {
             }
         },
         "series": convertDataToDayColumnsSeries(reportTransactions),
+        // "series": [],
         "tooltip": {
             "shared": false,
-            "intersect": true
+            "intersect": true,
+            enabled: true,
+            "fillSeriesColor": true,
+            y: {formatter: function (values, {}) {
+                const amount = values.toFixed(2) + " BGN";
+                return amount;
+            }},
         },
         "xaxis": {
             "type": "category",
             categories: getDaysInMonth(monthYear.year,monthYear.month),
+            categories: [],
             "labels": {
                 "trim": true,
                 "style": {
@@ -163,10 +168,11 @@ export default function StackedColumnExpense() {
         { !isLoaded ? <>Loading...</>
         :    
         <div className='ft-pie-chart-expense-wrapper'>
-            <h3>Stacked Column Expenses</h3>
+            <h3>Stacked Column Expenses - {getMonthName(monthYear.month)} {monthYear.year}</h3>
             {
-                Object.keys(expenseTransactions).length 
+                Object.keys(reportTransactions).length 
                 ? 
+
                 <ReactApexChart
                 options={options}
                 series={options.series}

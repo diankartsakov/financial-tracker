@@ -26,8 +26,8 @@ export default function DashboardReports() {
             // console.log("effect start");
             const reports = async () => {
                 // const userTransactions = await getUserAccountsTransactions(accountsIds);
-                const userTransactions = getExpenses(300);
-                // console.log(userTransactions);
+                const userTransactions = getExpenses(75);
+                console.log(userTransactions);
                 updateReportAccount({
                     reportAccountId: accountId,
                     reportAccountName: currentAccountName,
