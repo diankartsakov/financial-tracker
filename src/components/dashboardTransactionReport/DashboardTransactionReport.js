@@ -1,21 +1,41 @@
 
 import React, { useEffect, useState } from 'react';
-import { Table, DatePicker, Pagination } from 'antd';
+import { Table, DatePicker, Pagination, Space } from 'antd';
 import moment from 'moment';
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { useReport } from '../dashboardReports/DashboardReportsProvider';
+import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
+
 
 export default function DashboardTransactionReport() {
-  const {transactions} = useReport();
+  const {transactions, reportAccount, isLoaded} = useReport();
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [monthYear, setMonthYear] = useState({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+});
 
   const { accountsArr } = useDash();
   // const accountIds = accountsArr.map(account => {
   //   return account.accountId;
   // });
+
+
+  useEffect (()=> {
+
+    const resultData = transactions.filter(transaction => {
+
+      return transaction.accountId == reportAccount.reportAccountId;
+    })
+
+    console.log(resultData);
+
+
+  },[reportAccount, monthYear]);
 
   useEffect(() => {
 
@@ -34,7 +54,7 @@ export default function DashboardTransactionReport() {
      transaction.amountString = `${transaction.amount.toFixed(2)} BGN`;
 
 
-  })
+  });
 
     // console.log("useEffectRender");
     // Filter the data based on the search criteria
@@ -64,6 +84,23 @@ export default function DashboardTransactionReport() {
 
     setFilteredTransactions(filteredData);
   }, [fromDate, toDate, transactions]);
+
+
+  const onChangeDate = (value) => {
+    if (value) {
+        setMonthYear({
+            month: value["$M"],
+            year: value["$y"],
+        });
+
+
+    } else {
+        setMonthYear({
+            month: new Date().getMonth(),
+            year: new Date().getFullYear(),
+        });
+    }
+};
 
 
   // Sort the data based on the selected column and direction
@@ -135,20 +172,12 @@ export default function DashboardTransactionReport() {
 
   return (
     <div>
-      <div>
-        <DatePicker
-          placeholder="From Date"
-          onChange={(value) => {
-            setFromDate(value ? value.toDate().setHours(0, 0, 0, 0) : null);
-          }}
-        />
-        <DatePicker
-          placeholder="To Date"
-          onChange={(value) => {
-            setToDate(value ? value.toDate().setHours(23, 59, 59, 999) : null);
-          }}
-        />
-      </div>
+         <div className="filter-wrapper"> 
+            <ReportsDropdown/>
+            <Space direction="vertical" size={12}>
+                <DatePicker onChange={(value) => onChangeDate(value)} picker="month" />
+            </Space>
+        </div>
       <Table
         columns={columns}
         dataSource={currentData}
