@@ -42,7 +42,16 @@ function NewAccountModal({ onCreate }) {
           <Form.Item
             name="accountName"
             label="Account Name"
-            rules={[{ required: true, message: 'Please enter an account name' }]}
+            rules={[
+              { 
+                required: true, 
+                message: 'Please enter an account name' 
+              },
+              {
+                pattern: /^[A-Za-z]{1,15}$/,
+                message: 'A valid account name consists of maximum 15 Latin letters, no spaces allowed'
+              }
+          ]}
           >
             <Input placeholder="Enter account name" />
           </Form.Item>
@@ -68,11 +77,10 @@ export default function DashboardAccounts() {
     console.log('Creating account with name:', values.accountName);
     // handle create account logic here
     const accountId = await accountManager.addAccount(values.accountName, uid);
-    const newAcc = { name: values.accountName, amount: 0, accountId };
+    const newAcc = { name: values.accountName, amount: '0.00', frozenAmount: '0.00', accountId };
 
     const arr = accountsArr;
     arr.push(newAcc);
-
     updateAccountsArr(arr);
     setIsAccountAdd(true);
   };

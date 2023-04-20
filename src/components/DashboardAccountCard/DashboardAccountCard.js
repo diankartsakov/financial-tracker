@@ -8,8 +8,8 @@ import './DashboardAccountCard.scss';
 export default function DashboardAccountCard({ currency = 'BGN', }) {
     const { accountId, accountsArr, currentAccountName } = useDash();
     const [isLoading, setIsLoading] = useState(true);
-    const [balance, setBalance] = useState(0);
-    const [frozenBalance, setfrozenBalance] = useState(0);
+    const [balance, setBalance] = useState('0.00');
+    const [frozenBalance, setfrozenBalance] = useState('0.00');
     const [accountName, setAccountName] = useState('');
 
     useEffect(() => {
@@ -17,9 +17,9 @@ export default function DashboardAccountCard({ currency = 'BGN', }) {
         if (accountsArr?.length) {
             const accountUpdate = accountsArr.find(acc => accountId === acc.accountId);
             // console.log("update");
-            setBalance(Number(accountUpdate.amount));
+            setBalance(accountUpdate.amount);
             setAccountName(accountUpdate.name);
-            setfrozenBalance(Number(accountUpdate.frozenAmount));
+            setfrozenBalance(accountUpdate.frozenAmount);
         }
     }, [accountId]);
 
@@ -33,12 +33,12 @@ export default function DashboardAccountCard({ currency = 'BGN', }) {
                         <Card className='da-account-form-card'>
                             <div className='da-account-form-balance'>
                                 <span className='da-account-form-balance-label'>Available:</span>
-                                <span className='da-account-form-balance-value'>{`${balance.toFixed(2)} ${currency}`}</span>
+                                <span className='da-account-form-balance-value'>{`${balance} ${currency}`}</span>
                             </div>
 
                             <div className='da-account-form-balance-frozen'>
                                 <span className='da-account-form-balance-frozen-label'>Frozen:</span>
-                                <span className='da-account-form-balance-frozen-value'>{`${frozenBalance.toFixed(2)} ${currency}`}</span>
+                                <span className='da-account-form-balance-frozen-value'>{`${frozenBalance} ${currency}`}</span>
                             </div>
                             <div className='da-account-form-name'>{accountName}</div>
                             <div className='da-account-form-buttons'>

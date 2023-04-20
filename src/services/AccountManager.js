@@ -55,6 +55,12 @@ class AccountManager {
 
   };
 
+  unfreezeTransaction = async() => {
+
+
+    
+  }
+
 
 
   addTransction = async (transaction) => {
@@ -148,6 +154,7 @@ class AccountManager {
       return { ok: true, error: false, message: `You have successfully deposited ${amount} BGN.` }
     }
   }
+
 
 
 
