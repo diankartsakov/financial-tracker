@@ -1,5 +1,4 @@
 import { Outlet, Link, useLocation} from "react-router-dom";
-// import AccountsDrowpdown from "../accountDropdown/AccountsDropdown";
 import { getUserAccountsTransactions } from '../../services/firebaseFirestoreAccounts';
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { useReport } from "./DashboardReportsProvider";
@@ -83,14 +82,14 @@ export default function DashboardReports() {
                     <div className="ft-report-cards">
                         <h2 style={{borderBottom: "5px solid black"}}>DEPOSIT, TRANSFER & INCOME</h2>
                         <div className="ft-report-cards-expense">
-                                <Link to="pie-chart-expense"  style={{
+                                <Link to="card-deposit-charts"  style={{
                                     display: "inline-block",
                                     width: "200px", border: "3px solid black",
-                                }}><ProfileCardInfo title="Pie Chart Expense"/></Link>
-                                <Link to="stacked-column-expense"  style={{
+                                }}><ProfileCardInfo title="Card Deposit Charts"/></Link>
+                                {/* <Link to="stacked-column-expense"  style={{
                                     display: "inline-block",
                                     width: "200px", border: "3px solid black",
-                                }}><ProfileCardInfo title="Stacked Column Expense"/></Link>
+                                }}><ProfileCardInfo title="Stacked Column Expense"/></Link> */}
                         </div>
                         
                         <h2 style={{borderBottom: "5px solid black"}}>EXPENSES</h2>

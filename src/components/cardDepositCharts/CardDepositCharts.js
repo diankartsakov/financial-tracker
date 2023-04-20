@@ -4,45 +4,50 @@ import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
 import { DatePicker, Space } from 'antd';
-import { convertDataToDayColumnsSeries, getDaysInMonth, getExpenseTransactionsByDaysForMonth, getExpensesTransactionForMonthYear, getMonthName } from '../../assests/utils/reportDataManipulation';
+import { convertDataForPolarAreaYearMonths, convertDataToDayColumnsSeries, getCardDepositForMonthsInYear, getDaysInMonth, getExpenseTransactionsByDaysForMonth, getExpensesTransactionForMonthYear, getMonthName } from '../../assests/utils/reportDataManipulation';
 
-export default function StackedColumnExpense() {
+export default function CardDepositCharts() {
     const {transactions, reportAccount, isLoaded} = useReport();
-    const [expenseTransactions, setExpenseTransactions] = useState([]);
-    const [reportTransactions, setReportTransactions] = useState([]);
+    const [cardDeposits, setCardDeposits] = useState([]);
+    const [reportCardDeposits, setReportCardDeposits] = useState([]);
+    const [chartData, setChartData] = useState({
+        series: [], labels: [],
+    });
     const [isLoading, setIsLoading] = useState(true);
     const [monthYear, setMonthYear] = useState({
-        month: new Date().getMonth(),
+        // month: new Date().getMonth(),
         year: new Date().getFullYear(),
     });
 
-    // console.log(reportTransactions);
     useEffect(() => {
         if (isLoaded && isLoading) {
-            const currentReportExpenseTransactions = transactions.filter(transaction => transaction.type === "Expense");
-            // console.log(currentReportExpenseTransactions);
+            const currentCardDeposits = transactions.filter(transaction => transaction.type === "Deposit");
+            console.log(currentCardDeposits);
             
-            const accountReportTransactions = getExpenseTransactionsByDaysForMonth({
-                arr: currentReportExpenseTransactions,
+            const accountReportTransactions = getCardDepositForMonthsInYear({
+                arr: currentCardDeposits,
                 reportAccountId: reportAccount.reportAccountId,
-                month: monthYear.month,
-                year: monthYear.year,
-            });
-            // console.log(accountReportTransactions);
-            setExpenseTransactions(currentReportExpenseTransactions);
-            setReportTransactions(accountReportTransactions);
-            setIsLoading(false);
-        } else {
-            const accountReportTransactions = getExpenseTransactionsByDaysForMonth({
-                arr: expenseTransactions,
-                reportAccountId: reportAccount.reportAccountId,
-                month: monthYear.month,
                 year: monthYear.year,
             });
 
-            setReportTransactions(accountReportTransactions);
+            const dataForChart = convertDataForPolarAreaYearMonths(accountReportTransactions);
+            // console.log(accountReportTransactions);
+            setChartData(dataForChart);
+            setCardDeposits(currentCardDeposits);
+            setReportCardDeposits(accountReportTransactions);
+            setIsLoading(false);
+        } else {
+            const accountReportTransactions = getCardDepositForMonthsInYear({
+                arr: cardDeposits,
+                reportAccountId: reportAccount.reportAccountId,
+                year: monthYear.year,
+            });
+            const dataForChart = convertDataForPolarAreaYearMonths(accountReportTransactions);
+            // console.log(accountReportTransactions);
+
+            setChartData(dataForChart);
+            setReportCardDeposits(accountReportTransactions);
         }
-        
     }, [reportAccount, isLoaded, monthYear]);
 
     const onChangeDate = (value) => {
@@ -55,7 +60,7 @@ export default function StackedColumnExpense() {
 
         } else {
             setMonthYear({
-                month: new Date().getMonth(),
+                // month: new Date().getMonth(),
                 year: new Date().getFullYear(),
             })
         }
@@ -64,31 +69,39 @@ export default function StackedColumnExpense() {
     const options = {
         "chart": {
             "animations": {
-                "enabled": false,
-                "easing": "swing"
+                "enabled": false
             },
             "background": "",
-            "foreColor": "#333",
+            "dropShadow": {
+                "enabled": true
+            },
+            "foreColor": "#000000",
             "fontFamily": "Roboto",
-            "height": 500,
-            "id": "8HuOv",
-            "stacked": true,
+            "height": 413,
+            "id": "6cSlM",
             "toolbar": {
                 "show": false
             },
-            "type": "bar",
-            // "width": 597
-            "width": "100%",
+            "type": "polarArea",
+            "width": 610
         },
         "plotOptions": {
             "bar": {
-                "borderRadius": 10,
-                "columnWidth": "80%",
-                "dataLabels": {
-                    "position": "center"
-                }
+                "borderRadius": 10
+            },
+            "radialBar": {
+                "hollow": {
+                    "background": "#fff"
+                },
             },
         },
+        "colors": [
+            "#00E0C0",
+            "#523B7E",
+            "#0467B1",
+            "#0093CF",
+            "#00BBD2"
+        ],
         "dataLabels": {
             "enabled": false,
             "style": {
@@ -96,30 +109,24 @@ export default function StackedColumnExpense() {
             }
         },
         "grid": {
-            "strokeDashArray": 20,
-            "row": {},
-            "column": {},
             "padding": {
+                "top": 20,
                 "right": 25,
-                "left": 15
+                "left": 20
             }
         },
+        "labels": chartData.labels,
         "legend": {
             "fontSize": 14,
             "offsetY": 0,
-            "markers": {
-                "shape": "square",
-                "size": 8
-            },
             "itemMargin": {
                 "vertical": 0
             }
         },
-        "series": convertDataToDayColumnsSeries(reportTransactions),
-        // "series": [],
+        "series": chartData.series,
         "tooltip": {
-            "shared": false,
-            "intersect": true,
+            "fillSeriesColor": true,
+            "theme": "dark",
             enabled: true,
             "fillSeriesColor": true,
             y: {formatter: function (values, {}) {
@@ -128,62 +135,61 @@ export default function StackedColumnExpense() {
             }},
         },
         "xaxis": {
-            "type": "category",
-            categories: getDaysInMonth(monthYear.year,monthYear.month),
-            // categories: [],
             "labels": {
                 "trim": true,
-                "style": {
-                    "rotate": -45,
-                    "fontSize": "12px"
-                }
+                "style": {}
             },
-            "tickPlacement": "between",
             "title": {
                 "style": {
                     "fontWeight": 700
                 }
-            },
-            "tooltip": {
-                "enabled": false
             }
         },
         "yaxis": {
-            "forceNiceScale": true,
-            "decimalsInFloat": true
+            "tickAmount": 6,
+            "labels": {
+                "style": {}
+            },
+            "title": {
+                "rotate": 90,
+                "style": {
+                    "fontWeight": 700
+                }
+            }
         },
         "theme": {
-            "palette": "palette4"
-        }
+            "palette": "palette5"
+        },
     }
 
     return (<>
          <div className="filter-wrapper"> 
             <ReportsDropdown/>
             <Space direction="vertical" size={12}>
-                <DatePicker onChange={(value) => onChangeDate(value)} picker="month" />
+                <DatePicker onChange={(value) => onChangeDate(value)} picker="year" />
             </Space>
         </div>
         { !isLoaded ? <>Loading...</>
         :    
         <div className='ft-pie-chart-expense-wrapper'>
-            <h3>Stacked Column Expenses - {getMonthName(monthYear.month)} {monthYear.year}</h3>
+            <h3>Polar Area Card Deposit - {monthYear.year}</h3>
             {
-                Object.keys(reportTransactions).length 
+                Object.keys(reportCardDeposits).length 
                 ? 
 
                 <ReactApexChart
                 options={options}
                 series={options.series}
-                type="bar"
+                type="polarArea"
                 height={"100%"}
                 width={"100%"}
                 />
-                // reportTransactions.map(transaction => <p key={transaction.id}>{transaction.category}-{transaction.amountString}</p>)
+                // reportCardDeposits.map(transaction => <p key={transaction.id}>{transaction.category}-{transaction.amountString}</p>)
                 :
-                <p>No Expenses</p>
+                <p>No Card Deposits</p>
             }
         </div>
         }
-    </>);
+    
+    </>)
 }
