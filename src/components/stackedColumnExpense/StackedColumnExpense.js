@@ -116,7 +116,6 @@ export default function StackedColumnExpense() {
             }
         },
         "series": convertDataToDayColumnsSeries(reportTransactions),
-        // "series": [],
         "tooltip": {
             "shared": false,
             "intersect": true,

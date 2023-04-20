@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { Dropdown } from 'antd';
+import { Dropdown, notification } from 'antd';
 import accountManager from "../../services/AccountManager";
 import "./expenseCategory.scss";
 import {deleteCategory, editCategory, getUserCategories } from "../../services/firebaseFirestoreCategories";
+import { Link } from "react-router-dom";
 import EditCategoryModal from "../editCategoryModal/EditCategoryModal";
 import DeletePopconfirm from "../deletePopconfirm/DeletePopconfirm";
 import NewExpenseModal from "../newExpenseModal/NewExpenseModal";
@@ -22,9 +23,33 @@ export default function ExpenseCategory({updateCategories,
     const [serverResult, setServerResult] = useState("");
     const {accountId, currentAccountName, accountsArr, updateAccountsArr} = useDash();
     const {authUser: {uid}} = useAuth();
+    const [api, contextHolder] = notification.useNotification();
+    
+    const descriptionMessage = (<>
+      <p style={{fontSize: "16px", fontWeight: 600}}>
+        Your expense could not be processed as there is no account linked to your profile. Please link an account to your profile and try again.
+      </p>
+      <p style={{fontSize: "16px", fontWeight: 600}}>
+        To link an account, please visit your <Link to="/dashboard/accounts">Accounts page</Link> and add a valid account number. Once an account is linked, you will be able to create and submit expenses successfully. Thank you for your attention to this matter.
+      </p>
+    </>);
+    
+    // \n
+    // To link an account, please visit your accounts page and add a valid account number. Once an account is linked, you will be able to create and submit expenses successfully. Thank you for your attention to this matter.`
+    const openNotification = (placement) => {
+        api.info({
+        message: `Account Association Required`,
+        description: descriptionMessage,
+        placement,
+        });
+    }
 
     const handleNewExpenseClick = () => {
-        setExpenseModalOpen(true);
+        if (accountId) {
+          setExpenseModalOpen(true);
+        } else {
+          openNotification("top");
+        }
     };
     const handleModalCancel = () => {
         setExpenseModalOpen(false);
@@ -114,13 +139,14 @@ export default function ExpenseCategory({updateCategories,
                   id, category, categoryBackground, icon, iconColor, iconSize,
                 }}/>
         }
-         <NewExpenseModal
-            open={expenseModalOpen}
-            onCancel={handleModalCancel}
-            category={category}
-            onSubmit={handleExpenseCreate}
-            serverResult={serverResult}
-        />
+        { accountId ? <NewExpenseModal
+                open={expenseModalOpen}
+                onCancel={handleModalCancel}
+                category={category}
+                onSubmit={handleExpenseCreate}
+                serverResult={serverResult}
+            /> : <>  {contextHolder} </>
+           }
       </>
     );
   }

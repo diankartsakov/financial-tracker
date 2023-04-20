@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
 import { DatePicker, Space } from 'antd';
-import { convertDataForPolarAreaYearMonths, convertDataToDayColumnsSeries, getCardDepositForMonthsInYear, getDaysInMonth, getExpenseTransactionsByDaysForMonth, getExpensesTransactionForMonthYear, getMonthName } from '../../assests/utils/reportDataManipulation';
+import { convertDataForPolarAreaYearMonths, getCardDepositForMonthsInYear } from '../../assests/utils/reportDataManipulation';
 
 export default function CardDepositCharts() {
     const {transactions, reportAccount, isLoaded} = useReport();
@@ -22,7 +22,7 @@ export default function CardDepositCharts() {
     useEffect(() => {
         if (isLoaded && isLoading) {
             const currentCardDeposits = transactions.filter(transaction => transaction.type === "Deposit");
-            console.log(currentCardDeposits);
+            // console.log(currentCardDeposits);
             
             const accountReportTransactions = getCardDepositForMonthsInYear({
                 arr: currentCardDeposits,
