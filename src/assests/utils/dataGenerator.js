@@ -60,10 +60,10 @@ function getCardDeposits(days=30) {
     const account = accounts[accountIndex];
 
     const day = Math.floor(Math.random() * 30) + 1; // Random day between 1-30
-    const month = Math.floor(Math.random() * 2) + 2;
+    const month = Math.floor(Math.random() * 12) + 1;
     const date = new Date(2023, month, day, 12, 0, 0); // April 2023 at 12pm
 
-    const amount = Math.floor(Math.random() * 1000) / 100; // Random amount between 0.00-9.99
+    const amount = Math.floor(Math.random() * 1000); // Random amount between 0.00-9.99
     const amountString = amount.toFixed(2) + ' BGN';
 
     const cardDeposit = {
