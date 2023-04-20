@@ -49,12 +49,16 @@ function NewAccountModal({ onCreate }) {
                 message: 'Please enter an account name' 
               },
               {
+                max: 15,
+                message: "Valid name is from 1 to 15 characters",
+              },
+              {
                 pattern: /^(?=.*[a-zA-Z])[a-zA-Z\s]{1,15}$/,
                 message: 'Valid name is from 1 to 15 characters, only Latin letters are allowed.'
               }
           ]}
           >
-            <Input width='' placeholder="Enter account name" />
+            <Input width='' maxLength={15} placeholder="Enter account name" />
           </Form.Item>
         </Form>
       </Modal>

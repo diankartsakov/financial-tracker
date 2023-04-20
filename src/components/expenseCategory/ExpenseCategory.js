@@ -34,8 +34,6 @@ export default function ExpenseCategory({updateCategories,
       </p>
     </>);
     
-    // \n
-    // To link an account, please visit your accounts page and add a valid account number. Once an account is linked, you will be able to create and submit expenses successfully. Thank you for your attention to this matter.`
     const openNotification = (placement) => {
         api.info({
         message: `Account Association Required`,

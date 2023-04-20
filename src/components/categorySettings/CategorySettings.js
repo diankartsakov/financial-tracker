@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Input, Button, Radio } from "antd";
+import { Input, Button, Radio, Form} from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import IconPickerPopover from "../iconPickerPopover/IconPickerPopover";
-import "./categorySettings.css";
+import "./categorySettings.scss";
 import { debounce } from "../../assests/utils/utils";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { getUserCategories } from "../../services/firebaseFirestoreCategories";
@@ -24,27 +24,29 @@ export default function CategorySettings({
   }
   
   ) {
-
     const [categoryName, setCategoryName] = useState(initialData.category);
     const [selectedIcon, setSelectedIcon] = useState(initialData.icon);
     const [selectedIconColor, setSelectedIconColor] = useState(initialData.iconColor);
     const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(initialData.categoryBackground);
     const [selectedSize, setSelectedSize] = useState(initialData.iconSize);
     const {categories, updateCategories} = useDash();
-
+    
+    // console.log(initialData);
+    // console.log(categoryName);
     useEffect(() => {
       if (resetForm) {
-        setCategoryName("");
+        setCategoryName(initialData.category);
         setSelectedIcon(faCoins);
         setSelectedIconColor("#000000");
         setSelectedBackgroundColor("#FFFFFF");
         setSelectedSize("4x");
         setResetForm(false);
       }
-    })
+    });
 
     const handleCategoryNameChange = (event) => {
-      setCategoryName(event.target.value);
+      let categoryName = event.target.value;
+      setCategoryName(categoryName);  
     };
   
     const handleIconSelect = (icon) => {
@@ -63,14 +65,17 @@ export default function CategorySettings({
       setSelectedSize(event.target.value);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async () => {
         const formData = {
           category: categoryName,
           icon: JSON.stringify(selectedIcon),
           iconColor: selectedIconColor,
           iconSize: selectedSize, 
           categoryBackground: selectedBackgroundColor,
+        }
+
+        if (categoryName.trim().length === 0 || categoryName.trim().length > 15 ) {
+          setError("Your Category Name is invalid. Valid name is from 1 to 15 characters")
         }
 
         const submitResult = await onSubmit(formData, initialData.id);
@@ -86,18 +91,38 @@ export default function CategorySettings({
         }
       };
 
+      const categoryValidationRules = [
+        { 
+          required: true, 
+          message: 'Please enter a category name' 
+        },
+        {
+          pattern: /^(?=.*[a-zA-Z])[a-zA-Z\s]{1,15}$/,
+          message: 'Valid name is from 1 to 15 characters, only Latin letters are allowed.'
+        }
+      ];
+
       return (
         <div className="form-container">
           <div className="form-column">
-            <form onSubmit={handleSubmit}>
+            <Form onFinish={handleSubmit} initialValues={{ 'category-name': categoryName }}>
               <div className="form-group">
                 <label htmlFor="category-name">Category Name:</label>
-                <Input
-                  id="category-name"
-                  type="text"
-                  value={categoryName}
-                  onChange={handleCategoryNameChange}
-                />
+                <Form.Item
+                  name="category-name"
+                  rules={categoryValidationRules}
+                  className="ft-category-name-input"
+                >
+                  
+                    <Input
+                      id="category-name"
+                      type="text"
+                      maxLength={15}
+                      value={categoryName}
+                      onChange={handleCategoryNameChange}
+                    />
+            
+                </Form.Item>
               </div>
               <div className="form-group">
                 <label htmlFor="icon">Icon:</label>
@@ -137,7 +162,7 @@ export default function CategorySettings({
               <Button value="submit" type="primary" htmlType="submit" >
                   Submit
               </Button>
-            </form>
+            </Form>
           </div>
           <div className="preview-column">
             <div className="category-preview">

@@ -9,9 +9,10 @@ export default function CategoryFormModal({onSubmit, categoryName="Create Catego
     const [error, setError] = useState("");
 
     const handleOpen = () => {
+
       setModalOpen(true);
     };
-  
+    
     const handleClose = () => {
       setError("");
       setResetForm(true);
@@ -35,7 +36,6 @@ export default function CategoryFormModal({onSubmit, categoryName="Create Catego
           <CategorySettings 
             onCancel={handleClose}
             onSubmit={onSubmit}
-            // setCategorries={setCategories}
             onError={{setError}}
             resetForm={{resetForm, setResetForm}}
           />

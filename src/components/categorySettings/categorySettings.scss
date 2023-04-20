@@ -21,6 +21,11 @@ form {
   
   .form-group {
     margin-bottom: 5px;
+
+    .ft-category-name-input .ant-form-item-control-input-content{
+        display: flex;
+        flex-direction: column;
+    }
   }
   
   .form-group label {
