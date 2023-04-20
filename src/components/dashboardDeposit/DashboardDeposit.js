@@ -32,10 +32,10 @@ export default function DashboardDeposit() {
   const handleAmountChange = e => {
     const newAmount = e.target.value;
 
-    if (newAmount < 0) { 
+    if (newAmount < 0) {
       setmodalMessage(['Invalid Amount', 'Please enter a positive amount.']);
       setModalVisible(true);
-    } else if (!isValidNumber(newAmount) && e.target.value.length !== 0){ // if the input does not match the regex
+    } else if (!isValidNumber(newAmount) && e.target.value.length !== 0) { // if the input does not match the regex
 
       setmodalMessage(['Invalid Amount', "Please enter a valid amount in the following format: 'X.XX'."]);
       setModalVisible(true);
@@ -53,7 +53,7 @@ export default function DashboardDeposit() {
   const handleOk = () => {
     setModalVisible(false);
     if (modalMessage[1] === 'Please enter a positive amount.' ||
-        modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
+      modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
     ) {
       form.resetFields(['amount']);
     }
@@ -62,9 +62,9 @@ export default function DashboardDeposit() {
 
   const handleCancel = () => {
     setModalVisible(false);
-    if (modalMessage[1] === 'Please enter a positive amount.' || 
-        modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
-    
+    if (modalMessage[1] === 'Please enter a positive amount.' ||
+      modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
+
     ) {
       form.resetFields(['amount']);
     }
@@ -89,6 +89,8 @@ export default function DashboardDeposit() {
     }
     // console.log(values);
 
+
+
     if (values) {
       setCurrentStep(1);
       setConfirmationData(values);
@@ -104,14 +106,14 @@ export default function DashboardDeposit() {
     console.log(accountId);
     console.log(accountsArr);
     console.log(accountObj);
-    
+
 
     setIsLoading(true);
 
     let result = {};
 
     if (depositType === 'card') {
-      result = await accountManager.initiateTransaction(accountObj,  amount, 'Deposit', 'Card Deposit');
+      result = await accountManager.initiateTransaction(accountObj, amount, 'Deposit', 'Card Deposit');
 
     } else {
 
@@ -177,7 +179,14 @@ export default function DashboardDeposit() {
       {currentStep === 0 && (<div className='da-deposit-form-details'>
         <Form className='da-ant-form' form={form} onFinish={handleContinueToCheckoutClick}>
           <h3>Deposit Form</h3>
-          <Form.Item className='da-ant-form-item' label="Amount" name="amount" rules={[{ required: true, message: 'Please enter a valid amount' }]}>
+          <Form.Item className='da-ant-form-item' label="Amount" name="amount"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter a valid amount'
+              }
+            ]}
+          >
             <Input type="number" name="amount" value={amount} onChange={handleAmountChange} />
           </Form.Item>
 
@@ -191,23 +200,57 @@ export default function DashboardDeposit() {
           {depositType === 'card' && (
             <>
 
-              <Form.Item className='da-ant-form-item' label="Card Number" name="cardNumber" rules={[{ required: true, message: 'Please enter a valid card number' }]}>
-                <Input type="text" maxLength={16} />
+              <Form.Item className='da-ant-form-item' label="Card Number" name="cardNumber"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter a valid card number',
+                    pattern: /^\d{16}$/
+
+                  }
+                ]}
+              >
+                <Input type="number" maxLength={16} />
               </Form.Item>
 
-              <Form.Item className='da-ant-form-item' label="Expiration Date" name="expirationDate" rules={[{ required: true, message: 'Please enter a valid expiration date' }]}>
+              <Form.Item className='da-ant-form-item' label="Expiration Date" name="expirationDate"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter a valid expiration date',
+                  }
+                ]}>
+
                 <Input type="month" name="expirationDate" placeholder="MM/YY" />
               </Form.Item>
 
 
 
-              <Form.Item className='da-ant-form-item' label="CVV" name="cvv" rules={[{ required: true, message: 'Please enter a valid CVV' }]}>
+              <Form.Item className='da-ant-form-item' label="CVV" name="cvv"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter a valid CVV',
+                    pattern: /^[0-9]{3}$/
+                  }
+                ]}
+              >
                 <Input type="number" name="cvv" />
               </Form.Item>
 
 
 
-              <Form.Item className='da-ant-form-item' label="Card Holder Name" name="cardHolderName" rules={[{ required: true, message: 'Please enter your full names.' }]}>
+              <Form.Item className='da-ant-form-item' label="Card Holder Names" name="cardHolderName"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter your full name',
+                    pattern: /^\s*[a-zA-Z]+\s+[a-zA-Z]+(\s+[a-zA-Z]+)?\s*$/,
+                    max: 25,
+                    whitespace: true,
+                  }
+                ]}
+              >
                 <Input type="text" name="cardHolderName" />
               </Form.Item>
             </>
@@ -251,7 +294,7 @@ export default function DashboardDeposit() {
 
                   </Form.Item>
                   <Form.Item className='da-ant-form-item'>
-                    <p>Card Holder Name: {confirmationData.cardHolderName}</p>
+                    <p>Card Holder Names: {confirmationData.cardHolderName}</p>
                   </Form.Item>
 
                 </>
@@ -285,11 +328,11 @@ export default function DashboardDeposit() {
             title="Transaction Processed Successfully !"
             subTitle={successfulTransaction.message}
             extra={[
-              <Link key='successGoToAccLink' to = '/dashboard/accounts'>
-              <Button className='da-btn' type="primary" key='successGoToAcc'>Go To Accounts</Button>
+              <Link key='successGoToAccLink' to='/dashboard/accounts'>
+                <Button className='da-btn' type="primary" key='successGoToAcc'>Go To Accounts</Button>
               </Link>,
-              <Link key='successGoToReportsLink' to = '/dashboard/reports'>
-              <Button className='da-btn' type="primary"key='successGoToReports'>Go To Reports</Button>
+              <Link key='successGoToReportsLink' to='/dashboard/reports'>
+                <Button className='da-btn' type="primary" key='successGoToReports'>Go To Reports</Button>
               </Link>,
             ]}
           >
@@ -303,10 +346,10 @@ export default function DashboardDeposit() {
           title="Submission Failed"
           subTitle={successfulTransaction.message}
           extra={[
-            <Link to = '/dashboard/accounts'>
-            <Button className='da-btn' type="primary" key='failedGoToAcc'>Go To Accounts</Button>
+            <Link to='/dashboard/accounts'>
+              <Button className='da-btn' type="primary" key='failedGoToAcc'>Go To Accounts</Button>
             </Link>,
-            <Button className='da-btn' type="primary" key='failedTryAgain' onClick={()=>{setCurrentStep(0);}}>Try Again</Button>
+            <Button className='da-btn' type="primary" key='failedTryAgain' onClick={() => { setCurrentStep(0); }}>Try Again</Button>
           ]}
         >
         </Result>
