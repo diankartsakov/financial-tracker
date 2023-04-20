@@ -26,6 +26,18 @@ export default function DashboardReports() {
             // console.log("effect start");
             const reports = async () => {
                 // const userTransactions = await getUserAccountsTransactions(accountsIds);
+
+                // const allTransactions = userTransactions.reduce((acc,value) => {
+
+                //     if(value.isFrozen) {
+                //         acc.frozen.push(value);
+                //     }
+                //     else {
+                //         acc.processed.push(value); 
+                //     }
+
+                // },{frozen: [], processed: []});
+
                 const userTransactions = getExpenses(75);
                 // console.log(userTransactions);
                 updateReportAccount({
