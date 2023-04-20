@@ -24,6 +24,7 @@ function getExpensesTransactionForMonthYear({arr, reportAccountId, month, year,}
 
 function getExpenseTransactionsByDaysForMonth({arr, reportAccountId, month, year,}) {
     // console.log(arr, reportAccountId, month, year,);
+    const monthName = getMonthName(month);
     return arr.filter(transaction => transaction.accountId === reportAccountId)
         .reduce((acc, expense) => {
             const { category, date } = expense
@@ -32,62 +33,43 @@ function getExpenseTransactionsByDaysForMonth({arr, reportAccountId, month, year
                 year: date.getFullYear(),
             }
 
-            const day = date.getDate();
-
-            // console.log(dateExpense.day);
-
             const isInDateRange = dateExpense.month === month && dateExpense.year === year;
-                  
-            if (isInDateRange) {
-                if (!acc[category]) {
-                   acc[category] = {
-                        [day]: [expense]
-                   };
-                } else if (acc[category][day]) {
-                    acc[category][day].push(expense)
-                } else {
-                        acc[category][day] = [expense]
-                };
-            }
             
+            if (isInDateRange) {
+                const day = date.getDate();
+                const key = `${day} ${monthName}`;
+
+                if (!acc[category]) {
+                        const data = getDaysInMonth(year, month).reduce((acc, value) => {
+                            acc[value] = [];
+                            return acc;
+                        }, {});
+                        acc[category] = data;
+                        acc[category][key].push(expense);
+                } else if (acc[category][key]) {
+                    acc[category][key].push(expense)
+                    } else {
+                            acc[category][key] = [expense];
+                    };
+
+            }
+
             return acc;
+            
         }, {});
 }
 
-// {
-//     "name": "Column 1",
-//     "data": [
-//         {
-//             "x": "item1",
-//             "y": 10
-//         },
-//         {
-//             "x": "Item 2",
-//             "y": "0"
-//         },
-//         {
-//             "x": "Item 3",
-//             "y": 30
-//         },
-//         {
-//             "x": "Item 4",
-//             "y": 40
-//         }
-//     ]
-// },
 function convertDataToDayColumnsSeries(arr) {
     const result = [];
     Object.entries(arr).map(([key, value]) => {
-        // console.log(key, value);
         const obj = {
             "name" : key,
             "data": [],
         }
         
         const data = Object.entries(value).map(([key, value]) => {
-            // console.log(key);
+
             const x = key;
-            // console.log(value);
             const y = value.reduce((acc, {amount}) => {
                 return acc + amount;
             }, 0);
@@ -99,18 +81,24 @@ function convertDataToDayColumnsSeries(arr) {
 
         obj["data"] = data;
         result.push(obj);
-        // const data = value.map(arr => console.log(data) )
-        
     });
 
     return result
 }
 
+function getMonthName(month) {
+    const monthNumber = month;
+    const date = new Date();
+    date.setMonth(monthNumber);
+    const monthName = date.toLocaleString('default', { month: 'long' });
+    // console.log(monthName);
+    return monthName;
+}
+
 function getDaysInMonth(year, month) {
-    const currentDate = new Date();
+    const monthName = getMonthName(month);
     const numDays = new Date(year, month + 1, 0).getDate();
-    const categories = Array.from({length: numDays}, (_, i) => (i + 1).toString());
-    // console.log(categories);
+    const categories = Array.from({length: numDays}, (_, i) => (i + 1).toString() + ` ${monthName}`);
     return categories;
 }
 
@@ -119,5 +107,5 @@ export {
     getExpenseTransactionsByDaysForMonth,
     convertDataToDayColumnsSeries,
     getDaysInMonth,
-
+    getMonthName,
 }
