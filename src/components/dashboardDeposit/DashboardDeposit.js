@@ -46,6 +46,7 @@ export default function DashboardDeposit() {
   };
 
   const handleFromAccountSelect = (acc) => {
+
     setFromAccount(acc);
   };
 
@@ -96,6 +97,13 @@ export default function DashboardDeposit() {
   };
 
   const handlePayButtonClick = async () => {
+
+
+    const accountObj = accountsArr.find(el => el.accountId === accountId);
+
+    console.log(accountId);
+    console.log(accountsArr);
+    console.log(accountObj);
     
 
     setIsLoading(true);
@@ -103,7 +111,7 @@ export default function DashboardDeposit() {
     let result = {};
 
     if (depositType === 'card') {
-      result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Deposit', 'Card Deposit');
+      result = await accountManager.initiateTransaction(accountObj,  amount, 'Deposit', 'Card Deposit');
 
     } else {
 
@@ -114,7 +122,13 @@ export default function DashboardDeposit() {
         return;
       }
 
-      result = await accountManager.initiateTransaction(currentAccountName, accountId, amount, 'Transfer', 'Internal Transfer', fromAccount);
+      const fromAccountObj = accountsArr.find(el => el.accountId === fromAccount.key);
+
+      console.log(fromAccount);
+      console.log(accountsArr);
+      console.log(fromAccountObj);
+
+      result = await accountManager.initiateTransaction(accountObj, amount, 'Transfer', 'Internal Transfer', fromAccountObj);
     }
 
     // console.log(result);

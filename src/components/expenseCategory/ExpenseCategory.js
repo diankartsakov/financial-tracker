@@ -20,7 +20,7 @@ export default function ExpenseCategory({updateCategories,
     const [modalOpen, setModalOpen] = useState(false);
     const [expenseModalOpen, setExpenseModalOpen] = useState(false);
     const [serverResult, setServerResult] = useState("");
-    const {accountId, currentAccountName, updateAccountsArr} = useDash();
+    const {accountId, currentAccountName, accountsArr, updateAccountsArr} = useDash();
     const {authUser: {uid}} = useAuth();
 
     const handleNewExpenseClick = () => {
@@ -35,7 +35,9 @@ export default function ExpenseCategory({updateCategories,
 
     const handleExpenseCreate = async (amount,delay) => {
 
-        const data = [currentAccountName, accountId, amount, "Expense", category]
+      const accountObj = accountsArr.find(el => el.accountId === accountId);
+
+        const data = [accountObj, amount, "Expense", category]
 
         if(delay === 'none'){
 
@@ -58,7 +60,6 @@ export default function ExpenseCategory({updateCategories,
 
         const accountsFullInfo = await getUserAccountsFullInfo(uid);
           updateAccountsArr(accountsFullInfo);
-
 
     };
 
