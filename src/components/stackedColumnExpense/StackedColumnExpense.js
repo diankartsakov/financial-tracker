@@ -20,7 +20,7 @@ export default function StackedColumnExpense() {
     useEffect(() => {
         if (isLoaded && isLoading) {
             const currentReportExpenseTransactions = transactions.filter(transaction => transaction.type === "Expense");
-            console.log(currentReportExpenseTransactions);
+            // console.log(currentReportExpenseTransactions);
             
             const accountReportTransactions = getExpenseTransactionsByDaysForMonth({
                 arr: currentReportExpenseTransactions,
@@ -28,7 +28,7 @@ export default function StackedColumnExpense() {
                 month: monthYear.month,
                 year: monthYear.year,
             });
-            console.log(accountReportTransactions);
+            // console.log(accountReportTransactions);
             setExpenseTransactions(currentReportExpenseTransactions);
             setReportTransactions(accountReportTransactions);
             setIsLoading(false);

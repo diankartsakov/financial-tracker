@@ -27,7 +27,7 @@ export default function DashboardReports() {
             const reports = async () => {
                 // const userTransactions = await getUserAccountsTransactions(accountsIds);
                 const userTransactions = getExpenses(75);
-                console.log(userTransactions);
+                // console.log(userTransactions);
                 updateReportAccount({
                     reportAccountId: accountId,
                     reportAccountName: currentAccountName,
@@ -57,6 +57,18 @@ export default function DashboardReports() {
             ?
                 <>
                     <div className="ft-report-cards">
+                        <h2 style={{borderBottom: "5px solid black"}}>DEPOSIT, TRANSFER & INCOME</h2>
+                        <div className="ft-report-cards-expense">
+                                <Link to="pie-chart-expense"  style={{
+                                    display: "inline-block",
+                                    width: "200px", border: "3px solid black",
+                                }}><ProfileCardInfo title="Pie Chart Expense"/></Link>
+                                <Link to="stacked-column-expense"  style={{
+                                    display: "inline-block",
+                                    width: "200px", border: "3px solid black",
+                                }}><ProfileCardInfo title="Stacked Column Expense"/></Link>
+                        </div>
+                        
                         <h2 style={{borderBottom: "5px solid black"}}>EXPENSES</h2>
                             <div className="ft-report-cards-expense">
                                 <Link to="pie-chart-expense"  style={{

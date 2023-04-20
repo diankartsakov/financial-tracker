@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
 import { DatePicker, Space } from 'antd';
-import { getExpensesTransactionForMonthYear } from '../../assests/utils/reportDataManipulation';
+import { getExpensesTransactionForMonthYear, getMonthName } from '../../assests/utils/reportDataManipulation';
 
 export default function PieChartExpense() {
     const {transactions, reportAccount, isLoaded} = useReport();
@@ -163,7 +163,7 @@ export default function PieChartExpense() {
         { !isLoaded ? <>Loading...</>
         :    
         <div className='ft-pie-chart-expense-wrapper'>
-            <h3>Pie Chart Expenses</h3>
+            <h3>Pie Chart Expenses - {getMonthName(monthYear.month)} {monthYear.year}</h3>
             {
                 Object.keys(reportTransactions).length 
                 ? 
