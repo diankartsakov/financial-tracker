@@ -40,6 +40,7 @@ function NewAccountModal({ onCreate }) {
       >
         <Form form={form} layout="vertical">
           <Form.Item
+            className='da-acc-create-form-input'
             name="accountName"
             label="Account Name"
             rules={[
@@ -48,12 +49,12 @@ function NewAccountModal({ onCreate }) {
                 message: 'Please enter an account name' 
               },
               {
-                pattern: /^[A-Za-z]{1,15}$/,
-                message: 'A valid account name consists of maximum 15 Latin letters, no spaces allowed'
+                pattern: /^(?=.*[a-zA-Z])[a-zA-Z\s]{1,15}$/,
+                message: 'Valid name is from 1 to 15 characters, only Latin letters are allowed.'
               }
           ]}
           >
-            <Input placeholder="Enter account name" />
+            <Input width='' placeholder="Enter account name" />
           </Form.Item>
         </Form>
       </Modal>
@@ -76,13 +77,14 @@ export default function DashboardAccounts() {
   const handleCreateAccount = async (values) => {
     console.log('Creating account with name:', values.accountName);
     // handle create account logic here
-    const accountId = await accountManager.addAccount(values.accountName, uid);
+    const accountId = await accountManager.addAccount(values.accountName.trim(), uid);
     const newAcc = { name: values.accountName, amount: '0.00', frozenAmount: '0.00', accountId };
 
     const arr = accountsArr;
     arr.push(newAcc);
     updateAccountsArr(arr);
     setIsAccountAdd(true);
+    updateAccountId(accountId);
   };
 
   const handleAccountSelect = (account) => {
