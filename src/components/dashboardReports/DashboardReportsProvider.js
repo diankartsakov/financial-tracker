@@ -7,6 +7,7 @@ const ReportContext = React.createContext({
         reportAccountName: null,
     },
     transactions: [],
+    frozenTransactions: [],
 });
 
 export default function ReportProvider({children}) {
@@ -17,6 +18,7 @@ export default function ReportProvider({children}) {
             reportAccountName: null,
         },
         transactions: [],
+        frozenTransactions: [],
     });
 
     const updateReportAccount = (reportAccount) => {
@@ -37,11 +39,19 @@ export default function ReportProvider({children}) {
         });
     };
 
+    
+    const updateFrozenTransactionsArr = (frozenTransactions) => {
+        setState(s => { 
+            return {...s, frozenTransactions: frozenTransactions};
+        });
+    };
+
     const value = {
         ...state,
         updateReportAccount,
         isLoadedUpdate,
         updateTransactionsArr,
+        updateFrozenTransactionsArr,
     };
 
     return (

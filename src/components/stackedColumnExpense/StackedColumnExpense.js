@@ -149,8 +149,7 @@ export default function StackedColumnExpense() {
             }
         },
         "yaxis": {
-            "max": 100,
-            "min": 0,
+            "forceNiceScale": true,
             "decimalsInFloat": true
         },
         "theme": {

@@ -5,7 +5,7 @@ import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { useReport } from "./DashboardReportsProvider";
 import { useEffect } from "react";
 import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
-import { getExpenses } from "../../assests/utils/dataGenerator";
+import { getCardDeposits, getExpenses } from "../../assests/utils/dataGenerator";
 import "./dashboardReports.scss";
 
 export default function DashboardReports() {
@@ -16,6 +16,7 @@ export default function DashboardReports() {
         // transactions,
         isLoadedUpdate,
         updateTransactionsArr,
+        updateFrozenTransactionsArr,
         updateReportAccount,
     } = useReport();
 
@@ -25,26 +26,37 @@ export default function DashboardReports() {
         } else {
             // console.log("effect start");
             const reports = async () => {
+                // FROM FIREBASE
                 // const userTransactions = await getUserAccountsTransactions(accountsIds);
+                
+                // RANDOM
+                const userExpenses = getExpenses(75);
+                const userDeposits = getCardDeposits(75);
+                const userTransactions = [...userExpenses, ...userDeposits];
+      
+                // console.log(userTransactions);
 
-                // const allTransactions = userTransactions.reduce((acc,value) => {
+                const allTransactions = userTransactions.reduce((acc,value) => {
 
-                //     if(value.isFrozen) {
-                //         acc.frozen.push(value);
-                //     }
-                //     else {
-                //         acc.processed.push(value); 
-                //     }
+                    if(value.isFrozen) {
+                        acc.frozen.push(value);
+                    }
+                    else {
+                        acc.processed.push(value); 
+                    }
 
-                // },{frozen: [], processed: []});
+                    return acc;
+                },{frozen: [], processed: []});
 
-                const userTransactions = getExpenses(75);
+                // console.log(allTransactions);
                 // console.log(userTransactions);
                 updateReportAccount({
                     reportAccountId: accountId,
                     reportAccountName: currentAccountName,
                 });
-                updateTransactionsArr(userTransactions);
+                // updateTransactionsArr(userTransactions);
+                updateTransactionsArr(allTransactions.processed);
+                updateFrozenTransactionsArr(allTransactions.frozen);
                 // console.log("effect middle");
                 isLoadedUpdate(true);
             }
