@@ -20,6 +20,8 @@ function getExpenses(days=30) {
   
       const amount = Math.floor(Math.random() * 1000) / 100; // Random amount between 0.00-9.99
       const amountString = amount.toFixed(2) + ' BGN';
+
+      const mixedCategory = `Expense / ${category}`;
   
       const expense = {
         accountId: account.reportAccountId,
@@ -27,6 +29,7 @@ function getExpenses(days=30) {
         amount,
         amountString,
         category,
+        mixedCategory,
         date,
         id: `expense${i}`,
         type: 'Expense',
@@ -69,6 +72,7 @@ function getCardDeposits(days=30) {
       amount,
       amountString,
       category,
+      mixedCategory: category,
       date,
       id: `cardDeposit${i}`,
       type: 'Deposit',
