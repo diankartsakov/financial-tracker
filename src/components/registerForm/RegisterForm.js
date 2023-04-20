@@ -5,8 +5,12 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import "./RegisterForm.scss";
 import { useState } from 'react';
 import AlertMessage from '../alertMessage/AlertMessage';
+import { useAuth } from "../../firebase/auth";
+import { addCategory } from "../../services/firebaseFirestoreCategories";
+import { categories } from "../../assests/utils/newUsersData";
 
 export default function RegisterForm() {
+    const { authUser} = useAuth();
     const [isSentToServer, setIsSentToServer] = useState(false);
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -18,12 +22,15 @@ export default function RegisterForm() {
         setIsSentToServer(true);
         register(email.trim(), password)
             .then(() => {
+                categories.map(category => {
+                    addCategory(category);
+                })
                 navigate("/dashboard");
             })
             .catch((error) => {
                 setIsError(true);
                 const errorCode = error.code;
-                setErrorMessage(error.code);
+                setErrorMessage(errorCode);
             })
             .finally(() => setIsSentToServer(false));
   };
