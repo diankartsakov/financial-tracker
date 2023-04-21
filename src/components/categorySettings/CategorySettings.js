@@ -74,7 +74,7 @@ export default function CategorySettings({
           categoryBackground: selectedBackgroundColor,
         }
 
-        const isValidCategoryName = validateCategoryName(formData.categoryName);
+        const isValidCategoryName = validateCategoryName(formData.category);
         // console.log(isValidCategoryName);
         if (!isValidCategoryName.ok) {
           setError({error: isValidCategoryName.message});
