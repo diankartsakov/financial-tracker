@@ -45,7 +45,7 @@ export default function CategorySettings({
     });
 
     const handleCategoryNameChange = (event) => {
-      let categoryName = event.target.value;
+      let categoryName = event.target.value.trimLeft();
       setCategoryName(categoryName);  
     };
   
@@ -67,16 +67,19 @@ export default function CategorySettings({
 
     const handleSubmit = async () => {
         const formData = {
-          category: categoryName,
+          category: categoryName.trim(),
           icon: JSON.stringify(selectedIcon),
           iconColor: selectedIconColor,
           iconSize: selectedSize, 
           categoryBackground: selectedBackgroundColor,
         }
 
-        if (categoryName.trim().length === 0 || categoryName.trim().length > 15 ) {
-          setError("Your Category Name is invalid. Valid name is from 1 to 15 characters")
-        }
+        const isValidCategoryName = validateCategoryName(formData.categoryName);
+        // console.log(isValidCategoryName);
+        if (!isValidCategoryName.ok) {
+          setError({error: isValidCategoryName.message});
+          return;
+        } 
 
         const submitResult = await onSubmit(formData, initialData.id);
 
@@ -91,6 +94,13 @@ export default function CategorySettings({
         }
       };
 
+      const validateCategoryName = (name) => {
+        const nameRegex = /^(?=.*[a-zA-Z])[a-zA-Z\s]{1,15}$/;
+        const ok = nameRegex.test(name);
+        const message = ok ? "Category Name is valid." : "Invalid Category Name. Valid name is from 1 to 15 characters, only Latin letters are allowed.";
+      
+        return { ok, message };
+      }
       // const categoryValidationRules = [
       //   { 
       //     required: true, 
