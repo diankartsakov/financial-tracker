@@ -91,16 +91,16 @@ export default function CategorySettings({
         }
       };
 
-      const categoryValidationRules = [
-        { 
-          required: true, 
-          message: 'Please enter a category name' 
-        },
-        {
-          pattern: /^(?=.*[a-zA-Z])[a-zA-Z\s]{1,15}$/,
-          message: 'Valid name is from 1 to 15 characters, only Latin letters are allowed.'
-        }
-      ];
+      // const categoryValidationRules = [
+      //   { 
+      //     required: true, 
+      //     message: 'Please enter a category name' 
+      //   },
+      //   {
+      //     pattern: /^(?=.*[a-zA-Z])[a-zA-Z\s]{1,15}$/,
+      //     message: 'Valid name is from 1 to 15 characters, only Latin letters are allowed.'
+      //   }
+      // ];
 
       return (
         <div className="form-container">
@@ -108,7 +108,15 @@ export default function CategorySettings({
             <Form onFinish={handleSubmit} initialValues={{ 'category-name': categoryName }}>
               <div className="form-group">
                 <label htmlFor="category-name">Category Name:</label>
-                <Form.Item
+                                  
+                <Input
+                      id="category-name"
+                      type="text"
+                      maxLength={15}
+                      value={categoryName}
+                      onChange={handleCategoryNameChange}
+                    />
+                {/* <Form.Item
                   name="category-name"
                   rules={categoryValidationRules}
                   className="ft-category-name-input"
@@ -122,7 +130,7 @@ export default function CategorySettings({
                       onChange={handleCategoryNameChange}
                     />
             
-                </Form.Item>
+                </Form.Item> */}
               </div>
               <div className="form-group">
                 <label htmlFor="icon">Icon:</label>
