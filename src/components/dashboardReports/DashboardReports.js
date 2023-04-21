@@ -20,10 +20,7 @@ export default function DashboardReports() {
     } = useReport();
 
     useEffect(() => {
-        if (isLoaded) {
-            // console.log("Loaded already");
-        } else {
-            // console.log("effect start");
+        if (!isLoaded) {
             const reports = async () => {
                 // FROM FIREBASE
                 // const userTransactions = await getUserAccountsTransactions(accountsIds);

@@ -58,7 +58,7 @@ export default function LoginForm() {
                             }
                         ]}
                     >
-                        <Input className='ft-login-input ft-login-email' prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address" />
+                        <Input className='ft-login-input ft-login-email' maxLength={30} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address" />
                     </Form.Item>
                     <Form.Item
                         name="password"
@@ -71,13 +71,14 @@ export default function LoginForm() {
                             {
                                 min: 6,
                                 message: 'Password must be at least 6 characters long.'
-                            }
+                            },
                         ]}
                     >
                         <Input.Password
                             className='ft-login-input ft-login-password'
                             prefix={<LockOutlined className="site-form-item-icon" />}
                             type="password"
+                            maxLength={15}
                             placeholder="Password"
                         />
                     </Form.Item>

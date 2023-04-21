@@ -61,7 +61,7 @@ export default function RegisterForm() {
                 }
             ]}
           >
-            <Input className='ft-register-input ft-register-email' prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address"/>
+            <Input className='ft-register-input ft-register-email' maxLength={30} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address"/>
           </Form.Item>
 
           <Form.Item
@@ -80,12 +80,13 @@ export default function RegisterForm() {
             ]}
           >
             <Input.Password className='ft-register-input ft-register-password' prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password" placeholder="Password" />
+            type="password" maxLength={15} placeholder="Password" />
           </Form.Item>
 
           <Form.Item
             name="confirmPassword"
             validateTrigger="onBlur"
+
             rules={[
                 {
                     required: true,
@@ -93,7 +94,8 @@ export default function RegisterForm() {
                 },
                 {
                     min: 6,
-                    message: 'Password must be at least 6 characters long.'
+                    pattern: /^\S{6,}$/,
+                    message: 'Password must be at least 6 characters long. No spaces allowed.'
                 },
                 ({ getFieldValue }) => ({
                     validator(_, value) {
@@ -106,7 +108,7 @@ export default function RegisterForm() {
             ]}
           >
              <Input.Password className='ft-register-input ft-register-password' prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password" placeholder="Confirm Password" />
+            type="password" maxLength={15} placeholder="Confirm Password" />
           </Form.Item>
 
             <div className='split-line'></div>

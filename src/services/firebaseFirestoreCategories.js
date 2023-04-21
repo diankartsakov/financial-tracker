@@ -23,7 +23,7 @@ async function addCategory(data) {
             id: docRef.id,
         }
 
-        console.log("Category created, ID: ", docRef.id);
+        // console.log("Category created, ID: ", docRef.id);
         return result;
     } catch (e) {
         console.error("Error creating account: ", e);
