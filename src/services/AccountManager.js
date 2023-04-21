@@ -190,7 +190,8 @@ class AccountManager {
 
     await Promise.all([
       addDoc(collection(db, "transactions"), transaction),
-      this.updateBalance(accountObj.accountId, newFrozenBalance, true)
+      this.updateBalance(accountObj.accountId, newFrozenBalance, true),
+      this.updateBalance(accountObj.accountId, remainingBalance)
     ]);
 
     return {
