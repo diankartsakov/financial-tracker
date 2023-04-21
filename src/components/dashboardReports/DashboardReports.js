@@ -45,7 +45,6 @@ export default function DashboardReports() {
                 },{frozen: [], processed: []});
 
                 // console.log(allTransactions);
-                // console.log(userTransactions);
                 updateReportAccount({
                     reportAccountId: accountId,
                     reportAccountName: currentAccountName,
@@ -71,7 +70,7 @@ export default function DashboardReports() {
 
     return (
         <>
-            <h2>Reports</h2>
+            <h2 className="ft-title-reports">Reports</h2>
             { 
                 currentLocation === "reports"
             ?
@@ -114,7 +113,7 @@ export default function DashboardReports() {
 
             :
                 <>
-                    <h2>Current Account: {reportAccount.reportAccountName}</h2>
+                    <h2 className="ft-title-reports">Current Account: {reportAccount.reportAccountName}</h2>
                     {/* <ReportsDropdown/> */}
                     <Outlet/>                
                 </>
