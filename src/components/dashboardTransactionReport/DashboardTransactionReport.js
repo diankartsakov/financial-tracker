@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, DatePicker, Pagination, Space } from 'antd';
 import moment from 'moment';
-import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { useReport } from '../dashboardReports/DashboardReportsProvider';
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
 
@@ -11,8 +10,6 @@ const { RangePicker } = DatePicker;
 
 export default function DashboardTransactionReport() {
   const { transactions, reportAccount, isLoaded } = useReport();
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -65,7 +62,6 @@ export default function DashboardTransactionReport() {
 
     
   };
-
 
   // Sort the data based on the selected column and direction
   const [sortColumn, setSortColumn] = useState(null);
