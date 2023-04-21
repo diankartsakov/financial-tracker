@@ -61,6 +61,8 @@ async function getUserAccountsTransactions(accountIds=[]) {
         return transactions;
     }
 
+    // console.log(accountIds);
+
     const q = query(collection(db, "transactions"), where("accountId", "in", accountIds));
     const querySnapshot = await getDocs(q);
     

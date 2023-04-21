@@ -75,7 +75,8 @@ export default function DashboardAccounts() {
     currentAccountName,
     updateAccountId,
     updateAccountsArr,
-    updateCurrentAccountName
+    updateCurrentAccountName,
+    updateAccountsIds,
   } = useDash();
 
   const handleCreateAccount = async (values) => {
@@ -87,8 +88,10 @@ export default function DashboardAccounts() {
     const arr = accountsArr;
     arr.push(newAcc);
     updateAccountsArr(arr);
-    setIsAccountAdd(true);
     updateAccountId(accountId);
+    // updateAccountsIds(accountId);
+    updateCurrentAccountName(newAcc.name);
+    setIsAccountAdd(true);
   };
 
   const handleAccountSelect = (account) => {

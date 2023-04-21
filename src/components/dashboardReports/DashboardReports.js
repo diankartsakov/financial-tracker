@@ -6,9 +6,10 @@ import { useEffect } from "react";
 import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
 import { getCardDeposits, getExpenses } from "../../assests/utils/dataGenerator";
 import "./dashboardReports.scss";
+import { useAuth } from "../../firebase/auth";
 
 export default function DashboardReports() {
-    const { currentAccountName, accountId, accountsIds } = useDash();
+    const { currentAccountName, accountId, accountsIds, accountsArr } = useDash();
     const {
         isLoaded,
         reportAccount,
@@ -18,17 +19,28 @@ export default function DashboardReports() {
         updateFrozenTransactionsArr,
         updateReportAccount,
     } = useReport();
+    const { authUser: { uid } } = useAuth();
 
     useEffect(() => {
         if (!isLoaded) {
             const reports = async () => {
-                // FROM FIREBASE
-                // const userTransactions = await getUserAccountsTransactions(accountsIds);
+                let userTransactions = [];
+
+                // console.log(uid);
+                if (uid !== "Sf7dfJALVqh4Xa9yOTYmviMQXFl2") {
+                    // FROM FIREBASE
+                    // console.log("firebase");
+                    // console.log(accountsIds);
+                    const currentAccountIds = accountsArr.map(acc => acc.accountId) || [];
+                    // console.log(currentAccountIds);
+                    userTransactions = await getUserAccountsTransactions(currentAccountIds);
+                } else {
+                    // RANDOM
+                    const userExpenses = getExpenses(75);
+                    const userDeposits = getCardDeposits(75);
+                    userTransactions = [...userExpenses, ...userDeposits];
+                }
                 
-                // RANDOM
-                const userExpenses = getExpenses(75);
-                const userDeposits = getCardDeposits(75);
-                const userTransactions = [...userExpenses, ...userDeposits];
       
                 // console.log(userTransactions);
 

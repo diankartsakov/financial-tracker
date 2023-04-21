@@ -8,18 +8,18 @@
 
 .da-account-form-balance,
 .da-account-form-balance-frozen {
-    
+    padding: 5px 15px;
     font-size: 48px;
     font-weight: bold;
-        
 }
 
 .da-account-form-balance {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    border: 2px solid #228B22;
-    border-radius: 5%;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 7px 2px #228B22;
+    // border: 2px solid #228B22;
+    // border-radius: 5%;
 
 
     .da-account-form-balance-label {
@@ -37,8 +37,9 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-    border: 2px solid #22a9ca;
-    border-radius: 5%;
+    box-shadow: 0px 0px 7px 2px #22a9ca;
+    // border: 2px solid #22a9ca;
+    // border-radius: 5%;
 
     .da-account-form-balance-frozen-label {
         font-weight: bold;

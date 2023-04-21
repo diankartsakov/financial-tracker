@@ -27,6 +27,7 @@ export default function DashboardProvider({children}) {
         setState(s => {
             return {...s, accountsIds: accountsIds };
         });
+
     };
 
     const isLoadedUpdate = (isLoaded) => {

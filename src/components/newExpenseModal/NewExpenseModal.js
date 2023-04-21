@@ -84,7 +84,7 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit, se
               {isError && <AlertMessage className="alert-expense" description={"Invalid Amount. Please enter a positive numeric value."} />}
 
               <Form.Item label="Delay">
-                <Select value={delay} onChange={handleSelect}>
+                <Select value={delay} className="ft-delay" onChange={handleSelect}>
                   <Option value="none">None</Option>
                   <Option value="one-week">One Week</Option>
                   <Option value="one-month">One Month</Option>

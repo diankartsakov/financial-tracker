@@ -20,7 +20,7 @@ export default function RegisterForm() {
     const onFinish = (values) => {
         const {email, password} = values;
         setIsSentToServer(true);
-        register(email.trim(), password)
+        register(email.trim(), password.trim())
             .then(() => {
                 categories.map(category => {
                     addCategory(category);
