@@ -7,100 +7,64 @@ import { useReport } from '../dashboardReports/DashboardReportsProvider';
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
 
 
+const { RangePicker } = DatePicker;
+
 export default function DashboardTransactionReport() {
-  const {transactions, reportAccount, isLoaded} = useReport();
+  const { transactions, reportAccount, isLoaded } = useReport();
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [monthYear, setMonthYear] = useState({
-    month: new Date().getMonth(),
-    year: new Date().getFullYear(),
-});
-
-  const { accountsArr } = useDash();
-  // const accountIds = accountsArr.map(account => {
-  //   return account.accountId;
-  // });
-
-
-  useEffect (()=> {
-
-    const resultData = transactions.filter(transaction => {
-
-      return transaction.accountId == reportAccount.reportAccountId;
-    })
-
-    console.log(resultData);
-
-
-  },[reportAccount, monthYear]);
+  const [selectedDates, setSelectedDates] = useState([]);
 
   useEffect(() => {
 
-    transactions.forEach((transaction) => {
-        
-      if(transaction.type === 'Expense'){
-          transaction.category = `${transaction.type} / ${transaction.category}`;
-      }
-      if(transaction.type === 'Transfer'){
+    const resultData = transactions.filter(transaction => {
 
-          transaction.toAccountId ?
-          transaction.category = 'Outgoing Transfer':
-          transaction.category = 'Incoming Transfer';
-      }
+      return transaction.accountId === reportAccount.reportAccountId;
 
-     transaction.amountString = `${transaction.amount.toFixed(2)} BGN`;
+    });
 
-
-  });
-
-    // console.log("useEffectRender");
     // Filter the data based on the search criteria
-    const filteredData = transactions.filter((item) => {
+    const filteredData = resultData.filter((item) => {
 
-      if (fromDate && toDate) {
 
-        return item.date.valueOf() >= fromDate.valueOf() &&
-          item.date.valueOf() <= toDate.valueOf() ?
+      if (selectedDates.length === 2) {
+        // If a range of dates is selected, show items within that range
+
+        return item.date.valueOf() >= selectedDates[0].valueOf() &&
+          item.date.valueOf() <= selectedDates[1].valueOf() ?
           true :
           false;
 
-      } else if (fromDate) {
-
-        return item.date.valueOf() >= fromDate.valueOf() ?
-          true :
-          false;
-
-      } else if (toDate) {
-
-        return item.date.valueOf() <= toDate.valueOf() ?
-          true :
-          false;
+      } else {
+        // If no dates are selected, show all items
+        return true;
       }
-      return true;
+      
     });
 
     setFilteredTransactions(filteredData);
-  }, [fromDate, toDate, transactions]);
+  }, [reportAccount, selectedDates]);
 
 
-  const onChangeDate = (value) => {
-    if (value) {
-        setMonthYear({
-            month: value["$M"],
-            year: value["$y"],
-        });
+  const onChangeDate = (dates, dateStrings) => {
 
+    console.log(dates);
 
+    if (dates) {
+      // Set the start time of the first selected date to 00:00:00
+      const startTime = dates[0].toDate().setHours(0, 0, 0, 0);
+      // Set the end time of the second selected date to 23:59:59
+      const endTime = dates[1].toDate().setHours(23, 59, 59, 999);
+      setSelectedDates([startTime, endTime]);
     } else {
-        setMonthYear({
-            month: new Date().getMonth(),
-            year: new Date().getFullYear(),
-        });
+      setSelectedDates([]);
     }
-};
+
+    
+  };
 
 
   // Sort the data based on the selected column and direction
@@ -172,12 +136,12 @@ export default function DashboardTransactionReport() {
 
   return (
     <div>
-         <div className="filter-wrapper"> 
-            <ReportsDropdown/>
-            <Space direction="vertical" size={12}>
-                <DatePicker onChange={(value) => onChangeDate(value)} picker="month" />
-            </Space>
-        </div>
+      <div className="filter-wrapper">
+        <ReportsDropdown />
+        <Space direction="vertical" size={12}>
+          <RangePicker onChange={onChangeDate} />
+        </Space>
+      </div>
       <Table
         columns={columns}
         dataSource={currentData}
