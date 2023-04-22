@@ -3,10 +3,11 @@ import React, { useEffect } from "react";
 import { Layout } from "antd";
 import { useDash } from "./DashboardProvider";
 import { useAuth } from "../../firebase/auth";
-import { getUserAccounts, getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
+import { getUserAccounts, getUserAccountsFullInfo, getUserAccountsFrozenTransactionsForUpdate } from "../../services/firebaseFirestoreAccounts";
 import { getUserCategories } from "../../services/firebaseFirestoreCategories";
 import DashboardMenu from "../../components/dashboardMenu/DashboardMenu";
 import LoadingPage from "../../components/loadingPage/LoadingPage";
+import accountManager from "../../services/AccountManager";
 
 const { Content } = Layout;
 
@@ -30,6 +31,13 @@ export default function DashboardPage() {
             // console.log("page download");
             const accounts = async () => {
                 const accountsIds = await getUserAccounts(uid);
+
+                const frozenTrns = await getUserAccountsFrozenTransactionsForUpdate(accountsIds);
+
+                console.log(frozenTrns);
+
+                await accountManager.processFrozenTransactions(frozenTrns);
+
                 const currentAccount = accountsIds[0] || null;
                 const accountsArr = await getUserAccountsFullInfo(uid);
                 const userCategories = await getUserCategories(uid);
