@@ -46,7 +46,7 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit, se
 
   const handleSelect = async (value) => {
 
-    await setDelay(value);
+    setDelay(value);
 
   }
 
