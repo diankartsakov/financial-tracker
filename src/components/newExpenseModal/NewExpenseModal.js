@@ -86,6 +86,7 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit, se
               <Form.Item label="Delay">
                 <Select value={delay} className="ft-delay" onChange={handleSelect}>
                   <Option value="none">None</Option>
+                  <Option value="one-min">One Minute</Option>
                   <Option value="one-week">One Week</Option>
                   <Option value="one-month">One Month</Option>
                 </Select>

@@ -185,7 +185,11 @@ class AccountManager {
 
     if (when === 'one-month') {
       unfreezeDate.setMonth(unfreezeDate.getMonth() + 1);
-    } else {
+      
+    } else if (when === 'one-min'){
+      unfreezeDate.setMinutes(unfreezeDate.getMinutes() + 1);
+    }
+    else {
       unfreezeDate.setDate(unfreezeDate.getDate() + 7);
     }
 
