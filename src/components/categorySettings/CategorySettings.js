@@ -22,6 +22,7 @@ export default function CategorySettings({
       categoryBackground: "#FFFFFF",
     },
     setIsLoading,
+    setIsCompleted,
   }
   
   ) {
@@ -91,8 +92,9 @@ export default function CategorySettings({
           const arr = initialData.id ? await getUserCategories() : [...categories, submitResult];
           updateCategories(arr);
           setError("");
-
-          onCancel()
+          setIsCompleted(true);
+            
+        //   onCancel()
         }
       };
 
