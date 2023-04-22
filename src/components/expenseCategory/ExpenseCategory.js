@@ -57,34 +57,62 @@ export default function ExpenseCategory({updateCategories,
 
 
     const handleExpenseCreate = async (amount,delay) => {
-
       const accountObj = accountsArr.find(el => el.accountId === accountId);
 
         const data = [accountObj, amount, "Expense", category]
-
+        let result = null;
         if(delay === 'none'){
-
-          const result = await accountManager.initiateTransaction(...data);
-          // console.log(result);
-          setServerResult(result);
             
-          return result;
-
+            result = await accountManager.initiateTransaction(...data);
+            //   const result = await accountManager.initiateTransaction(...data);
+          // console.log(result);
+            setServerResult(result);
+            
+        //   return result;
+        } else {
+            data.push(delay);
+    
+            result = await accountManager.initiateFrozenTransaction(...data);
+            setServerResult(result);
         }
-        else {
 
-          data.push(delay);
+        const arr = [...accountsArr];
+        const account =  arr.find(acc => acc.accountId === accountId);
 
-          const result = await accountManager.initiateFrozenTransaction(...data);
-          
-          setServerResult(result);
-
+        account.amount = (Number(account.amount) - Number(amount)).toFixed(2);
+        
+        if (delay !== "none") {
+            account.frozenAmount = (Number(account.frozenAmount) + Number(amount)).toFixed(2);
         }
-
-        const accountsFullInfo = await getUserAccountsFullInfo(uid);
-          updateAccountsArr(accountsFullInfo);
-
+        // // OLD UPDATE ARR
+        // // const accountsFullInfo = await getUserAccountsFullInfo(uid);
+        updateAccountsArr(arr);
+        
+        if (delay === "one-min") {
+            setDelayFrozen(result.transaction);
+        }
     };
+
+    const setDelayFrozen = (transaction) => {
+    //   console.log(transaction)
+      const currentDate = new Date();
+      const unfreezeDate = transaction.unfreezeDate;
+  
+      const timeLeft = unfreezeDate.getTime() - currentDate.getTime();
+    //   console.log(timeLeft);
+      setTimeout(async () => {
+        //   console.log([transaction]);
+            await accountManager.processFrozenTransactions([transaction]);
+          const arr = [...accountsArr];
+          const account =  arr.find(acc => acc.accountId === transaction.accountId);
+
+          account.frozenAmount = (Number(account.frozenAmount) - Number(transaction.amount)).toFixed(2);
+          updateAccountsArr(arr);
+          console.log("update frozen amount");
+          
+      }, timeLeft >= 0 ? timeLeft : 0);
+  }
+  
 
     const handleSettingsClick = (e) => {
         setModalOpen(true);

@@ -5,7 +5,7 @@ import { getAccount } from '../../services/firebaseFirestoreAccounts';
 import { Link } from 'react-router-dom';
 import './DashboardAccountCard.scss';
 
-export default function DashboardAccountCard({ currency = 'BGN', }) {
+export default function DashboardAccountCard({ currency = 'BGN',}) {
     const { accountId, accountsArr, currentAccountName } = useDash();
     const [isLoading, setIsLoading] = useState(true);
     const [balance, setBalance] = useState('0.00');
@@ -21,7 +21,7 @@ export default function DashboardAccountCard({ currency = 'BGN', }) {
             setAccountName(accountUpdate.name);
             setfrozenBalance(accountUpdate.frozenAmount);
         }
-    }, [accountId]);
+    }, [accountId, accountsArr]);
 
 
     return (

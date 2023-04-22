@@ -187,7 +187,8 @@ class AccountManager {
       unfreezeDate.setMonth(unfreezeDate.getMonth() + 1);
       
     } else if (when === 'one-min'){
-      unfreezeDate.setMinutes(unfreezeDate.getMinutes() + 1);
+      // unfreezeDate.setMinutes(unfreezeDate.getMinutes() + 1);
+      unfreezeDate.setSeconds(unfreezeDate.getSeconds() + 10);
     }
     else {
       unfreezeDate.setDate(unfreezeDate.getDate() + 7);
@@ -204,20 +205,24 @@ class AccountManager {
       unfreezeDate: unfreezeDate
     };
 
-    console.log(transaction);
+    // console.log(transaction);
 
-    await Promise.all([
+    const resultPromise = await Promise.all([
       addDoc(collection(db, "transactions"), transaction),
       this.updateBalance(accountObj.accountId, newFrozenBalance, true),
       this.updateBalance(accountObj.accountId, remainingBalance)
     ]);
+
+    // console.log(resultPromise[0].id);
+    transaction.id = resultPromise[0].id;
 
     return {
       ok: true,
       error: false,
       message: `Your '${category}' transaction for ${amount.toFixed(2)} BGN will be 
       processed on ${unfreezeDate.getDate()}-${unfreezeDate.getMonth() + 1}-${unfreezeDate.getFullYear()}. 
-      ${amount.toFixed(2)} BGN was moved to your Frozen Balance.`
+      ${amount.toFixed(2)} BGN was moved to your Frozen Balance.`,
+      transaction,
     }
 
   };

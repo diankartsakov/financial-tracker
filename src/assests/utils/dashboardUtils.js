@@ -7,6 +7,7 @@ function getTotalBalance(arrOfObjects) {
 function getCurrentAccountBalance(arrOfObjects, id) {
     return arrOfObjects.find(obj => obj.accountId === id)?.amount;
 }
+
 function getAccountName(arrOfObjects, id) {
     return arrOfObjects.find(obj => obj.accountId === id)?.name;
 }

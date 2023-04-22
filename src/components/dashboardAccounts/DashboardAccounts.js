@@ -119,7 +119,7 @@ export default function DashboardAccounts() {
             }
 
       </div>
-      <DashboardAccountCard ></DashboardAccountCard>
+      <DashboardAccountCard></DashboardAccountCard>
     </>);
 }
 

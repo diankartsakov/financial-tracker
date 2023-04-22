@@ -142,7 +142,7 @@ async function getUserAccountsFrozenTransactionsForUpdate(accountIds=[]) {
         return transactions;
     }
 
-    console.log(accountIds);
+    // console.log(accountIds);
 
     const q = query(collection(db, "transactions"), where("accountId", "in", accountIds), where("isFrozen", "==", true));
     const querySnapshot = await getDocs(q);
@@ -162,7 +162,7 @@ async function getUserAccountsFrozenTransactionsForUpdate(accountIds=[]) {
         }
     });
 
-    console.log(transactions);
+    // console.log(transactions);
 
     return transactions;
 }

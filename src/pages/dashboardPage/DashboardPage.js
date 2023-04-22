@@ -34,7 +34,7 @@ export default function DashboardPage() {
 
                 const frozenTrns = await getUserAccountsFrozenTransactionsForUpdate(accountsIds);
 
-                console.log(frozenTrns);
+                // console.log(frozenTrns);
 
                 await accountManager.processFrozenTransactions(frozenTrns);
 
