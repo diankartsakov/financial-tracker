@@ -20,7 +20,9 @@ export default function CategorySettings({
       iconColor: "#000000",
       iconSize: "4x", 
       categoryBackground: "#FFFFFF",
-    }
+    },
+    setIsLoading,
+    setIsCompleted,
   }
   
   ) {
@@ -66,6 +68,7 @@ export default function CategorySettings({
     };
 
     const handleSubmit = async () => {
+        setIsLoading(true);
         const formData = {
           category: categoryName.trim(),
           icon: JSON.stringify(selectedIcon),
@@ -82,15 +85,16 @@ export default function CategorySettings({
         } 
 
         const submitResult = await onSubmit(formData, initialData.id);
-
+        setIsLoading(false);
         if (submitResult?.error) {
             setError(submitResult);
         } else {
           const arr = initialData.id ? await getUserCategories() : [...categories, submitResult];
           updateCategories(arr);
           setError("");
-
-          onCancel()
+          setIsCompleted(true);
+            
+        //   onCancel()
         }
       };
 
@@ -101,16 +105,6 @@ export default function CategorySettings({
       
         return { ok, message };
       }
-      // const categoryValidationRules = [
-      //   { 
-      //     required: true, 
-      //     message: 'Please enter a category name' 
-      //   },
-      //   {
-      //     pattern: /^(?=.*[a-zA-Z])[a-zA-Z\s]{1,15}$/,
-      //     message: 'Valid name is from 1 to 15 characters, only Latin letters are allowed.'
-      //   }
-      // ];
 
       return (
         <div className="form-container">
@@ -126,21 +120,6 @@ export default function CategorySettings({
                       value={categoryName}
                       onChange={handleCategoryNameChange}
                     />
-                {/* <Form.Item
-                  name="category-name"
-                  rules={categoryValidationRules}
-                  className="ft-category-name-input"
-                >
-                  
-                    <Input
-                      id="category-name"
-                      type="text"
-                      maxLength={15}
-                      value={categoryName}
-                      onChange={handleCategoryNameChange}
-                    />
-            
-                </Form.Item> */}
               </div>
               <div className="form-group">
                 <label htmlFor="icon">Icon:</label>

@@ -12,7 +12,6 @@ import DeletePopconfirm from "../deletePopconfirm/DeletePopconfirm";
 import NewExpenseModal from "../newExpenseModal/NewExpenseModal";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { useAuth } from "../../firebase/auth";
-import { getUserAccountsFullInfo } from "../../services/firebaseFirestoreAccounts";
 
 export default function ExpenseCategory({updateCategories,
   data: {
@@ -21,6 +20,7 @@ export default function ExpenseCategory({updateCategories,
     const [modalOpen, setModalOpen] = useState(false);
     const [expenseModalOpen, setExpenseModalOpen] = useState(false);
     const [serverResult, setServerResult] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const {accountId, currentAccountName, accountsArr, updateAccountsArr} = useDash();
     const {authUser: {uid}} = useAuth();
     const [api, contextHolder] = notification.useNotification();
