@@ -131,10 +131,47 @@ async function getAccount(accountId) {
     }
 }
 
+
+async function getUserAccountsFrozenTransactionsForUpdate(accountIds=[]) {
+    
+    const transactions = [];
+
+    const currentDate = new Date();
+
+    if (accountIds.length === 0) {
+        return transactions;
+    }
+
+    console.log(accountIds);
+
+    const q = query(collection(db, "transactions"), where("accountId", "in", accountIds), where("isFrozen", "==", true));
+    const querySnapshot = await getDocs(q);
+    
+    querySnapshot.forEach((doc) => {
+        
+        let transaction = doc.data();
+
+        transaction.id = doc.id;
+        transaction.date = transaction.date.toDate();
+        transaction.unfreezeDate = transaction.unfreezeDate.toDate();
+
+        if(currentDate.valueOf() >= transaction.unfreezeDate.valueOf()){
+
+            transactions.push(transaction);
+
+        }
+    });
+
+    console.log(transactions);
+
+    return transactions;
+}
+
 export {
     getUserAccounts,
     getUserAccountsTransactions,
     getUserAccountsTransactionsCounts,
     getUserAccountsFullInfo,
-    getAccount
+    getAccount,
+    getUserAccountsFrozenTransactionsForUpdate
 }
