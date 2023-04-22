@@ -23,15 +23,15 @@ class AccountManager {
   };
 
 
-  validateBalance = async (accountId, amount) => {
-    // console.log(accountId)
-    let acc = await getAccount(accountId);
+  // validateBalance = async (accountId, amount) => {
+    
+  //   let acc = await getAccount(accountId);
 
-    console.log(acc);
+  //   console.log(acc);
 
-    return acc.amount - amount;
+  //   return acc.amount - amount;
 
-  };
+  // };
 
   updateBalance = async (accountId, newBalance, isFrozen) => {
 
@@ -51,15 +51,26 @@ class AccountManager {
         frozenAmount: newBalance.toFixed(2)
       });
     }
-
-
   };
 
-  unfreezeTransaction = async() => {
 
+  processFrozenTransactions = async(transactionsArr) => {
 
-    
-  }
+    for (const transaction of transactionsArr) {
+
+      const accRef = doc(db, "transactions", transaction.id);
+
+      const acc = await getAccount(transaction.accountId);
+      const newFrozenBalance = Number(acc.frozenAmount) - transaction.amount;
+  
+      await updateDoc(accRef, {
+        date: transaction.unfreezeDate,
+        isFrozen: false
+      });
+  
+      await this.updateBalance(transaction.accountId, newFrozenBalance, true);
+    }    
+  };
 
 
 
@@ -170,10 +181,13 @@ class AccountManager {
     const newFrozenBalance = Number(accountObj.frozenAmount) + amount;
 
     const today = new Date();
+    const unfreezeDate  = new Date();
 
-    let unfreezeDate = when === 'one-month' ?
-      new Date(today.getFullYear(), today.getMonth() + 1, today.getDate()) :
-      new Date(today.setDate(today.getDate() + 7));
+    if (when === 'one-month') {
+      unfreezeDate.setMonth(unfreezeDate.getMonth() + 1);
+    } else {
+      unfreezeDate.setDate(unfreezeDate.getDate() + 7);
+    }
 
     const transaction = {
       accountName: accountObj.name,
