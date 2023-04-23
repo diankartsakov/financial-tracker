@@ -1,3 +1,10 @@
+.expense-header {
+    background-color: #25384F;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 10px;
+}
+
 .categoriesWrapper {
     display: flex;
     flex-wrap: wrap;
@@ -5,16 +12,27 @@
     margin-top: 25px;
 }
 
-.expense-account-heading {
+.expense-account-heading, .expense-account-sub-heading {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    cursor: default;
+}
+
+.expense-account-sub-heading {
     display: flex;
     align-items: center;
     font-size: 24px;
     cursor: default;
 
-    .expense-account-name {
-        margin-left: 10px;
-        color: #85C3E9;
-        letter-spacing: 1px;
-        text-decoration: underline;
+    .account-amount-wrapper {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img {
+            height: 100%;
+            width: 50px;
+        }
     }
 }
