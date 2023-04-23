@@ -9,6 +9,9 @@ import { Spin } from 'antd';
 import './DashboardDeposit.scss';
 import { Link } from 'react-router-dom';
 import { isValidNumber } from '../../assests/utils/validations';
+import DashboardDepositCardComponent from '../dashboardDepositFlipCard/DashboardDepositCardComponent';
+import { faL } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function DashboardDeposit() {
   const [depositType, setDepositType] = useState('card');
@@ -21,6 +24,17 @@ export default function DashboardDeposit() {
   const [isLoading, setIsLoading] = useState(false);
   const [successfulTransaction, setSuccessfulTransaction] = useState({});
   const [form] = Form.useForm();
+
+  const [flipCardState, setFlipCardState] = useState(null);
+
+  const handleCardComponentChange = async (data) => {
+
+    setFlipCardState(data);
+
+    console.log(flipCardState);
+
+
+  }; 
 
   const { accountId, currentAccountName, accountsArr, updateAccountsArr } = useDash();
   const { authUser: { uid } } = useAuth();
@@ -50,17 +64,19 @@ export default function DashboardDeposit() {
     setFromAccount(acc);
   };
 
-  const handleOk = () => {
-    setModalVisible(false);
-    if (modalMessage[1] === 'Please enter a positive amount.' ||
-      modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
-    ) {
-      form.resetFields(['amount']);
-    }
+  // const handleOk = () => {
+  //   setModalVisible(false);
+  //   if (modalMessage[1] === 'Please enter a positive amount.' ||
+  //     modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
+  //   ) {
+  //     form.resetFields(['amount']);
+  //   }
 
-  };
+  // };
 
   const handleCancel = () => {
+
+    console.log('cancel');
     setModalVisible(false);
     if (modalMessage[1] === 'Please enter a positive amount.' ||
       modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
@@ -69,6 +85,22 @@ export default function DashboardDeposit() {
       form.resetFields(['amount']);
     }
   };
+
+  const validateData = (item, regex) => {
+
+    if (!flipCardState) {
+      return false;
+    }
+
+    console.log(item);
+    console.log(regex);
+
+    let result = regex.test(item);
+
+
+    return result;
+
+  }
 
   const handleContinueToCheckoutClick = async () => {
 
@@ -80,22 +112,36 @@ export default function DashboardDeposit() {
       return;
     }
 
-
     if (depositType !== 'card' && !fromAccount) {
       setmodalMessage(['Missing Information', 'Please select From Account.']);
       setModalVisible(true);
       return;
-
     }
-    // console.log(values);
 
+    if(!validateData(flipCardState.cardNumber, /^(\d{4}\s){3}\d{4}$/)) {
+      setmodalMessage(['Invalid Information', 'Please enter your full card number.']);
+      setModalVisible(true);
+      return;
+    }
+    if(!validateData(flipCardState.cardHolder, /^\s*[a-zA-Z]+\s+[a-zA-Z]+(\s+[a-zA-Z]+)?\s*$/)) {
+      setmodalMessage(['Invalid Information', 'Please enter your full names.']);
+      setModalVisible(true);
+      return;
+    }
+    if(!validateData(flipCardState.cardCvv, /^[0-9]{3,4}$/)) {
+      setmodalMessage(['Invalid Information', 'Please enter your CVV code.']);
+      setModalVisible(true);
+      return;
+    }
 
-
-    if (values) {
+    if (values && flipCardState) {
       setCurrentStep(1);
-      setConfirmationData(values);
-
+      setConfirmationData({ ...flipCardState, amount: values.amount, depositType }, () => {
+        console.log(confirmationData);
+      });
     }
+
+    console.log(confirmationData);
   };
 
   const handlePayButtonClick = async () => {
@@ -161,16 +207,16 @@ export default function DashboardDeposit() {
       />
       <Modal
         open={modalVisible}
-        onOk={handleOk}
+        // onOk={handleOk}
         onCancel={handleCancel}
         title={modalMessage[0]}
         footer={[
           <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button key="ok" type="primary" onClick={handleOk}>
             OK
           </Button>,
+          // <Button key="ok" type="primary" onClick={handleOk}>
+          //   OK
+          // </Button>,
         ]}
       >
         {modalMessage[1]}
@@ -179,7 +225,14 @@ export default function DashboardDeposit() {
       {currentStep === 0 && (<div className='da-deposit-form-details'>
         <Form className='da-ant-form' form={form} onFinish={handleContinueToCheckoutClick}>
           <h3>Deposit Form</h3>
-          <Form.Item className='da-ant-form-item' label="Amount" name="amount"
+
+          <Form.Item className='da-ant-form-item' name="depositType" initialValue="card">
+            <Radio.Group onChange={handleDepositTypeChange} value={depositType}>
+              <Radio className='da-radio' value="card">Card Deposit</Radio>
+              <Radio className='da-radio' value="account">Transfer</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item className='da-amount-input a-ant-form-item' name="amount"
             rules={[
               {
                 required: true,
@@ -187,72 +240,18 @@ export default function DashboardDeposit() {
               }
             ]}
           >
-            <Input type="number" name="amount" value={amount} onChange={handleAmountChange} />
+            <Input  type="number" name="amount" placeholder="Please enter deposit amount" value={amount} onChange={handleAmountChange} />
           </Form.Item>
 
-          <Form.Item className='da-ant-form-item' label="Deposit Type" name="depositType" initialValue="card">
-            <Radio.Group onChange={handleDepositTypeChange} value={depositType}>
-              <Radio value="card">Card Deposit</Radio>
-              <Radio value="account">Transfer from Account</Radio>
-            </Radio.Group>
-          </Form.Item>
+
 
           {depositType === 'card' && (
             <>
 
-              <Form.Item className='da-ant-form-item' label="Card Number" name="cardNumber"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter a valid card number',
-                    pattern: /^\d{16}$/
+              <DashboardDepositCardComponent
+              onChange= {handleCardComponentChange}
 
-                  }
-                ]}
-              >
-                <Input type="number" maxLength={16} />
-              </Form.Item>
-
-              <Form.Item className='da-ant-form-item' label="Expiration Date" name="expirationDate"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter a valid expiration date',
-                  }
-                ]}>
-
-                <Input type="month" name="expirationDate" placeholder="MM/YY" />
-              </Form.Item>
-
-
-
-              <Form.Item className='da-ant-form-item' label="CVV" name="cvv"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter a valid CVV',
-                    pattern: /^[0-9]{3}$/
-                  }
-                ]}
-              >
-                <Input type="number" name="cvv" />
-              </Form.Item>
-
-
-
-              <Form.Item className='da-ant-form-item' label="Card Holder Names" name="cardHolderName"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter your full name',
-                    pattern: /^\s*[a-zA-Z]+\s+[a-zA-Z]+(\s+[a-zA-Z]+)?\s*$/,
-                    max: 25,
-                    whitespace: true,
-                  }
-                ]}
-              >
-                <Input type="text" name="cardHolderName" />
-              </Form.Item>
+              ></DashboardDepositCardComponent>
             </>
           )}
 
@@ -286,15 +285,15 @@ export default function DashboardDeposit() {
                     <p>Card Number: {confirmationData.cardNumber}</p>
                   </Form.Item>
                   <Form.Item className='da-ant-form-item'>
-                    <p>Expiration Date: {confirmationData.expirationDate}</p>
+                    <p>Expiration Date: {confirmationData.cardMonth + ' / ' + confirmationData.cardYear}</p>
 
                   </Form.Item >
                   <Form.Item className='da-ant-form-item'>
-                    <p>CVV: {confirmationData.cvv}</p>
+                    <p>CVV: {confirmationData.cardCvv}</p>
 
                   </Form.Item>
                   <Form.Item className='da-ant-form-item'>
-                    <p>Card Holder Names: {confirmationData.cardHolderName}</p>
+                    <p>Card Holder Names: {confirmationData.cardHolder}</p>
                   </Form.Item>
 
                 </>

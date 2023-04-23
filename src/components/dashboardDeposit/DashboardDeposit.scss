@@ -1,4 +1,40 @@
-.da-ant-form-item {
+.da-amount-input {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #333;
+    width: 80%;
+    box-sizing: border-box;
+
+    ::placeholder {
+        color: #666;
+
+    }
+
+    ::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    ::-ms-clear {
+        display: none;
+    }
+
+    :focus {
+        outline: none;
+        border-color: #4D90FE;
+        box-shadow: 0 0 8px rgba(77, 144, 254, 0.6);
+    }
+
+}
+
+
+
+.da-amount-input .daamount-input .da-ant-form-item {
     margin-bottom: 20px;
     width: 100%;
 
@@ -12,11 +48,17 @@
     align-items: center;
 }
 
+.da-radio {
+
+    width: 200px;
+}
+
 .da-ant-form {
     border: 3px solid #25384F;
-    border-radius: 15%;
-    padding: 4vh;
-    background-color: RGB(92, 184, 92,0.7);
+    border-radius: 10%;
+    padding: 1vh;
+    background-color: RGB(92, 184, 92, 0.7);
+    width: 660px;
 
     h3 {
         color: #25384F;
@@ -28,7 +70,7 @@
 .ant-form-item-control-input-content {
     display: flex;
     justify-content: center;
-    
+
     .ant-btn {
         margin: 10px;
         background-color: #25384F;
@@ -48,4 +90,3 @@
         transform: scale(1.1);
     }
 }
-
