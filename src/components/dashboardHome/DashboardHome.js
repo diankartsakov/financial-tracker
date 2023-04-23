@@ -2,9 +2,10 @@
 import { useAuth } from "../../firebase/auth";
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { useEffect, useState } from "react";
-import { Empty, Skeleton, Row, Col } from 'antd';
+import { Empty, Skeleton } from 'antd';
 import "./dashboardHome.scss"
 import { getDateWithSuffixDay } from "../../assests/utils/utils";
+import expenseIMG from "../../assests/images/expense-logo.png"
 import { getCurrentAccountBalance, getTotalBalance, getTotalFrozenBalance } from "../../assests/utils/dashboardUtils";
 import { Link } from 'react-router-dom';
 import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
@@ -54,39 +55,54 @@ export default function DashboardHome() {
                 </>
 
                 :
-                    <div className="intro">
-                        <div className="intro-amount" style={{display: "flex", flexDirection: "row"}} >
-                              <div className="card-info">
-                                 <h2 className="card-info-title">Overall Amount</h2>
-                                 <p className="card-info-amount">{getTotalBalance(accountsArr).toFixed(2)} BGN</p>
-                             </div>
-                             <div className="donut-wrapper">
-                             {accountsArr?.length === 0 ? (
-                                 <>
-                                <h2 className="ft-donut-no-accounts-heading">Accounts Amount</h2>
-                                <div className="ft-donut-no-accounts">
-                                     <Empty />
+                    <div className="content-wrapper">
+                        <div className="intro">
+                            <div className="intro-amount" style={{display: "flex", flexDirection: "row"}} >
+                                <div className="card-info">
+                                    <h2 className="card-info-title">Accounts Amount</h2>
+                                    <p className="card-info-amount">{getTotalBalance(accountsArr).toFixed(2)} BGN</p>
                                 </div>
-                                </>
-                            ) : (
-                                   <AccountsDonutChart frozen={false} />
-                            )}
+                                <div className="donut-wrapper">
+                                {accountsArr?.length === 0 ? (
+                                    <>
+                                    <h2 className="ft-donut-no-accounts-heading">Accounts Amount</h2>
+                                    <div className="ft-donut-no-accounts">
+                                        <Empty />
+                                    </div>
+                                    </>
+                                ) : (
+                                    <AccountsDonutChart frozen={false} />
+                                )}
+                                </div>
+                            </div>
+                            <div className="intro-amount" style={{display: "flex", flexDirection: "row"}} >
+                                <div className="card-info"> 
+                                    <h2 className="card-info-title">Accounts Frozen Amount</h2>
+                                        <p className="card-info-frozen-amount">{getTotalFrozenBalance(accountsArr).toFixed(2)} BGN</p>
+                                </div>
+                                <div className="donut-wrapper">
+                                    {   accountsArr?.length === 0 ? 
+                                    <>
+                                        <h2 className="ft-donut-no-accounts-heading">Accounts Frozen Amount</h2>
+                                        <div className="ft-donut-no-accounts"><Empty/></div>
+                                    </>
+                                    : 
+                                        <AccountsDonutChart frozen={true}/>
+                                    }
+                                </div>
                             </div>
                         </div>
-                        <div className="intro-amount" style={{display: "flex", flexDirection: "row"}} >
-                            <div className="card-info"> 
-                                 <h2 className="card-info-title">Overall Frozen Amount</h2>
-                                    <p className="card-info-frozen-amount">{getTotalFrozenBalance(accountsArr).toFixed(2)} BGN</p>
-                            </div>
-                            <div className="donut-wrapper">
-                                {   accountsArr?.length === 0 ? 
-                                <>
-                                    <h2 className="ft-donut-no-accounts-heading">Accounts Frozen Amount</h2>
-                                     <div className="ft-donut-no-accounts"><Empty/></div>
-                                 </>
-                                : 
-                                    <AccountsDonutChart frozen={true}/>
-                                }
+                        <div className="accounts-data">
+                            <div className="profile-card-expense">
+                                <div className="profile-card-expense-text">
+                                    <Link to="expense">
+                                        <p>GO TO</p>
+                                        <h2>EXPENSE</h2>
+                                    </Link>
+                                </div>
+                                <div className="profile-card-expense-image-wrapper">
+                                    <img src={expenseIMG} alt=""/>
+                                </div>
                             </div>
                         </div>
                     </div>
