@@ -4,6 +4,12 @@ function getTotalBalance(arrOfObjects) {
     }, 0);
 }
 
+function getTotalFrozenBalance(arrOfObjects) {
+    return arrOfObjects.reduce((acc, value) => {
+        return acc + Number(value.frozenAmount);
+    }, 0);
+}
+
 function getCurrentAccountBalance(arrOfObjects, id) {
     return arrOfObjects.find(obj => obj.accountId === id)?.amount;
 }
@@ -14,6 +20,7 @@ function getAccountName(arrOfObjects, id) {
 
 export { 
     getTotalBalance, 
+    getTotalFrozenBalance, 
     getCurrentAccountBalance,
     getAccountName
 }

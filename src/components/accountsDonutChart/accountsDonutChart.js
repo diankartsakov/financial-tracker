@@ -5,12 +5,13 @@ import "./accountsDonutChart.scss";
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 
 
-export default function AccountsDonutChart() {
+export default function AccountsDonutChart({frozen=false}) {
       const {accountsArr} = useDash();
 
+    
     const accountData = accountsArr.map(acc => {
-        return {name: acc.name, amount: Number(acc.amount)}
-    });
+        return {name: acc.name, amount: frozen ? Number(acc.frozenAmount) : Number(acc.amount) }
+    })
 
     const options = {
         "chart": {
@@ -26,7 +27,7 @@ export default function AccountsDonutChart() {
             "height": 501,
             "id": "OcvDT",
             "toolbar": {
-                "show": true,
+                "show": false,
             },
             "type": "donut",
             "width": 604
@@ -44,13 +45,16 @@ export default function AccountsDonutChart() {
             "pie": {
                 "donut": {
                     "size": "70%",
+
                 }
             }
         },
         "dataLabels": {
             enabled: true,
             "style": {
-                "fontWeight": 700
+                "fontWeight": 700,
+                fontSize: "18px",
+                textAlign: "center"
             },
             "background": {
                 "foreColor": "#0B0B0B",
@@ -67,6 +71,10 @@ export default function AccountsDonutChart() {
         "tooltip": {
             enabled: true,
             "fillSeriesColor": true,
+            "style": {
+                "fontWeight": 700,
+                fontSize: "22px"
+            },
             y: {formatter: function (values, { seriesIndex }) {
                 // debugger
                 const account = accountData[seriesIndex];
@@ -85,22 +93,24 @@ export default function AccountsDonutChart() {
                 "left": 0
             }
         },
-        title: {
-            text: 'Accounts',
-            align: "center",
-            style: {
-              fontSize:  '24px',
-              fontWeight:  'bold',
-            },
-        },
+        // title: {
+        //     text: frozen ? "Accounts Frozen Amount" :"Accounts Amount",
+        //     align: "right",
+        //     style: {
+        //       fontSize:  '24px',
+        //       fontWeight:  'bold',
+        //     },
+        // },
         "labels": accountData.map(account => account.name),
         
         "legend": {
+            show: false,
             "fontSize": 16,
             "fontWeight": 500,
             "offsetX": 0,
             "offsetY": 0,
-            "position": "bottom",
+            // "position": "bottom",
+            "position": "right",
             "itemMargin": {
                 "vertical": 0
             },
@@ -117,11 +127,22 @@ export default function AccountsDonutChart() {
 }
 
 
-    return <ReactApexChart
+    return (
+        <div style={{ display: "flex", height: "100%" }}>
+        <div style={{ width: "100%" }}>
+          <ReactApexChart
             options={options}
             series={options.series}
             type="donut"
             height={"100%"}
             width={"100%"}
-            />
+          />
+        </div>
+        {/* <div style={{ width: "30%" }}>
+          <h2 style={{ textAlign: "right" }}>
+            {frozen ? "Accounts Frozen Amount" : "Accounts Amount"}
+          </h2>
+        </div> */}
+      </div>
+    )
 }
