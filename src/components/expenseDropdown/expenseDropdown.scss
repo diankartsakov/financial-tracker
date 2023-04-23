@@ -1,0 +1,43 @@
+.expense-dropdown {
+    width: 300px;
+
+    &-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 300px;
+        background-color: #25384F;
+        color: white;
+        font-size: 22px;
+        font-weight: bold;
+        border: none;
+        outline: none;
+    }
+}
+
+.account-option-wrapper {
+    height: 75px;
+    width: 300px;
+
+    .account-option-title {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .account-option-amount-wrapper {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        img {
+            height: 100%;
+            width: 50px;
+        }
+
+        p {
+            font-weight: 700;
+            font-size: 18px;
+        }
+    }
+}
