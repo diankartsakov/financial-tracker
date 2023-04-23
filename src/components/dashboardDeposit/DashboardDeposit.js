@@ -31,9 +31,6 @@ export default function DashboardDeposit() {
 
     setFlipCardState(data);
 
-    console.log(flipCardState);
-
-
   }; 
 
   const { accountId, currentAccountName, accountsArr, updateAccountsArr } = useDash();
@@ -51,7 +48,7 @@ export default function DashboardDeposit() {
       setModalVisible(true);
     } else if (!isValidNumber(newAmount) && e.target.value.length !== 0) { // if the input does not match the regex
 
-      setmodalMessage(['Invalid Amount', "Please enter a valid amount in the following format: 'X.XX'."]);
+      setmodalMessage(['Invalid Amount', "Please enter a valid amount in the following format: '0.00'"]);
       setModalVisible(true);
     }
     else {
@@ -76,10 +73,9 @@ export default function DashboardDeposit() {
 
   const handleCancel = () => {
 
-    console.log('cancel');
     setModalVisible(false);
     if (modalMessage[1] === 'Please enter a positive amount.' ||
-      modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
+      modalMessage[1] === "Please enter a valid amount in the following format: '0.00'"
 
     ) {
       form.resetFields(['amount']);
@@ -100,7 +96,7 @@ export default function DashboardDeposit() {
 
     return result;
 
-  }
+  };
 
   const handleContinueToCheckoutClick = async () => {
 
@@ -232,15 +228,8 @@ export default function DashboardDeposit() {
               <Radio className='da-radio' value="account">Transfer</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item className='da-amount-input a-ant-form-item' name="amount"
-            rules={[
-              {
-                required: true,
-                message: 'Please enter a valid amount'
-              }
-            ]}
-          >
-            <Input  type="number" name="amount" placeholder="Please enter deposit amount" value={amount} onChange={handleAmountChange} />
+          <Form.Item className='da-amount-wrapper' name="amount">
+            <Input className='da-enter-amount' type="number" name="amount" placeholder="Please enter your Deposit amount" value={amount} onChange={handleAmountChange}  />
           </Form.Item>
 
 
