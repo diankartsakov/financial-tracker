@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import { Empty, Skeleton } from 'antd';
 import "./dashboardHome.scss"
 import { getDateWithSuffixDay } from "../../assests/utils/utils";
-import expenseIMG from "../../assests/images/expense-logo.png"
-import { getCurrentAccountBalance, getTotalBalance, getTotalFrozenBalance } from "../../assests/utils/dashboardUtils";
+import expenseIMG from "../../assests/images/expense-logo.png";
+import reportsIMG from "../../assests/images/reports-logo.png";
+import amountIMG from "../../assests/images/accounts-logo.png";
+
+import { getTotalBalance, getTotalFrozenBalance } from "../../assests/utils/dashboardUtils";
 import { Link } from 'react-router-dom';
-import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
-import { getUserAccountsTransactionsCounts } from "../../services/firebaseFirestoreAccounts";
 import AccountsDonutChart from "../accountsDonutChart/accountsDonutChart";
 
 export default function DashboardHome() {
@@ -28,17 +29,9 @@ export default function DashboardHome() {
     const [transactionsInfo, setTransactionsInfo] = useState({});
 
     useEffect(() => {
-
-        const getTransactionsInfo = async() => {
-            const info = await getUserAccountsTransactionsCounts(accountsIds);
-            const currentTotalBalance = getTotalBalance(accountsArr);
-            // console.log(info);
-            setTransactionsInfo(info);
-            setTotalBalance(currentTotalBalance);
+        setTimeout(() => {
             setIsLoading(false);
-        }
-
-        getTransactionsInfo()
+        }, 1000);
     }, []);
 
     return (
@@ -92,19 +85,45 @@ export default function DashboardHome() {
                                 </div>
                             </div>
                         </div>
-                        <div className="accounts-data">
-                            <div className="profile-card-expense">
-                                <div className="profile-card-expense-text">
-                                    <Link to="expense">
-                                        <p>GO TO</p>
-                                        <h2>EXPENSE</h2>
-                                    </Link>
-                                </div>
-                                <div className="profile-card-expense-image-wrapper">
-                                    <img src={expenseIMG} alt=""/>
+                       
+                            <div className="accounts-data">
+                                <div className="card-link-wrapper">
+                                    <div className="profile-card-expense">
+                                        <div className="profile-card-expense-text">
+                                            <Link to="reports">
+                                                <p>GO TO</p>
+                                                <h2>REPORTS</h2>
+                                            </Link>
+                                        </div>
+                                        <div className="profile-card-expense-image-wrapper">
+                                            <img src={reportsIMG} alt=""/>
+                                        </div>
+                                    </div>
+                                    <div className="profile-card-expense">
+                                        <div className="profile-card-expense-text">
+                                            <Link to="accounts">
+                                                <p>GO TO</p>
+                                                <h2>ACCOUNTS</h2>
+                                            </Link>
+                                        </div>
+                                        <div className="profile-card-expense-image-wrapper">
+                                            <img src={amountIMG} alt=""/>
+                                        </div>
+                                    </div>
+                                    <div className="profile-card-expense">
+                                        <div className="profile-card-expense-text">
+                                            <Link to="expense">
+                                                <p>GO TO</p>
+                                                <h2>EXPENSE</h2>
+                                            </Link>
+                                        </div>
+                                        <div className="profile-card-expense-image-wrapper">
+                                            <img src={expenseIMG} alt=""/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        
                     </div>
                     
                 }           
