@@ -44,6 +44,7 @@ export default function EditCategoryModal({onSubmit, modal: {modalOpen, setModal
                                 initialData={data}
                                 setIsLoading={setIsLoading}
                                 setIsCompleted={setIsCompleted}
+                                formType="Edit"
                             />
                         </div>
             }

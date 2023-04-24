@@ -11,6 +11,7 @@ form {
     align-items: center;
     align-items: start;
     justify-content: center;
+    margin-top: 25px;
   }
   
   .form-column {
@@ -27,8 +28,18 @@ form {
         flex-direction: column;
     }
   }
+
+  #category-name, #icon, #icon-color, #size, #background-color {
+    width: 250px
+  }
+
+  #icon {
+    background-color: aqua;
+  }
   
   .form-group label {
+    font-size: 18px;
+    font-weight: 600;
     margin-bottom: 5px;
     display: block;
     text-align: center;
@@ -52,6 +63,14 @@ form {
   
   .category-preview {
     margin-top: 0;
+    &-title {
+
+      &>h2 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 0px;
+      }
+    }
   }
   
   .category-preview > div {
@@ -78,4 +97,19 @@ form {
     margin: auto;
     display: block;
   }
+  
+.submit-category {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #25384F;
+    height: 38px;
+    margin-top: 10px;
+    font-size: 18px;
+
+    span {
+        display: inline-block;
+        padding: 0px 15px;
+    }
+}
   

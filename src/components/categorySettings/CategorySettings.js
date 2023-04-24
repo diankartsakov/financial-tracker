@@ -23,6 +23,7 @@ export default function CategorySettings({
     },
     setIsLoading,
     setIsCompleted,
+    formType,
   }
   
   ) {
@@ -80,6 +81,7 @@ export default function CategorySettings({
         const isValidCategoryName = validateCategoryName(formData.category);
         // console.log(isValidCategoryName);
         if (!isValidCategoryName.ok) {
+          setIsLoading(false);
           setError({error: isValidCategoryName.message});
           return;
         } 
@@ -93,8 +95,6 @@ export default function CategorySettings({
           updateCategories(arr);
           setError("");
           setIsCompleted(true);
-            
-        //   onCancel()
         }
       };
 
@@ -115,6 +115,7 @@ export default function CategorySettings({
                                   
                 <Input
                       id="category-name"
+                      placeholder="Enter Category Name"
                       type="text"
                       maxLength={15}
                       value={categoryName}
@@ -156,28 +157,34 @@ export default function CategorySettings({
                   onChange={handleBackgroundColorSelect}
                 />
               </div>
-              <Button value="submit" type="primary" htmlType="submit" >
-                  Submit
+              <Button value="submit" type="primary" className="submit-category" htmlType="submit" >
+                  {formType}
               </Button>
             </Form>
           </div>
           <div className="preview-column">
             <div className="category-preview">
-              <div className="category-preview-title">Category Preview:</div>
-              <div
-                className="icon-circle"
-                style={{
-                  border: `5px solid ${selectedIconColor}`,
-                  backgroundColor: selectedBackgroundColor,
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={selectedIcon}
-                  size={selectedSize}
-                  color={selectedIconColor}
-                />
-              </div>
-              <div className="category-name">{categoryName}</div>
+                <div className="category-preview-title">
+                    <h2>
+                        Category Preview:
+                    </h2>
+                </div>
+                    <div
+                    className="icon-circle"
+                    style={{
+                        border: `5px solid ${selectedIconColor}`,
+                        backgroundColor: selectedBackgroundColor,
+                    }}
+                    >
+                    <FontAwesomeIcon
+                        icon={selectedIcon}
+                        size={selectedSize}
+                        color={selectedIconColor}
+                    />
+                    </div>
+                <div className="category-name">
+                    <h3>{categoryName}</h3>
+                </div>
               <div className="form-group">
               </div>
             </div>

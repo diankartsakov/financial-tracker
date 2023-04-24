@@ -1,0 +1,20 @@
+.da-btn.add-category-button {
+    height: 35px;
+    width: 200px;
+    margin-left: 0px;
+    padding: 12px;
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > span {
+        display: inline-block;
+        padding: 12px;
+    }
+
+    // &:hover, &>span {
+    //     scale: 1;
+    //     font-size: 22px;
+    // }
+}

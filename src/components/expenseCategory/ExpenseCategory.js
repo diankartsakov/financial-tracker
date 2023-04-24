@@ -102,7 +102,7 @@ export default function ExpenseCategory({updateCategories,
     //   console.log(timeLeft);
       setTimeout(async () => {
         //   console.log([transaction]);
-            await accountManager.processFrozenTransactions([transaction]);
+          await accountManager.processFrozenTransactions([transaction]);
           const arr = [...accountsArr];
           const account =  arr.find(acc => acc.accountId === transaction.accountId);
 

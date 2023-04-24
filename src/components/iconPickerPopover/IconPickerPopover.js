@@ -24,7 +24,7 @@ export default function IconPickerPopover({ onSelect }) {
           {icons.map((icon) => (
             <div
               key={icon.iconName}
-              style={{ cursor: 'pointer', margin: '5px' }}
+              style={{ cursor: 'pointer', margin: '5px'}}
               onClick={() => handleIconSelect(icon.icon)}
             >
               <FontAwesomeIcon icon={icon.icon} /> {icon.iconName}
@@ -33,7 +33,7 @@ export default function IconPickerPopover({ onSelect }) {
         </div>
       }
     >
-      <Button>Choose Icon</Button>
+      <Button style={{width: "250px"}}>Choose Icon</Button>
     </Popover>
   );
 }
