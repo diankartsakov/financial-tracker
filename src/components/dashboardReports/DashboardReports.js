@@ -7,6 +7,8 @@ import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
 import { getCardDeposits, getExpenses } from "../../assests/utils/dataGenerator";
 import "./dashboardReports.scss";
 import { useAuth } from "../../firebase/auth";
+import ReportCard from "../reportCard/ReportCard";
+import barIMG from "../../assests/images/bar.png"
 
 export default function DashboardReports() {
     const { currentAccountName, accountId, accountsIds, accountsArr } = useDash();
@@ -26,7 +28,6 @@ export default function DashboardReports() {
             const reports = async () => {
                 let userTransactions = [];
 
-                // console.log(uid);
                 if (uid !== "Sf7dfJALVqh4Xa9yOTYmviMQXFl2") {
                     // FROM FIREBASE
                     // console.log("firebase");
@@ -40,9 +41,6 @@ export default function DashboardReports() {
                     const userDeposits = getCardDeposits(75);
                     userTransactions = [...userExpenses, ...userDeposits];
                 }
-                
-      
-                // console.log(userTransactions);
 
                 const allTransactions = userTransactions.reduce((acc,value) => {
 
@@ -56,21 +54,17 @@ export default function DashboardReports() {
                     return acc;
                 },{frozen: [], processed: []});
 
-                // console.log(allTransactions);
                 updateReportAccount({
                     reportAccountId: accountId,
                     reportAccountName: currentAccountName,
                 });
-                // updateTransactionsArr(userTransactions);
+
                 updateTransactionsArr(allTransactions.processed);
                 updateFrozenTransactionsArr(allTransactions.frozen);
-                // console.log("effect middle");
                 isLoadedUpdate(true);
             }
 
             reports().then();
-
-            // console.log("effect end" );
         }
     });
 
@@ -110,6 +104,9 @@ export default function DashboardReports() {
                                     display: "inline-block",
                                     width: "200px", border: "3px solid black",
                                 }}><ProfileCardInfo title="Stacked Column Expense"/></Link>
+                                <Link to="stacked-column-expense">
+                                    <ReportCard img={barIMG} title="Expense Bar Chart"/>
+                                </Link>
                             </div>
 
                         <h2 style={{borderBottom: "5px solid black"}}>HISTORY</h2>
