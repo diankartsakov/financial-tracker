@@ -105,7 +105,8 @@ export default function StackedColumnExpense() {
             }
         },
         "legend": {
-            "fontSize": 14,
+            "fontSize": 22,
+            "fontWeight": 600,
             "offsetY": 0,
             "markers": {
                 "shape": "square",
@@ -121,6 +122,10 @@ export default function StackedColumnExpense() {
             "intersect": true,
             enabled: true,
             "fillSeriesColor": true,
+            "style": {
+                "fontWeight": 700,
+                fontSize: "22px"
+            },
             y: {formatter: function (values, {}) {
                 const amount = values.toFixed(2) + " BGN";
                 return amount;
@@ -166,7 +171,7 @@ export default function StackedColumnExpense() {
         { !isLoaded ? <>Loading...</>
         :    
         <div className='ft-pie-chart-expense-wrapper'>
-            <h3>Stacked Column Expenses - {getMonthName(monthYear.month)} {monthYear.year}</h3>
+            <h3 className='chart-title'>Stacked Column Expenses - {getMonthName(monthYear.month)} {monthYear.year}</h3>
             {
                 Object.keys(reportTransactions).length 
                 ? 

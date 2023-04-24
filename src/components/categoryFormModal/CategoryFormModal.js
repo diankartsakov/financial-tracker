@@ -34,8 +34,14 @@ export default function CategoryFormModal({onSubmit, categoryName="Create Catego
         title={categoryName}
         open={modalOpen}
         onCancel={handleClose}
-        okButtonProps={{ style: { display: 'none' } }}
-        width="600px">
+        onOk={handleClose}
+        width="600px"
+        footer={
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button onClick={handleClose} style={{ marginRight: 8, display: isCompleted ? "none": "flex" }}>Cancel</Button>
+            <Button type="primary" onClick={handleClose} style={{ display: isCompleted ? "flex" : "none" }}>OK</Button>
+          </div>}
+        >
             <Spin spinning={isLoading}>
                 {isCompleted 
                     ?

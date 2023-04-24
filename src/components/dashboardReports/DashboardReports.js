@@ -86,14 +86,14 @@ export default function DashboardReports() {
             ?
                 <>
                     <div className="ft-report-cards">
-                        <h2 style={{borderBottom: "5px solid black"}}>DEPOSIT, TRANSFER & INCOME</h2>
+                        <h2 className="wrapper-title">DEPOSIT</h2>
                         <div className="ft-report-cards-expense">
                                 <Link to="card-deposit-charts">
                                     <ReportCard img={polarAreaIMG} title="Card Deposit Polar Area"/>
                                 </Link>
                         </div>
                         
-                        <h2 style={{borderBottom: "5px solid black"}}>EXPENSES</h2>
+                        <h2 className="wrapper-title">EXPENSE</h2>
                             <div className="ft-report-cards-expense">
                                 <Link to="pie-chart-expense">
                                     <ReportCard img={pieChartIMG} title="Expense Pie Chart"/>
@@ -103,7 +103,7 @@ export default function DashboardReports() {
                                 </Link>
                             </div>
 
-                        <h2 style={{borderBottom: "5px solid black"}}>HISTORY</h2>
+                            <h2 className="wrapper-title">HISTORY</h2>
 
                         <Link to="history">
                             <ReportCard img={historyIMG} title="Transaction History"/>

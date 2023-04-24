@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CategorySettings from '../categorySettings/CategorySettings';
-import { Modal, Spin, Result } from "antd";
+import { Modal, Spin, Result, Button } from "antd";
 import { SmileOutlined } from '@ant-design/icons';
 import AlertMessage from "../alertMessage/AlertMessage";
 
@@ -23,8 +23,15 @@ export default function EditCategoryModal({onSubmit, modal: {modalOpen, setModal
       title="Edit Category"
       open={modalOpen}
       onCancel={handleClose}
-      okButtonProps={{ style: { display: 'none' } }}
-      width="600px">
+      onOk={handleClose}
+      width="600px"
+      footer={
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button onClick={handleClose} style={{ marginRight: 8, display: isCompleted ? "none": "flex" }}>Cancel</Button>
+          <Button type="primary" onClick={handleClose} style={{ display: isCompleted ? "flex" : "none" }}>OK</Button>
+        </div>
+      }
+      >
          <Spin spinning={isLoading}>
             {
                 isCompleted

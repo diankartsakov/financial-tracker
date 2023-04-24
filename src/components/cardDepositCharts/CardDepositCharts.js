@@ -179,7 +179,7 @@ export default function CardDepositCharts() {
         { !isLoaded ? <>Loading...</>
         :    
         <div className='ft-pie-chart-expense-wrapper'>
-            <h3 className="ft-title-reports">Polar Area Card Deposit - {monthYear.year}</h3>
+            <h3 className='chart-title'>Card Deposits Polar Area - {monthYear.year}</h3>
             {
                 Object.keys(reportCardDeposits).length 
                 ? 

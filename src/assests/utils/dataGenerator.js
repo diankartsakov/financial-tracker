@@ -64,7 +64,6 @@ function getCardDeposits(days=30) {
     const account = accounts[accountIndex];
 
     const day = Math.floor(Math.random() * 30) + 1; // Random day between 1-30
-    // const month = Math.floor(Math.random() * 12) + 1;
     const month = Math.floor(Math.random() * (3 - 0 + 1) + 0);
    
     const date = new Date(2023, month, day, 12, 0, 0); // April 2023 at 12pm

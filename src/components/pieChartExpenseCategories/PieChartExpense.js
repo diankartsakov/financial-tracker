@@ -22,8 +22,6 @@ export default function PieChartExpense() {
     useEffect(() => {
         if (isLoaded) {
             const currentReportExpenseTransactions = transactions.filter(transaction => transaction.type === "Expense");
-            // console.log(currentReportExpenseTransactions);
-
             const accountReportTransactions =  getExpensesTransactionForMonthYear({
                 arr: currentReportExpenseTransactions,
                 reportAccountId: reportAccount.reportAccountId,
@@ -93,7 +91,8 @@ export default function PieChartExpense() {
         },
         "dataLabels": {
             "style": {
-                "fontWeight": 700
+                "fontWeight": 700,
+                fontSize: "22px",
             }
         },
         "fill": {
@@ -109,6 +108,10 @@ export default function PieChartExpense() {
             enabled: true,
             "fillSeriesColor": true,
             "theme": "dark",
+             "style": {
+                "fontWeight": 700,
+                fontSize: "22px"
+            },
             y: {formatter: function (values, { seriesIndex, globals: {seriesNames} }) {
                 const amount = reportTransactions[seriesNames[seriesIndex]].reduce((acc, {amount}) => {   
                     return acc + amount;
@@ -119,7 +122,8 @@ export default function PieChartExpense() {
         "labels": Object.keys(reportTransactions),
         "legend": {
             "position": "right",
-            "fontSize": 14,
+            "fontSize": 24,
+            "fontWeight": 500,
             "offsetY": 0,
             "itemMargin": {
                 "vertical": 0
@@ -163,7 +167,7 @@ export default function PieChartExpense() {
         { !isLoaded ? <>Loading...</>
         :    
         <div className='ft-pie-chart-expense-wrapper'>
-            <h3>Pie Chart Expenses - {getMonthName(monthYear.month)} {monthYear.year}</h3>
+            <h3 className='chart-title'>Expense Pie Chart - {getMonthName(monthYear.month)} {monthYear.year}</h3>
             {
                 Object.keys(reportTransactions).length 
                 ? 
