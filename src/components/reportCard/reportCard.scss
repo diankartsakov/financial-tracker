@@ -1,0 +1,27 @@
+.report-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    height: 250px;
+    border-radius: 10px;
+    background-color: #25384F;
+
+    &-image {
+        padding-top: 25px;
+        height: 200px;
+
+        img {
+            height: 100%;
+        }
+    }
+    .report-card-title {
+        color: white;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 2px;
+    }
+
+
+}
