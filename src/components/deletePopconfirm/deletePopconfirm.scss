@@ -1,0 +1,16 @@
+.ft-settings-option-pop{
+    text-align: center;
+    padding: 5px 5px;
+    width: 90%;
+    margin: auto;
+    border-radius: 5px;
+  }
+
+  .ft-settings-option-pop:hover {
+    background-color: lightgray;
+  }
+
+
+  .ft-settings-option-pop:hover > span {
+    background-color: darkgrey;
+  }

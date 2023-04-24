@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { Dropdown, notification } from 'antd';
+import { Dropdown, Space, notification } from 'antd';
 import accountManager from "../../services/AccountManager";
 import "./expenseCategory.scss";
 import {deleteCategory, editCategory, getUserCategories } from "../../services/firebaseFirestoreCategories";
@@ -132,7 +132,7 @@ export default function ExpenseCategory({updateCategories,
       {
         key: '2',
         label: <DeletePopconfirm className="ft-settings-option" onClick={(e) => e.stopPropagation()} onConfirm={handleDeleteCategory} name={category}>
-                <p className="ft-settings-option">Delete</p>
+                {/* <p className="ft-settings-option">Delete</p> */}
               </DeletePopconfirm>,
       },
     ]
@@ -156,7 +156,10 @@ export default function ExpenseCategory({updateCategories,
             items,
             }} overlayClassName="ft-settings-dropdown" trigger={['hover']}>
             <div className="ft-settings-btn">
-              <FontAwesomeIcon icon={faEllipsisV} size="lg" color="black" />
+              <Space>
+                <FontAwesomeIcon icon={faEllipsisV} size="lg" color="black" />
+              </Space>
+              {/* <FontAwesomeIcon icon={faEllipsisV} size="lg" color="black" /> */}
             </div>
           </Dropdown>
         </div>
