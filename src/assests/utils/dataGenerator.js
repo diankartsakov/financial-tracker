@@ -40,9 +40,7 @@ function getExpenses(days=30) {
   
       expenses.push(expense);
     }
-  
-    // console.log(expenses);
-  
+
     return expenses;
 }
 

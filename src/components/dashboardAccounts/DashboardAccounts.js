@@ -21,7 +21,6 @@ function NewAccountModal({ onCreate }) {
 
   const handleCreate = () => {
     form.validateFields().then((values) => {
-      // console.log(values);
       onCreate(values);
       hideModal();
       form.resetFields();
@@ -80,8 +79,6 @@ export default function DashboardAccounts() {
   } = useDash();
 
   const handleCreateAccount = async (values) => {
-    console.log('Creating account with name:', values.accountName);
-    // handle create account logic here
     const accountId = await accountManager.addAccount(values.accountName.trim(), uid);
     const newAcc = { name: values.accountName, amount: '0.00', frozenAmount: '0.00', accountId };
 
@@ -89,7 +86,7 @@ export default function DashboardAccounts() {
     arr.push(newAcc);
     updateAccountsArr(arr);
     updateAccountId(accountId);
-    // updateAccountsIds(accountId);
+    
     updateCurrentAccountName(newAcc.name);
     setIsAccountAdd(true);
   };

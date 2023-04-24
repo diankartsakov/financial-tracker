@@ -34,8 +34,6 @@ export default function CategorySettings({
     const [selectedSize, setSelectedSize] = useState(initialData.iconSize);
     const {categories, updateCategories} = useDash();
     
-    // console.log(initialData);
-    // console.log(categoryName);
     useEffect(() => {
       if (resetForm) {
         setCategoryName(initialData.category);
@@ -79,7 +77,6 @@ export default function CategorySettings({
         }
 
         const isValidCategoryName = validateCategoryName(formData.category);
-        // console.log(isValidCategoryName);
         if (!isValidCategoryName.ok) {
           setIsLoading(false);
           setError({error: isValidCategoryName.message});

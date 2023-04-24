@@ -26,22 +26,18 @@ export default function DashboardPage() {
 
     useEffect(() => {
         if (isLoaded) {
-            // console.log("no");
         } else {
-            // console.log("page download");
             const accounts = async () => {
                 const accountsIds = await getUserAccounts(uid);
 
                 const frozenTrns = await getUserAccountsFrozenTransactionsForUpdate(accountsIds);
 
-                // console.log(frozenTrns);
 
                 await accountManager.processFrozenTransactions(frozenTrns);
 
                 const currentAccount = accountsIds[0] || null;
                 const accountsArr = await getUserAccountsFullInfo(uid);
                 const userCategories = await getUserCategories(uid);
-                // console.log(accountsArr);
                 updateAccountId(currentAccount);
                 updateAccountsIds(accountsIds);
                 updateAccountsArr(accountsArr);

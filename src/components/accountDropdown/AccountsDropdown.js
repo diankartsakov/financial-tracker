@@ -8,9 +8,8 @@ export default function AccountsDrowpdown({accountName, onSelect, accountAdded: 
     const [items, setItems] = useState(accountsArr);
     
     useEffect(() => {
-        // console.log("dropdown render");
+ 
         if (isLoaded && isAccountAdd) {
-            // console.log("dropdown render2");
             const items = accountsArr.map(a => {
                 return {
                     label: a.name,

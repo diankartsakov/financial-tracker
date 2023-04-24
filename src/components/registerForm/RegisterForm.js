@@ -45,7 +45,6 @@ export default function RegisterForm() {
           name="normal_register"
           className="register-form"
           onFinish={onFinish}
-        //   onFinishFailed={onFinishFailed}
         >
           <Form.Item
           className="da-register-input-div"

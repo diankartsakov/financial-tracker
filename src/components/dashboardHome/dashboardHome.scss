@@ -35,7 +35,6 @@
         .accounts-data {
             height: 82vh;
             width: 50%;
-            // border: 1px solid blue;
 
             .card-link-wrapper {
                 width: 100%;
@@ -110,9 +109,7 @@
     
     
     div.intro-amount {
-        // border: 3px solid purple;
         border-radius: 10px;
-        // height: 300px;
         height: 40vh;
         box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.5);
         & > div {
@@ -167,7 +164,6 @@
             justify-content: center;
             align-items: center;
             border-radius: 10px;
-            // box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5)
         }
 
         .ft-donut-no-accounts-heading {
@@ -176,4 +172,3 @@
     }
      
 }
-// #25384F

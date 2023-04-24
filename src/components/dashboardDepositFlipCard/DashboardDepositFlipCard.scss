@@ -26,7 +26,6 @@
             &.-back {
                 transform: perspective(1000px) rotateY(0) rotateX(0deg)
                     rotateZ(0deg);
-                // box-shadow: 0 20px 50px 0 rgba(81, 88, 206, 0.65);
             }
         }
     }
@@ -83,13 +82,6 @@
                 rotate(0deg);
             z-index: 2;
             padding: 0;
-            // background-color: #2364d2;
-            // background-image: linear-gradient(
-            //   43deg,
-            //   #4158d0 0%,
-            //   #8555c7 46%,
-            //   #2364d2 100%
-            // );
             height: 100%;
 
             .card-item__cover {

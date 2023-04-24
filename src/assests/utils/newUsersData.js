@@ -12,7 +12,6 @@ const categories = [
         iconSize: "5x"
       },
       {
-        // change
         category: "Food",
         categoryBackground: "#f2a436",
         icon: JSON.stringify({
@@ -35,7 +34,6 @@ const categories = [
         id: "QYuA2o8MCPEvA2xA6AX7"
       },
       {
-        // change
         category: "Hobbies",
         categoryBackground: "#46a485",
         icon: JSON.stringify({

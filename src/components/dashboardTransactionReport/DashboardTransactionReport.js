@@ -51,9 +51,6 @@ export default function DashboardTransactionReport() {
   }, [reportAccount, selectedDates]);
 
   const onChangeDate = (dates, dateStrings) => {
-
-    console.log(dates);
-
     if (dates) {
       // Set the start time of the first selected date to 00:00:00
       const startTime = dates[0].toDate().setHours(0, 0, 0, 0);

@@ -2,9 +2,6 @@ import "./homePage.scss";
 import startGif from "../../assests/images/imageedit_4_9427188444.gif";
 import underConstructionIMG from "../../assests/images/under-construction_geek_man.svg"
 
-// blue: #85C3E9;
-// white: #FFFFFF;
-
 export default function HomePage() {
     return (
         <>

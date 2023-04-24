@@ -37,7 +37,6 @@ export default function DashboardMenu() {
         logout()
         .then(() => navigate("/home"))
         .catch((error) => {
-            console.log(error);
         });
     }
 
@@ -67,9 +66,6 @@ export default function DashboardMenu() {
         ),
         getItem(<Link to="reports" className="ft-accounts-link">Reports</Link>, '3', 
         <PieChartOutlined />, 
-        // [
-        //   getItem(<Link to="reports/history">Table</Link>, '3.1'),
-        // ]
         ),
     ];
     

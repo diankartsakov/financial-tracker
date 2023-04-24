@@ -16,11 +16,9 @@ export default function StackedColumnExpense() {
         year: new Date().getFullYear(),
     });
 
-    // console.log(reportTransactions);
     useEffect(() => {
         if (isLoaded && isLoading) {
             const currentReportExpenseTransactions = transactions.filter(transaction => transaction.type === "Expense");
-            // console.log(currentReportExpenseTransactions);
             
             const accountReportTransactions = getExpenseTransactionsByDaysForMonth({
                 arr: currentReportExpenseTransactions,
@@ -28,7 +26,6 @@ export default function StackedColumnExpense() {
                 month: monthYear.month,
                 year: monthYear.year,
             });
-            // console.log(accountReportTransactions);
             setExpenseTransactions(currentReportExpenseTransactions);
             setReportTransactions(accountReportTransactions);
             setIsLoading(false);
@@ -77,7 +74,6 @@ export default function StackedColumnExpense() {
                 "show": false
             },
             "type": "bar",
-            // "width": 597
             "width": "100%",
         },
         "plotOptions": {
@@ -134,7 +130,6 @@ export default function StackedColumnExpense() {
         "xaxis": {
             "type": "category",
             categories: getDaysInMonth(monthYear.year,monthYear.month),
-            // categories: [],
             "labels": {
                 "trim": true,
                 "style": {
@@ -183,7 +178,6 @@ export default function StackedColumnExpense() {
                 height={"100%"}
                 width={"100%"}
                 />
-                // reportTransactions.map(transaction => <p key={transaction.id}>{transaction.category}-{transaction.amountString}</p>)
                 :
                 <div className='empty-wrapper'>
                     <Empty description={false}>

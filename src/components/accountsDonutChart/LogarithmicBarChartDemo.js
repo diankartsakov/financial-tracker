@@ -23,8 +23,6 @@ const LogarithmicBarChart = () => {
             startAngle: -90,
             endAngle: 270,
             size: "100%",
-            // width: "50%",
-            // height: "100%",
           },
         },
         dataLabels: {

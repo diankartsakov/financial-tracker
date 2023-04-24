@@ -70,7 +70,6 @@ export default function NewExpenseModal({ open, onCancel, category, onSubmit, se
       <Spin spinning={isLoading}>
         {serverResult
           ?
-          // serverResult.ok ? "Success" : "Failed"
           <ExpenseResult ok={serverResult.ok} message={serverResult.message} onCancel={onCancel} />
 
           :

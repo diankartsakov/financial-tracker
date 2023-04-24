@@ -7,7 +7,6 @@ import { useReport } from '../dashboardReports/DashboardReportsProvider';
 export default function ReportsDropdown() {
     const { accountsArr } = useDash();
     const { reportAccount, updateReportAccount } = useReport();
-    // console.log(reportAccount);
 
     const items = accountsArr.map(a => {
         return {
@@ -18,7 +17,6 @@ export default function ReportsDropdown() {
 
     const onClick = ({ key }) => {
         const acc = items.find(a => a.key === key);
-        // console.log(acc);
         updateReportAccount({
             reportAccountId: acc.key,
             reportAccountName: acc.label,

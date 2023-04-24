@@ -62,13 +62,9 @@ export default function ExpenseCategory({updateCategories,
         const data = [accountObj, amount, "Expense", category]
         let result = null;
         if(delay === 'none'){
-            
             result = await accountManager.initiateTransaction(...data);
-            //   const result = await accountManager.initiateTransaction(...data);
-          // console.log(result);
             setServerResult(result);
             
-        //   return result;
         } else {
             data.push(delay);
     
@@ -84,8 +80,6 @@ export default function ExpenseCategory({updateCategories,
         if (delay !== "none") {
             account.frozenAmount = (Number(account.frozenAmount) + Number(amount)).toFixed(2);
         }
-        // // OLD UPDATE ARR
-        // // const accountsFullInfo = await getUserAccountsFullInfo(uid);
         updateAccountsArr(arr);
         
         if (delay === "one-min") {
@@ -94,21 +88,17 @@ export default function ExpenseCategory({updateCategories,
     };
 
     const setDelayFrozen = (transaction) => {
-    //   console.log(transaction)
       const currentDate = new Date();
       const unfreezeDate = transaction.unfreezeDate;
   
       const timeLeft = unfreezeDate.getTime() - currentDate.getTime();
-    //   console.log(timeLeft);
       setTimeout(async () => {
-        //   console.log([transaction]);
           await accountManager.processFrozenTransactions([transaction]);
           const arr = [...accountsArr];
           const account =  arr.find(acc => acc.accountId === transaction.accountId);
 
           account.frozenAmount = (Number(account.frozenAmount) - Number(transaction.amount)).toFixed(2);
           updateAccountsArr(arr);
-          console.log("update frozen amount");
           
       }, timeLeft >= 0 ? timeLeft : 0);
   }
@@ -132,7 +122,6 @@ export default function ExpenseCategory({updateCategories,
       {
         key: '2',
         label: <DeletePopconfirm className="ft-settings-option" onClick={(e) => e.stopPropagation()} onConfirm={handleDeleteCategory} name={category}>
-                {/* <p className="ft-settings-option">Delete</p> */}
               </DeletePopconfirm>,
       },
     ]
@@ -159,7 +148,6 @@ export default function ExpenseCategory({updateCategories,
               <Space>
                 <FontAwesomeIcon icon={faEllipsisV} size="lg" color="black" />
               </Space>
-              {/* <FontAwesomeIcon icon={faEllipsisV} size="lg" color="black" /> */}
             </div>
           </Dropdown>
         </div>

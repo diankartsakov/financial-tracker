@@ -47,9 +47,6 @@
     justify-content: space-between;
     margin-bottom: 25px;
     box-shadow: 0px 0px 7px 2px #228B22;
-    // border: 2px solid #228B22;
-    // border-radius: 5%;
-
 
     .da-account-form-balance-label {
         font-weight: bold;
@@ -68,8 +65,6 @@
     justify-content: space-between;
     margin-bottom: 10px;
     box-shadow: 0px 0px 7px 2px #22a9ca;
-    // border: 2px solid #22a9ca;
-    // border-radius: 5%;
 
     .da-account-form-balance-frozen-label {
         font-weight: bold;
@@ -125,8 +120,4 @@
     background-color: #25384F;
     color: white;
     transition: transform 0.2s ease-in-out;
-
-    // :hover {
-    //     transform: scale(1.1);
-    // }
 }

@@ -61,7 +61,6 @@ async function getUserAccountsTransactions(accountIds=[]) {
         return transactions;
     }
 
-    // console.log(accountIds);
 
     const q = query(collection(db, "transactions"), where("accountId", "in", accountIds));
     const querySnapshot = await getDocs(q);
@@ -95,7 +94,6 @@ async function getUserAccountsTransactions(accountIds=[]) {
 
     });
 
-    // console.log(transactions);
 
     return transactions;
 }
@@ -109,11 +107,6 @@ async function getUserAccountsFullInfo(uid) {
 
     querySnapshot.forEach((doc) => {
         
-        // const obj = {
-        //     name: doc._document.data.value.mapValue.fields.name.stringValue,
-        //     amount: doc._document.data.value.mapValue.fields.amount,
-        //     accountId: doc.id
-        // }
         const obj = doc.data();
         obj.accountId = doc.id;
 
@@ -133,7 +126,6 @@ async function getAccount(accountId) {
         return docSnap.data();
 
     } else {
-        console.log("No such document!");
     }
 }
 
@@ -148,7 +140,6 @@ async function getUserAccountsFrozenTransactionsForUpdate(accountIds=[]) {
         return transactions;
     }
 
-    // console.log(accountIds);
 
     const q = query(collection(db, "transactions"), where("accountId", "in", accountIds), where("isFrozen", "==", true));
     const querySnapshot = await getDocs(q);
@@ -168,7 +159,6 @@ async function getUserAccountsFrozenTransactionsForUpdate(accountIds=[]) {
         }
     });
 
-    // console.log(transactions);
 
     return transactions;
 }

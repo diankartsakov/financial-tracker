@@ -17,8 +17,6 @@ export default function PieChartExpense() {
         year: new Date().getFullYear(),
     });
 
-    // console.log(monthYear);
-
     useEffect(() => {
         if (isLoaded) {
             const currentReportExpenseTransactions = transactions.filter(transaction => transaction.type === "Expense");
@@ -178,7 +176,6 @@ export default function PieChartExpense() {
                 height={"100%"}
                 width={"100%"}
                 />
-                // reportTransactions.map(transaction => <p key={transaction.id}>{transaction.category}-{transaction.amountString}</p>)
                 :
                 <div className='empty-wrapper'>
                     <Empty description={false}>

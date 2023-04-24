@@ -15,14 +15,12 @@ export default function CardDepositCharts() {
     });
     const [isLoading, setIsLoading] = useState(true);
     const [monthYear, setMonthYear] = useState({
-        // month: new Date().getMonth(),
         year: new Date().getFullYear(),
     });
 
     useEffect(() => {
         if (isLoaded && isLoading) {
             const currentCardDeposits = transactions.filter(transaction => transaction.type === "Deposit");
-            // console.log(currentCardDeposits);
             
             const accountReportTransactions = getCardDepositForMonthsInYear({
                 arr: currentCardDeposits,
@@ -31,7 +29,6 @@ export default function CardDepositCharts() {
             });
 
             const dataForChart = convertDataForPolarAreaYearMonths(accountReportTransactions);
-            // console.log(accountReportTransactions);
             setChartData(dataForChart);
             setCardDeposits(currentCardDeposits);
             setReportCardDeposits(accountReportTransactions);
@@ -43,7 +40,6 @@ export default function CardDepositCharts() {
                 year: monthYear.year,
             });
             const dataForChart = convertDataForPolarAreaYearMonths(accountReportTransactions);
-            // console.log(accountReportTransactions);
 
             setChartData(dataForChart);
             setReportCardDeposits(accountReportTransactions);
@@ -60,7 +56,6 @@ export default function CardDepositCharts() {
 
         } else {
             setMonthYear({
-                // month: new Date().getMonth(),
                 year: new Date().getFullYear(),
             })
         }
@@ -191,7 +186,6 @@ export default function CardDepositCharts() {
                 height={"100%"}
                 width={"100%"}
                 />
-                // reportCardDeposits.map(transaction => <p key={transaction.id}>{transaction.category}-{transaction.amountString}</p>)
                 :
                 <div className='empty-wrapper'>
                     <Empty description={false}>

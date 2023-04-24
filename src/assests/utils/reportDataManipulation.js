@@ -21,7 +21,6 @@ function getExpensesTransactionForMonthYear({arr, reportAccountId, month, year,}
 }
 
 function getExpenseTransactionsByDaysForMonth({arr, reportAccountId, month, year,}) {
-    // console.log(arr, reportAccountId, month, year,);
     const monthName = getMonthName(month);
     return arr.filter(transaction => transaction.accountId === reportAccountId)
         .reduce((acc, expense) => {
@@ -80,7 +79,7 @@ function getCardDepositForMonthsInYear({arr, reportAccountId, year,}) {
 }
 
 function convertDataForPolarAreaYearMonths(arr) {
-    // console.log(arr)
+
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const data = [];
     
@@ -97,8 +96,6 @@ function convertDataForPolarAreaYearMonths(arr) {
         return true;
     })
     
-    // console.log(data);
-    // console.log(monthsWithData);
     return {series: data, labels: monthsWithData};
 }
 
@@ -134,7 +131,7 @@ function getMonthName(month) {
     const date = new Date();
     date.setMonth(monthNumber);
     const monthName = date.toLocaleString('default', { month: 'long' });
-    // console.log(monthName);
+
     return monthName;
 }
 

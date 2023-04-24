@@ -76,10 +76,9 @@ export default function AccountsDonutChart({frozen=false}) {
                 fontSize: "22px"
             },
             y: {formatter: function (values, { seriesIndex }) {
-                // debugger
                 const account = accountData[seriesIndex];
                 const amount = account.amount.toFixed(2) + " BGN";
-                // console.log(amount);
+
                 return `${amount}`;
               }},
         },
@@ -101,7 +100,6 @@ export default function AccountsDonutChart({frozen=false}) {
             "fontWeight": 500,
             "offsetX": 0,
             "offsetY": 0,
-            // "position": "bottom",
             "position": "right",
             "itemMargin": {
                 "vertical": 0

@@ -1,8 +1,6 @@
 import { db } from '../firebase/firebase.js';
 import { doc, updateDoc, addDoc, collection, increment } from "firebase/firestore";
 import { getAccount } from './firebaseFirestoreAccounts.js';
-import { faL } from '@fortawesome/free-solid-svg-icons';
-
 class AccountManager {
 
   addAccount = async (accountName, uid) => {
@@ -15,23 +13,10 @@ class AccountManager {
         uid: uid
       });
 
-      // console.log("Account created, ID: ", docRef.id);
       return docRef.id;
     } catch (e) {
-      // console.error("Error creating account: ", e);
     }
   };
-
-
-  // validateBalance = async (accountId, amount) => {
-    
-  //   let acc = await getAccount(accountId);
-
-  //   console.log(acc);
-
-  //   return acc.amount - amount;
-
-  // };
 
   updateBalance = async (accountId, newBalance, isFrozen) => {
 
@@ -80,11 +65,9 @@ class AccountManager {
 
       const docRef = await addDoc(collection(db, "transactions"), transaction);
 
-      console.log("Document written with ID: ", docRef.id);
 
 
     } catch (e) {
-      // console.error("Error adding document: ", e);
     }
 
   };
@@ -102,7 +85,6 @@ class AccountManager {
         remainingBalance = Number(fromAccountId.amount) - amount;
 
       if (remainingBalance < 0) {
-        // console.log("Insufficient Funds !");
         return { ok: false, error: true, message: "Insufficient Funds !" };
       }
 
@@ -174,7 +156,6 @@ class AccountManager {
     const remainingBalance = Number(accountObj.amount) - amount;
 
     if (remainingBalance < 0) {
-      // console.log("Insufficient Funds !");
       return { ok: false, error: true, message: "Insufficient Funds !" };
     }
 
@@ -205,7 +186,6 @@ class AccountManager {
       unfreezeDate: unfreezeDate
     };
 
-    // console.log(transaction);
 
     const resultPromise = await Promise.all([
       addDoc(collection(db, "transactions"), transaction),
@@ -213,7 +193,6 @@ class AccountManager {
       this.updateBalance(accountObj.accountId, remainingBalance)
     ]);
 
-    // console.log(resultPromise[0].id);
     transaction.id = resultPromise[0].id;
 
     return {

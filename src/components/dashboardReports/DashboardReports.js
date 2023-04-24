@@ -19,7 +19,6 @@ export default function DashboardReports() {
     const {
         isLoaded,
         reportAccount,
-        // transactions,
         isLoadedUpdate,
         updateTransactionsArr,
         updateFrozenTransactionsArr,
@@ -34,10 +33,7 @@ export default function DashboardReports() {
 
                 if (uid !== "Sf7dfJALVqh4Xa9yOTYmviMQXFl2") {
                     // FROM FIREBASE
-                    // console.log("firebase");
-                    // console.log(accountsIds);
                     const currentAccountIds = accountsArr.map(acc => acc.accountId) || [];
-                    // console.log(currentAccountIds);
                     userTransactions = await getUserAccountsTransactions(currentAccountIds);
                 } else {
                     // RANDOM

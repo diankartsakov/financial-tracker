@@ -59,22 +59,8 @@ export default function DashboardDeposit() {
   };
 
   const handleFromAccountSelect = (acc) => {
-
-    console.log(acc);
-
     setFromAccount(acc);
-
   };
-
-  // const handleOk = () => {
-  //   setModalVisible(false);
-  //   if (modalMessage[1] === 'Please enter a positive amount.' ||
-  //     modalMessage[1] === "Please enter a valid amount in the following format: 'X.XX'."
-  //   ) {
-  //     form.resetFields(['amount']);
-  //   }
-
-  // };
 
   const handleCancel = () => {
 
@@ -93,9 +79,6 @@ export default function DashboardDeposit() {
       return false;
     }
 
-    console.log(item);
-    console.log(regex);
-
     let result = regex.test(item);
 
 
@@ -107,7 +90,6 @@ export default function DashboardDeposit() {
 
     const values = await form.validateFields();
 
-    console.log(values);
 
     if (!values.amount) {
       setmodalMessage(['Invalid Amount', 'Please enter a valid amount.']);
@@ -141,7 +123,6 @@ export default function DashboardDeposit() {
       if (values && flipCardState) {
         setCurrentStep(1);
         setConfirmationData({ ...flipCardState, amount: values.amount, depositType }, () => {
-          console.log(confirmationData);
         });
       }
     }
@@ -160,9 +141,6 @@ export default function DashboardDeposit() {
 
     const accountObj = accountsArr.find(el => el.accountId === accountId);
 
-    console.log(accountId);
-    console.log(accountsArr);
-    console.log(accountObj);
 
 
     setIsLoading(true);
@@ -183,14 +161,9 @@ export default function DashboardDeposit() {
 
       const fromAccountObj = accountsArr.find(el => el.accountId === fromAccount.key);
 
-      console.log(fromAccount);
-      console.log(accountsArr);
-      console.log(fromAccountObj);
-
       result = await accountManager.initiateTransaction(accountObj, amount, 'Transfer', 'Internal Transfer', fromAccountObj);
     }
 
-    // console.log(result);
     const accountsFullInfo = await getUserAccountsFullInfo(uid);
     updateAccountsArr(accountsFullInfo);
     setSuccessfulTransaction(result);
@@ -218,16 +191,12 @@ export default function DashboardDeposit() {
       />
       <Modal
         open={modalVisible}
-        // onOk={handleOk}
         onCancel={handleCancel}
         title={modalMessage[0]}
         footer={[
           <Button key="cancel" onClick={handleCancel}>
             OK
           </Button>,
-          // <Button key="ok" type="primary" onClick={handleOk}>
-          //   OK
-          // </Button>,
         ]}
       >
         {modalMessage[1]}
@@ -280,9 +249,7 @@ export default function DashboardDeposit() {
         <div className='da-deposit-form-details'>
 
           <Spin spinning={isLoading}>
-            <Form className='da-ant-form'
-            //onFinish={()=>{}}
-            >
+            <Form className='da-ant-form'>
               <Form.Item className='da-ant-form-item'><h3>Confirm Transaction Details</h3></Form.Item>
               <Form.Item className='da-ant-form-item da-checkout-info'>
               <div className='da-checkout-img-div'>

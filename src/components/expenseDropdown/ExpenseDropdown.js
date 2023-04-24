@@ -27,7 +27,6 @@ export default function ExpenseDropdown() {
     }).filter(e => e.key !== accountId);
 
     const onClick = ({ key }) => {
-        console.log(key);
         const acc = accountsArr.find(a => a.accountId === key);
 
         updateAccountId(acc.accountId);
