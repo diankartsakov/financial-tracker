@@ -1,7 +1,24 @@
-.da-amount-wrapper {
-    margin-bottom: none;
+.da-card-radio,
+.da-transfer-radio  {
+    background-color: transparent;
+    border: none;
+
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+.da-transfer-dropdown {
+    margin-bottom: 6px;
     width: 70%;
-    
+}
+
+
+.da-amount-wrapper {
+    margin-bottom: 6px;
+    width: 70%;
+
 
     .da-enter-amount {
         width: 100%;
@@ -23,16 +40,17 @@
 
         ::placeholder {
             color: #666;
-    
+
         }
 
         &[type="number"]::-webkit-outer-spin-button,
         &[type="number"]::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
+            -webkit-appearance: none;
+            margin: 0;
         }
     }
 }
+
 
 
 .da-deposit-form-details {
@@ -65,13 +83,17 @@
     display: flex;
     justify-content: center;
 
-    .ant-btn {
-        margin: 10px;
+    .da-transfer-dropdown-button {
         background-color: #25384F;
         color: white;
+        height: 80px;
+        width: 444px;
+        font-size: 18px;
 
     }
 }
+
+
 
 .da-btn {
 

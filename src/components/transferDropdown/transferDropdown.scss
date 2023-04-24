@@ -1,0 +1,26 @@
+.account-option-wrapper {
+    height: 75px;
+    width: 300px;
+
+    .account-option-title {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .account-option-amount-wrapper {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        img {
+            height: 100%;
+            width: 50px;
+        }
+
+        p {
+            font-weight: 700;
+            font-size: 18px;
+        }
+    }
+}

@@ -10,7 +10,8 @@ import './DashboardDeposit.scss';
 import { Link } from 'react-router-dom';
 import { isValidNumber } from '../../assests/utils/validations';
 import DashboardDepositCardComponent from '../dashboardDepositFlipCard/DashboardDepositCardComponent';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import CardDepositPng from '../../assests/images/card-deposit.png';
+import TransferDepositPng from '../../assests/images/transfer-deposit.png';
 
 
 export default function DashboardDeposit() {
@@ -31,7 +32,7 @@ export default function DashboardDeposit() {
 
     setFlipCardState(data);
 
-  }; 
+  };
 
   const { accountId, currentAccountName, accountsArr, updateAccountsArr } = useDash();
   const { authUser: { uid } } = useAuth();
@@ -59,6 +60,7 @@ export default function DashboardDeposit() {
   const handleFromAccountSelect = (acc) => {
 
     setFromAccount(acc);
+
   };
 
   // const handleOk = () => {
@@ -102,6 +104,8 @@ export default function DashboardDeposit() {
 
     const values = await form.validateFields();
 
+    console.log(values);
+
     if (!values.amount) {
       setmodalMessage(['Invalid Amount', 'Please enter a valid amount.']);
       setModalVisible(true);
@@ -114,30 +118,36 @@ export default function DashboardDeposit() {
       return;
     }
 
-    if(!validateData(flipCardState.cardNumber, /^(\d{4}\s){3}\d{4}$/)) {
-      setmodalMessage(['Invalid Information', 'Please enter your full card number.']);
-      setModalVisible(true);
-      return;
-    }
-    if(!validateData(flipCardState.cardHolder, /^\s*[a-zA-Z]+\s+[a-zA-Z]+(\s+[a-zA-Z]+)?\s*$/)) {
-      setmodalMessage(['Invalid Information', 'Please enter your full names.']);
-      setModalVisible(true);
-      return;
-    }
-    if(!validateData(flipCardState.cardCvv, /^[0-9]{3,4}$/)) {
-      setmodalMessage(['Invalid Information', 'Please enter your CVV code.']);
-      setModalVisible(true);
-      return;
-    }
+    if(depositType === 'card'){
 
-    if (values && flipCardState) {
+      if (!validateData(flipCardState.cardNumber, /^(\d{4}\s){3}\d{4}$/)) {
+        setmodalMessage(['Invalid Information', 'Please enter your full card number.']);
+        setModalVisible(true);
+        return;
+      }
+      if (!validateData(flipCardState.cardHolder, /^\s*[a-zA-Z]+\s+[a-zA-Z]+(\s+[a-zA-Z]+)?\s*$/)) {
+        setmodalMessage(['Invalid Information', 'Please enter your full names.']);
+        setModalVisible(true);
+        return;
+      }
+      if (!validateData(flipCardState.cardCvv, /^[0-9]{3,4}$/)) {
+        setmodalMessage(['Invalid Information', 'Please enter your CVV code.']);
+        setModalVisible(true);
+        return;
+      }
+      if (values && flipCardState) {
+        setCurrentStep(1);
+        setConfirmationData({ ...flipCardState, amount: values.amount, depositType }, () => {
+          console.log(confirmationData);
+        });
+      }
+    }
+    else if(values) {
+
       setCurrentStep(1);
-      setConfirmationData({ ...flipCardState, amount: values.amount, depositType }, () => {
-        console.log(confirmationData);
-      });
-    }
+      setConfirmationData(values);
 
-    console.log(confirmationData);
+    }
   };
 
   const handlePayButtonClick = async () => {
@@ -224,12 +234,16 @@ export default function DashboardDeposit() {
 
           <Form.Item className='da-ant-form-item' name="depositType" initialValue="card">
             <Radio.Group onChange={handleDepositTypeChange} value={depositType}>
-              <Radio className='da-radio' value="card">Card Deposit</Radio>
-              <Radio className='da-radio' value="account">Transfer</Radio>
+              <Radio className='da-radio da-card-radio' value="card">
+              <img src={CardDepositPng} alt="Credit/Debit Card" />
+              </Radio>
+              <Radio className='da-radio da-transfer-radio' value="account">
+              <img src={TransferDepositPng} alt="Transfer" />
+              </Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item className='da-amount-wrapper' name="amount">
-            <Input className='da-enter-amount' type="number" name="amount" placeholder="Please enter your Deposit amount" value={amount} onChange={handleAmountChange}  />
+            <Input className='da-enter-amount' type="number" name="amount" placeholder="Please enter your Deposit amount" value={amount} onChange={handleAmountChange} />
           </Form.Item>
 
 
@@ -238,15 +252,15 @@ export default function DashboardDeposit() {
             <>
 
               <DashboardDepositCardComponent
-              onChange= {handleCardComponentChange}
+                onChange={handleCardComponentChange}
 
               ></DashboardDepositCardComponent>
             </>
           )}
 
           {depositType === 'account' && (
-            <Form.Item className='da-ant-form-item' label="From Account">
-              <TransferDropdown onSelect={handleFromAccountSelect} currentAcc={fromAccount}></TransferDropdown>
+            <Form.Item className='da-transfer-dropdown'>
+              <TransferDropdown  onSelect={handleFromAccountSelect} currentAcc={fromAccount}></TransferDropdown>
             </Form.Item>
           )}
 
