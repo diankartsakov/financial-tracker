@@ -1,3 +1,19 @@
 .ft-pie-chart-expense-wrapper {
     height: 70vh;
 }
+
+.empty-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px 2px #25384F;
+
+    h3 {
+        color: #25384F;
+        font-size: 28px;
+        letter-spacing: 2px;
+    }
+}

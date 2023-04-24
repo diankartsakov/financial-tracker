@@ -3,7 +3,7 @@ import ReactApexChart from 'react-apexcharts';
 import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
-import { DatePicker, Space } from 'antd';
+import { DatePicker, Empty, Space } from 'antd';
 import { convertDataForPolarAreaYearMonths, getCardDepositForMonthsInYear } from '../../assests/utils/reportDataManipulation';
 
 export default function CardDepositCharts() {
@@ -105,7 +105,9 @@ export default function CardDepositCharts() {
         "dataLabels": {
             "enabled": false,
             "style": {
-                "fontWeight": 700
+                "fontWeight": 700,
+                fontSize: "18px",
+                textAlign: "center"
             }
         },
         "grid": {
@@ -117,7 +119,8 @@ export default function CardDepositCharts() {
         },
         "labels": chartData.labels,
         "legend": {
-            "fontSize": 14,
+            "fontSize": 24,
+            "fontWeight": 500,
             "offsetY": 0,
             "itemMargin": {
                 "vertical": 0
@@ -129,6 +132,10 @@ export default function CardDepositCharts() {
             "theme": "dark",
             enabled: true,
             "fillSeriesColor": true,
+            "style": {
+                "fontWeight": 700,
+                fontSize: "22px"
+            },
             y: {formatter: function (values, {}) {
                 const amount = values.toFixed(2) + " BGN";
                 return amount;
@@ -186,7 +193,11 @@ export default function CardDepositCharts() {
                 />
                 // reportCardDeposits.map(transaction => <p key={transaction.id}>{transaction.category}-{transaction.amountString}</p>)
                 :
-                <p>No Card Deposits</p>
+                <div className='empty-wrapper'>
+                    <Empty description={false}>
+                        <h3>No Card Deposits Data</h3>
+                    </Empty>                
+                </div>
             }
         </div>
         }

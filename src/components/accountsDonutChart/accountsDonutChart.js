@@ -93,14 +93,6 @@ export default function AccountsDonutChart({frozen=false}) {
                 "left": 0
             }
         },
-        // title: {
-        //     text: frozen ? "Accounts Frozen Amount" :"Accounts Amount",
-        //     align: "right",
-        //     style: {
-        //       fontSize:  '24px',
-        //       fontWeight:  'bold',
-        //     },
-        // },
         "labels": accountData.map(account => account.name),
         
         "legend": {

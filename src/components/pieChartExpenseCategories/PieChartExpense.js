@@ -5,7 +5,7 @@ import "./pieChartExpense.scss"
 import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
-import { DatePicker, Space } from 'antd';
+import { DatePicker, Empty, Space } from 'antd';
 import { getExpensesTransactionForMonthYear, getMonthName } from '../../assests/utils/reportDataManipulation';
 
 export default function PieChartExpense() {
@@ -176,7 +176,12 @@ export default function PieChartExpense() {
                 />
                 // reportTransactions.map(transaction => <p key={transaction.id}>{transaction.category}-{transaction.amountString}</p>)
                 :
-                <p>No Expenses</p>
+                <div className='empty-wrapper'>
+                    <Empty description={false}>
+                        <h3>No Expense Data</h3>
+                    </Empty>
+                </div>
+
             }
         </div>
         }
