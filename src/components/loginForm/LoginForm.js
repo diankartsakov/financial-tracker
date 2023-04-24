@@ -22,7 +22,7 @@ export default function LoginForm() {
             })
             .catch(error => {
                 setIsError(true);
-                const errorCode = error.code
+                const errorCode = error.code;
                 if (errorCode.includes("auth/")) {
                     setErrorMessage("Wrong credentials!");
                 } else {
@@ -67,11 +67,7 @@ export default function LoginForm() {
                             {
                                 required: true,
                                 message: 'Please input your Password!',
-                            },
-                            {
-                                min: 6,
-                                message: 'Password must be at least 6 characters long.'
-                            },
+                            }
                         ]}
                     >
                         <Input.Password

@@ -48,6 +48,7 @@ export default function RegisterForm() {
         //   onFinishFailed={onFinishFailed}
         >
           <Form.Item
+          className="da-register-input-div"
             name="email"
             validateTrigger="onBlur"
             rules={[
@@ -65,17 +66,18 @@ export default function RegisterForm() {
           </Form.Item>
 
           <Form.Item
+          className="da-register-input-div"
             name="password"
             validateTrigger="onBlur"
             rules={[
                 {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Please input your Password.',
                 },
                 {
-                    min: 6,
-                    pattern: /^\S{6,}$/,
-                    message: 'Password must be at least 6 characters long. No spaces allowed.'
+                    min: 8,
+                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                    message: 'Enter a combination of at least 8 characters, number, letters(A,a) and scecial character.'
                 },
             ]}
           >
@@ -84,18 +86,14 @@ export default function RegisterForm() {
           </Form.Item>
 
           <Form.Item
+          className="da-register-input-div"
             name="confirmPassword"
             validateTrigger="onBlur"
 
             rules={[
                 {
                     required: true,
-                    message: 'Please input your Password!',
-                },
-                {
-                    min: 6,
-                    pattern: /^\S{6,}$/,
-                    message: 'Password must be at least 6 characters long. No spaces allowed.'
+                    message: 'Please input your Password.',
                 },
                 ({ getFieldValue }) => ({
                     validator(_, value) {
