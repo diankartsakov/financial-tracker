@@ -1,4 +1,5 @@
 import {  QuestionCircleOutlined  } from "@ant-design/icons";
+import "./deletePopconfirm.scss"
 import {  Button, Popconfirm  } from "antd";
 
 export default function DeletePopconfirm({onConfirm, name}) {
@@ -14,7 +15,8 @@ export default function DeletePopconfirm({onConfirm, name}) {
       />
     }
   >
-    <Button type="link">Delete</Button>
+    <p className="ft-setting-option-pop" type="link">Delete</p>
+    {/* <Button type="link">Delete</Button> */}
   </Popconfirm>
 );
 }

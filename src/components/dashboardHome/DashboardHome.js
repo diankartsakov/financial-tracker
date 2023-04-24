@@ -56,9 +56,8 @@ export default function DashboardHome() {
                                     <p className="card-info-amount">{getTotalBalance(accountsArr).toFixed(2)} BGN</p>
                                 </div>
                                 <div className="donut-wrapper">
-                                {accountsArr?.length === 0 ? (
+                                {accountsArr?.length === 0 || getTotalBalance(accountsArr) === 0? (
                                     <>
-                                    <h2 className="ft-donut-no-accounts-heading">Accounts Amount</h2>
                                     <div className="ft-donut-no-accounts">
                                         <Empty />
                                     </div>
@@ -74,9 +73,8 @@ export default function DashboardHome() {
                                         <p className="card-info-frozen-amount">{getTotalFrozenBalance(accountsArr).toFixed(2)} BGN</p>
                                 </div>
                                 <div className="donut-wrapper">
-                                    {   accountsArr?.length === 0 ? 
+                                    {   accountsArr?.length === 0 || getTotalFrozenBalance(accountsArr) === 0  ? 
                                     <>
-                                        <h2 className="ft-donut-no-accounts-heading">Accounts Frozen Amount</h2>
                                         <div className="ft-donut-no-accounts"><Empty/></div>
                                     </>
                                     : 

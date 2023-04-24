@@ -3,6 +3,7 @@ import CategorySettings from '../categorySettings/CategorySettings';
 import { SmileOutlined } from '@ant-design/icons';
 import { Modal, Button, Spin, Result } from "antd";
 import AlertMessage from "../alertMessage/AlertMessage";
+import "./categoryFormModal.scss"
 
 export default function CategoryFormModal({onSubmit, categoryName="Create Category"}) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -26,11 +27,11 @@ export default function CategoryFormModal({onSubmit, categoryName="Create Catego
 
     return (
         <>
-        <Button type="primary" className="da-btn" onClick={handleOpen}>
+        <Button type="primary" className="da-btn add-category-button" onClick={handleOpen}>
             Add Category
         </Button>
         <Modal 
-        title="Add Category"
+        title={categoryName}
         open={modalOpen}
         onCancel={handleClose}
         okButtonProps={{ style: { display: 'none' } }}
@@ -44,7 +45,6 @@ export default function CategoryFormModal({onSubmit, categoryName="Create Catego
                     />
                     :
                     <div className="category-modal">
-                        <h2>{categoryName}</h2>
                         {error && <AlertMessage message="error" type="error" description={error.error}/>}
                         <CategorySettings 
                             onCancel={handleClose}
@@ -53,6 +53,7 @@ export default function CategoryFormModal({onSubmit, categoryName="Create Catego
                             resetForm={{resetForm, setResetForm}}
                             setIsLoading={setIsLoading}
                             setIsCompleted={setIsCompleted}
+                            formType="Create"
                         />
                     </div>
 

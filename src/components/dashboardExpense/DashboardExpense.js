@@ -7,6 +7,7 @@ import ExpenseCategory from "../expenseCategory/ExpenseCategory";
 import moneyIMG from "../../assests/images/amount-logo.png"
 import "./dashboardExpense.scss";
 import ExpenseDropdown from "../expenseDropdown/ExpenseDropdown";
+import { Link } from "react-router-dom";
 
 
 export default function DashboardExpense() {
@@ -23,11 +24,19 @@ export default function DashboardExpense() {
                 <h1 className="expense-account-heading"> User Expense Categories</h1>
                 <h2 className="expense-account-sub-heading">
                     Expense current account:  
-                    <ExpenseDropdown/>
-                    <div className="account-amount-wrapper">
-                        <img src={moneyIMG} alt="money logo"/>
-                        <p>{accountsArr.find(acc => acc.accountId === accountId).amount} BGN</p>
-                    </div>
+                    {
+                        accountsArr?.length
+                        ?
+                            <>
+                                <ExpenseDropdown/>
+                                <div className="account-amount-wrapper">
+                                    <img src={moneyIMG} alt="money logo"/>
+                                    <p>{accountsArr.find(acc => acc.accountId === accountId).amount} BGN</p>
+                                </div>
+                            </>
+                        :
+                        <p style={{paddingLeft: "10px"}}>You're almost there! Please <Link  to={"/dashboard/accounts"}>Link an account</Link> to use this feature.</p>
+                    }
                 </h2>
             </header>
            
