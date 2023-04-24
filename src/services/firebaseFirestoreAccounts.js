@@ -74,7 +74,13 @@ async function getUserAccountsTransactions(accountIds=[]) {
 
 
         if(transaction.type === 'Expense'){
-            transaction.mixedCategory = `${transaction.type} / ${transaction.category}`;
+
+            if(transaction.isFrozen){
+                transaction.mixedCategory = `Frozen ${transaction.type} / ${transaction.category}`;
+            }
+            else{
+                transaction.mixedCategory = `${transaction.type} / ${transaction.category}`;
+            }
         }
         if(transaction.type === 'Transfer'){
 

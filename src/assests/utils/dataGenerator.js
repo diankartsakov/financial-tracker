@@ -1,9 +1,9 @@
 function getExpenses(days=30) {
     const categories = ['Shops', 'Food', 'Hobbies', 'Credit', 'Taxes', 'Car'];
     const accounts = [
-      { reportAccountId: 'A2ejBSOPsVU3hxgy6ql9', reportAccountName: 'TEST NEW ACCOUNT' },
+      { reportAccountId: 'A2ejBSOPsVU3hxgy6ql9', reportAccountName: 'Checking Account' },
 
-      { reportAccountId: 'JA72tSY61CTQXt9oBMNN', reportAccountName: 'acc' },
+      { reportAccountId: 'JA72tSY61CTQXt9oBMNN', reportAccountName: 'Salary Account' },
     ];
     const expenses = [];
     
@@ -21,7 +21,10 @@ function getExpenses(days=30) {
       const amount = Math.floor(Math.random() * 1000) / 100; // Random amount between 0.00-9.99
       const amountString = amount.toFixed(2) + ' BGN';
 
-      const mixedCategory = `Expense / ${category}`;
+      let mixedCategory = Math.floor(Math.random() * 1000) / 100 >= 5 ?
+                                              `Expense / ${category}`:
+                                              `Frozen Expense / ${category}`;
+
   
       const expense = {
         accountId: account.reportAccountId,
