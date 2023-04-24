@@ -12,6 +12,7 @@ import { isValidNumber } from '../../assests/utils/validations';
 import DashboardDepositCardComponent from '../dashboardDepositFlipCard/DashboardDepositCardComponent';
 import CardDepositPng from '../../assests/images/card-deposit.png';
 import TransferDepositPng from '../../assests/images/transfer-deposit.png';
+import DashboardDepositFlipCardCheckout from '../dashboardDepositFlipCard/DashboardDepositFlipCardCheckout';
 
 
 export default function DashboardDeposit() {
@@ -58,6 +59,8 @@ export default function DashboardDeposit() {
   };
 
   const handleFromAccountSelect = (acc) => {
+
+    console.log(acc);
 
     setFromAccount(acc);
 
@@ -118,7 +121,7 @@ export default function DashboardDeposit() {
       return;
     }
 
-    if(depositType === 'card'){
+    if (depositType === 'card') {
 
       if (!validateData(flipCardState.cardNumber, /^(\d{4}\s){3}\d{4}$/)) {
         setmodalMessage(['Invalid Information', 'Please enter your full card number.']);
@@ -142,7 +145,9 @@ export default function DashboardDeposit() {
         });
       }
     }
-    else if(values) {
+    else if (values) {
+
+
 
       setCurrentStep(1);
       setConfirmationData(values);
@@ -235,10 +240,10 @@ export default function DashboardDeposit() {
           <Form.Item className='da-ant-form-item' name="depositType" initialValue="card">
             <Radio.Group onChange={handleDepositTypeChange} value={depositType}>
               <Radio className='da-radio da-card-radio' value="card">
-              <img src={CardDepositPng} alt="Credit/Debit Card" />
+                <img src={CardDepositPng} alt="Credit/Debit Card" />
               </Radio>
               <Radio className='da-radio da-transfer-radio' value="account">
-              <img src={TransferDepositPng} alt="Transfer" />
+                <img src={TransferDepositPng} alt="Transfer" />
               </Radio>
             </Radio.Group>
           </Form.Item>
@@ -260,7 +265,7 @@ export default function DashboardDeposit() {
 
           {depositType === 'account' && (
             <Form.Item className='da-transfer-dropdown'>
-              <TransferDropdown  onSelect={handleFromAccountSelect} currentAcc={fromAccount}></TransferDropdown>
+              <TransferDropdown onSelect={handleFromAccountSelect} currentAcc={fromAccount}></TransferDropdown>
             </Form.Item>
           )}
 
@@ -279,32 +284,33 @@ export default function DashboardDeposit() {
             //onFinish={()=>{}}
             >
               <Form.Item className='da-ant-form-item'><h3>Confirm Transaction Details</h3></Form.Item>
-              <Form.Item className='da-ant-form-item'>Amount: {`${Number(confirmationData.amount).toFixed(2)} BGN`}</Form.Item>
-              <Form.Item className='da-ant-form-item'><p>Deposit Type: {confirmationData.depositType}</p></Form.Item>
-
+              <Form.Item className='da-ant-form-item da-checkout-info'>
+              <div className='da-checkout-img-div'>
+              {depositType === 'card' ?
+                  <img src={CardDepositPng} alt="Credit/Debit Card" /> :
+                  <img src={TransferDepositPng} alt="Transfer" />
+                }
+              </div>
+                <div className='da-checkout-amount'>{`${Number(confirmationData.amount).toFixed(2)} BGN`}</div>
+              </Form.Item>
               {confirmationData.depositType === 'card' && (
                 <>
-                  <Form.Item className='da-ant-form-item'>
-                    <p>Card Number: {confirmationData.cardNumber}</p>
-                  </Form.Item>
-                  <Form.Item className='da-ant-form-item'>
-                    <p>Expiration Date: {confirmationData.cardMonth + ' / ' + confirmationData.cardYear}</p>
-
-                  </Form.Item >
-                  <Form.Item className='da-ant-form-item'>
-                    <p>CVV: {confirmationData.cardCvv}</p>
-
-                  </Form.Item>
-                  <Form.Item className='da-ant-form-item'>
-                    <p>Card Holder Names: {confirmationData.cardHolder}</p>
-                  </Form.Item>
-
+                  <DashboardDepositFlipCardCheckout
+                    cardNumber={confirmationData.cardNumber}
+                    cardHolder={confirmationData.cardHolder}
+                    cardMonth={confirmationData.cardMonth}
+                    cardYear={confirmationData.cardYear}
+                    cardCvv={confirmationData.cardCvv}
+                  >
+                  </DashboardDepositFlipCardCheckout>
                 </>
               )}
               {confirmationData.depositType === 'account' && (
 
-                <Form.Item className='da-ant-form-item'>
-                  <p>From Account: {fromAccount.label}</p>
+                <Form.Item className='da-ant-form-item da-checkout-info'>
+                  <div className='da-checkout-from-acc'>From Account:</div>
+                  {fromAccount.label}
+
                 </Form.Item>
 
               )}

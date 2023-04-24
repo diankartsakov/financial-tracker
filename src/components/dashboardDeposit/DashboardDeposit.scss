@@ -1,3 +1,46 @@
+.da-checkout-info {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #25384F;
+    width: 450px;
+    background: white;
+    border-radius: 10px;
+
+    .da-checkout-img-div {
+        display: flex;
+        height: 75px;
+        align-items: center;
+        padding-top: 5px;
+        
+        img {
+            height: 100%;
+        }
+    }
+
+    .da-checkout-amount {
+        font-size: 32px;
+        color: #25384F;
+        padding: 15px;
+        height: 75px;
+        display: flex;
+        align-items: center;
+    }
+    .da-checkout-from-acc {
+        display: flex;
+        height: 75px;
+        align-items: center;
+        font-size: 24px;
+        color: #25384F;
+        width: 50%;
+        padding: 20px;
+    }
+
+
+}
+
+
 .da-card-radio,
 .da-transfer-radio  {
     background-color: transparent;

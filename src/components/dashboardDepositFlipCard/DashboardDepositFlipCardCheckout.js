@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
     CSSTransition,
     TransitionGroup,
@@ -23,18 +23,13 @@ const cardBackgroundName = () => {
 
 const BACKGROUND_IMG = cardBackgroundName();
 
-const DashboardDepositFlipCard = ({
+const DashboardDepositFlipCardCheckout = ({
     cardHolder,
     cardNumber,
     cardMonth,
     cardYear,
-    cardCvv,
-    isCardFlipped,
-    currentFocusedElm,
-    onCardElementClick,
-    cardNumberRef,
-    cardHolderRef,
-    cardDateRef
+    cardCvv
+
 }) => {
     const [style, setStyle] = useState(null);
 
@@ -55,22 +50,7 @@ const DashboardDepositFlipCard = ({
         return cardType(cardNumber);
     }, [cardNumber]);
 
-    const outlineElementStyle = (element) => {
-        return element
-            ? {
-                  width: `${element.offsetWidth}px`,
-                  height: `${element.offsetHeight}px`,
-                  transform: `translateX(${element.offsetLeft}px) translateY(${element.offsetTop}px)`
-              }
-            : null;
-    };
 
-    useEffect(() => {
-        if (currentFocusedElm) {
-            const style = outlineElementStyle(currentFocusedElm.current);
-            setStyle(style);
-        }
-    }, [currentFocusedElm]);
 
     const maskCardNumber = (cardNumber) => {
         let cardNumberArr = cardNumber.split('');
@@ -86,12 +66,10 @@ const DashboardDepositFlipCard = ({
     };
 
     return (
-        <div className={'card-item ' + (isCardFlipped ? '-active' : '')}>
+        <div className={'card-item'}>
             <div className="card-item__side -front">
                 <div
-                    className={`card-item__focus ${
-                        currentFocusedElm ? `-active` : ``
-                    }`}
+                    className={`card-item__focus`}
                     style={style}
                 />
                 <div className="card-item__cover">
@@ -120,8 +98,7 @@ const DashboardDepositFlipCard = ({
 
                     <label
                         className="card-item__number"
-                        ref={cardNumberRef}
-                        onClick={() => onCardElementClick('cardNumber')}
+
                     >
                         <TransitionGroup
                             className="slide-fade-up"
@@ -154,8 +131,6 @@ const DashboardDepositFlipCard = ({
                     <div className="card-item__content">
                         <label
                             className="card-item__info"
-                            onClick={() => onCardElementClick('cardHolder')}
-                            ref={cardHolderRef}
                         >
                             <div className="card-item__holder">Card Holder</div>
                             <div className="card-item__name">
@@ -190,8 +165,6 @@ const DashboardDepositFlipCard = ({
                         </label>
                         <div
                             className="card-item__date"
-                            onClick={() => onCardElementClick('cardDate')}
-                            ref={cardDateRef}
                         >
                             <label className="card-item__dateTitle">
                                 Expires
@@ -272,4 +245,4 @@ const DashboardDepositFlipCard = ({
     );
 };
 
-export default DashboardDepositFlipCard;
+export default DashboardDepositFlipCardCheckout;
