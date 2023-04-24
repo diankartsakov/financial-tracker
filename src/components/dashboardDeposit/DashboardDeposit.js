@@ -270,7 +270,7 @@ export default function DashboardDeposit() {
           )}
 
           <Form.Item className='da-ant-form-item'>
-            <Button className='da-btn' type="primary" htmlType="submit">
+            <Button className='da-btn da-checkout-btn' type="primary" htmlType="submit">
               Continue to Checkout
             </Button>
           </Form.Item>

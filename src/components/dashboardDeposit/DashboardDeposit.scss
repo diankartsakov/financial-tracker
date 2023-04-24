@@ -59,7 +59,7 @@
 
 
 .da-amount-wrapper {
-    margin-bottom: 6px;
+    margin-bottom: none;
     width: 70%;
 
 
@@ -94,7 +94,10 @@
     }
 }
 
+.da-checkout-btn {
 
+    height: 45px;
+}
 
 .da-deposit-form-details {
     margin-top: 30px;
