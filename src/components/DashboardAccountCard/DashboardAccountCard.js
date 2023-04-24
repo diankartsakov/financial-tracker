@@ -4,8 +4,10 @@ import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { getAccount } from '../../services/firebaseFirestoreAccounts';
 import { Link } from 'react-router-dom';
 import './DashboardAccountCard.scss';
+import FrozenImg from '../../assests/images/frozen-logo.png';
+import AmountImg from '../../assests/images/amount-logo.png';
 
-export default function DashboardAccountCard({ currency = 'BGN',}) {
+export default function DashboardAccountCard({ currency = 'BGN', }) {
     const { accountId, accountsArr, currentAccountName } = useDash();
     const [isLoading, setIsLoading] = useState(true);
     const [balance, setBalance] = useState('0.00');
@@ -32,12 +34,14 @@ export default function DashboardAccountCard({ currency = 'BGN',}) {
                     <div className='da-account-form-details'>
                         <Card className='da-account-form-card'>
                             <div className='da-account-form-balance'>
-                                <span className='da-account-form-balance-label'>Available:</span>
-                                <span className='da-account-form-balance-value'>{`${balance} ${currency}`}</span>
+                                <img src={AmountImg} alt="Available: "></img>
+                                <div className='da-balance-hover'>This is your total available balance.</div>
+                                <div className='da-account-form-balance-value'>{`${balance} ${currency}`}</div>
                             </div>
 
                             <div className='da-account-form-balance-frozen'>
-                                <span className='da-account-form-balance-frozen-label'>Frozen:</span>
+                                <img src={FrozenImg} alt="Frozen: "></img>
+                                <div className='da-balance-hover'>This is your total frozen expenses balance.</div>
                                 <span className='da-account-form-balance-frozen-value'>{`${frozenBalance} ${currency}`}</span>
                             </div>
                             <div className='da-account-form-name'>{accountName}</div>

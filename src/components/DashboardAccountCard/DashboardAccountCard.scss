@@ -1,3 +1,5 @@
+
+
 .da-account-form-details {
     margin-top: 30px;
     display: flex;
@@ -11,6 +13,33 @@
     padding: 5px 15px;
     font-size: 48px;
     font-weight: bold;
+
+    .da-balance-hover {
+        display: none;
+        position: absolute;
+        border: 2px solid #25384F;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #fff;
+        font-size: 16px;
+        color: #25384F;
+    }
+
+    img {
+        height: 69px;
+        width: 80px;
+
+    }
+    img:hover {
+        transform: scale(1.1);
+    }
+
+    img:hover+.da-balance-hover {
+        display: flex;
+    
+    
+    }
+
 }
 
 .da-account-form-balance {
@@ -25,14 +54,15 @@
     .da-account-form-balance-label {
         font-weight: bold;
         margin-right: 10px;
-      }
-      
-      .da-account-form-balance-value {
+    }
+
+    .da-account-form-balance-value {
         color: #228B22;
 
-        
-      }
-  }
+
+    }
+}
+
 .da-account-form-balance-frozen {
     display: flex;
     justify-content: space-between;
@@ -44,14 +74,14 @@
     .da-account-form-balance-frozen-label {
         font-weight: bold;
         margin-right: 10px;
-      }
-      
-      .da-account-form-balance-frozen-value {
+    }
+
+    .da-account-form-balance-frozen-value {
         color: #22a9ca;
 
-      }
-  }
-  
+    }
+}
+
 
 
 .da-account-form-name {
@@ -67,8 +97,10 @@
 .da-account-form-card {
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px #25384F;;
+    box-shadow: 0 0 10px #25384F;
+    ;
     border-radius: 10px;
+    min-width: 500px;
 }
 
 .da-account-form-buttons {
@@ -98,4 +130,3 @@
     //     transform: scale(1.1);
     // }
 }
-
