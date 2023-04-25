@@ -1,33 +1,23 @@
-import {  DownOutlined  } from '@ant-design/icons';
+import {  DownOutlined, SmileOutlined  } from '@ant-design/icons';
 import {  Dropdown, Space, Button } from  "antd";
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { useEffect, useState } from 'react';
 
 export default function AccountsDrowpdown({accountName, onSelect, accountAdded: {isAccountAdd}, accountAdded: {setIsAccountAdd}}) {
-    const {isLoaded, accountsArr } = useDash();
+    const {isLoaded, accountsArr, accountId } = useDash();
     const [items, setItems] = useState(accountsArr);
     
     useEffect(() => {
- 
-        if (isLoaded && isAccountAdd) {
-            const items = accountsArr.map(a => {
-                return {
-                    label: a.name,
-                    key: a.accountId,
-                };
-            });
+        const items = accountsArr.map(a => {
+            return {
+                label: a.name,
+                key: a.accountId,
+            };
+        }).filter(acc => acc.key !== accountId);
 
-            if (items.length === 0) {
-                items.push({
-                    label: "Empty Account List",
-                    key: "no-acc",
-                })
-            }
-
-            setItems(items);
-            setIsAccountAdd(false);
-        }
-    }, [accountsArr, isAccountAdd, isLoaded, setIsAccountAdd]);
+        setItems(items);
+        setIsAccountAdd(false);
+    }, [accountsArr, accountId, isAccountAdd, isLoaded]);
 
     const onClick = ({key}) => {
         const acc = items.find(a => a.key === key);
@@ -40,10 +30,21 @@ export default function AccountsDrowpdown({accountName, onSelect, accountAdded: 
 
     return (
         <Dropdown
-            menu={{
-            items,
-            onClick,
-            }}
+            menu={
+                accountsArr.length > 1 
+                ? {
+                items,
+                onClick
+                }
+                :
+                {
+                    items: [{label: <p style={{fontSize: "18px", padding: "0px", margin:"0px",}}><SmileOutlined></SmileOutlined> No Other Accounts</p>}]
+                } 
+            }
+            // menu={{
+            // items,
+            // onClick,
+            // }}
         >
             <p onClick={(e) => e.preventDefault()}>
             <Button>

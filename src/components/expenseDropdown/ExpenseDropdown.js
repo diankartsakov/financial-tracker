@@ -2,7 +2,7 @@ import { useDash } from "../../pages/dashboardPage/DashboardProvider"
 import "./expenseDropdown.scss";
 import moneyIMG from "../../assests/images/amount-logo.png"
 import { Dropdown, Button, Space, } from "antd";
-import {  DownOutlined  } from '@ant-design/icons';
+import {  DownOutlined, SmileOutlined  } from '@ant-design/icons';
 
 export default function ExpenseDropdown() {
     const {accountsArr, accountId, currentAccountName, updateAccountId, updateCurrentAccountName } = useDash();
@@ -36,10 +36,20 @@ export default function ExpenseDropdown() {
 
     return (
         <Dropdown
-        menu={{
-            items,
-            onClick
-        }}
+        menu={ accountsArr.length > 1 
+                            ? {
+                            items,
+                            onClick
+                            }
+                            :
+                            {
+                                items: [{label: <p style={{fontSize: "18px", padding: "0px", margin:"0px",}}><SmileOutlined></SmileOutlined> No Other Accounts</p>}]
+                            } 
+            // {
+            // items,
+            // onClick
+            // }
+        }
         className="expense-dropdown"
         >
             <div onClick={(e) => e.preventDefault()}>
