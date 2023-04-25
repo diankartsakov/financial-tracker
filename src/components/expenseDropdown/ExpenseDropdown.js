@@ -45,10 +45,6 @@ export default function ExpenseDropdown() {
                             {
                                 items: [{label: <p style={{fontSize: "18px", padding: "0px", margin:"0px",}}><SmileOutlined></SmileOutlined> No Other Accounts</p>}]
                             } 
-            // {
-            // items,
-            // onClick
-            // }
         }
         className="expense-dropdown"
         >

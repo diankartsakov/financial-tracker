@@ -39,7 +39,6 @@ function NewAccountModal({ onCreate, isFirst=false, setIsNoAccounts }) {
         title="Create New Account"
         okText="Create"
         onCancel={hideModal}
-        // onOk={handleCreate}
         footer={
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button onClick={hideModal} style={{ marginRight: 8, display: isComplete ? "none": "flex" }}>Cancel</Button>
