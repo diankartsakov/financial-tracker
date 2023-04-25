@@ -2,6 +2,7 @@ import {  DownOutlined, SmileOutlined  } from '@ant-design/icons';
 import {  Dropdown, Space, Button } from  "antd";
 import { useDash } from '../../pages/dashboardPage/DashboardProvider';
 import { useEffect, useState } from 'react';
+import "./accountsDropdown.scss"
 
 export default function AccountsDrowpdown({accountName, onSelect, accountAdded: {isAccountAdd}, accountAdded: {setIsAccountAdd}}) {
     const {isLoaded, accountsArr, accountId } = useDash();
@@ -41,13 +42,9 @@ export default function AccountsDrowpdown({accountName, onSelect, accountAdded: 
                     items: [{label: <p style={{fontSize: "18px", padding: "0px", margin:"0px",}}><SmileOutlined></SmileOutlined> No Other Accounts</p>}]
                 } 
             }
-            // menu={{
-            // items,
-            // onClick,
-            // }}
         >
             <p onClick={(e) => e.preventDefault()}>
-            <Button>
+            <Button className='accounts-dropdown-btn'>
                 <Space>
                     {accountName || "Choose Account"}
                     <DownOutlined />

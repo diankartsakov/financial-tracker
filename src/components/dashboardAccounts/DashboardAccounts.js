@@ -29,7 +29,7 @@ function NewAccountModal({ onCreate }) {
 
   return (
     <>
-      <Button className='da-btn' type="primary" onClick={showModal}>Add Account</Button>
+      <Button className='da-btn add-account-button' type="primary" onClick={showModal}>Add Account</Button>
       <Modal
         open={isModalOpen}
         title="Create New Account"
@@ -100,12 +100,12 @@ export default function DashboardAccounts() {
 
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className="dashboard-accounts-header">
+        <div className="dashboard-accounts-header-currentAccount">
           <h1>{currentAccountName ? currentAccountName : "No Accounts"} </h1>
         </div>
         {accountsArr.length ?
-          <div style={{ display: 'flex', alignItems: 'center', gap: "10px" }}>
+          <div className="dashboard-accounts-header-options">
             <AccountsDrowpdown accountName={currentAccountName} onSelect={handleAccountSelect} accountAdded={{ isAccountAdd, setIsAccountAdd }} />
             <NewAccountModal onCreate={handleCreateAccount} />
           </div>

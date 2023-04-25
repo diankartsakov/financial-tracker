@@ -1,8 +1,39 @@
-.da-btn {
+.dashboard-accounts-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 16px;
 
+    &-currentAccount {
+        display: flex;
+        align-items: center;
+        h1 {
+            font-size: 22px;
+            font-weight: 900;
+            color: #25384F;
+            
+        }
+    }
+
+    &-options {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+.da-btn {
     margin: 10px;
     background-color: #25384F;
     color: white;
+}
+
+.da-btn.add-account-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .da-acc-create-form-input {
