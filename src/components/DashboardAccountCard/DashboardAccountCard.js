@@ -46,11 +46,11 @@ export default function DashboardAccountCard({ currency = 'BGN', }) {
                             <div className='da-account-form-name'>{accountName}</div>
                             <div className='da-account-form-buttons'>
                                 <Link to="/dashboard/deposit">
-                                    <Button className='da-btn' type="primary" >Deposit</Button>
+                                    <Button className='da-btn account-card-btn' type="primary" >Deposit</Button>
                                 </Link>
 
                                 <Link to="/dashboard/expense">
-                                    <Button className='da-btn' type="primary" >Expense</Button>
+                                    <Button className='da-btn account-card-btn' type="primary" >Expense</Button>
                                 </Link>
                             </div>
                         </Card>
