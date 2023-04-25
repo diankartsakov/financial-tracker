@@ -8,6 +8,7 @@ const ReportContext = React.createContext({
     },
     transactions: [],
     frozenTransactions: [],
+    allTransactions: [],
 });
 
 export default function ReportProvider({children}) {
@@ -19,6 +20,7 @@ export default function ReportProvider({children}) {
         },
         transactions: [],
         frozenTransactions: [],
+        allTransactions: [],
     });
 
     const updateReportAccount = (reportAccount) => {
@@ -45,6 +47,11 @@ export default function ReportProvider({children}) {
             return {...s, frozenTransactions: frozenTransactions};
         });
     };
+    const updateAllTransactionsArr = (allTransactions) => {
+        setState(s => { 
+            return {...s, allTransactions: allTransactions};
+        });
+    };
 
     const value = {
         ...state,
@@ -52,6 +59,7 @@ export default function ReportProvider({children}) {
         isLoadedUpdate,
         updateTransactionsArr,
         updateFrozenTransactionsArr,
+        updateAllTransactionsArr
     };
 
     return (

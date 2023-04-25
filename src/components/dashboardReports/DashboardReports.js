@@ -21,6 +21,7 @@ export default function DashboardReports() {
         updateTransactionsArr,
         updateFrozenTransactionsArr,
         updateReportAccount,
+        updateAllTransactionsArr
     } = useReport();
     const { authUser: { uid } } = useAuth();
 
@@ -29,16 +30,19 @@ export default function DashboardReports() {
             const reports = async () => {
                 let userTransactions = [];
 
-                if (uid !== "Sf7dfJALVqh4Xa9yOTYmviMQXFl2") {
-                    // FROM FIREBASE
-                    const currentAccountIds = accountsArr.map(acc => acc.accountId) || [];
-                    userTransactions = await getUserAccountsTransactions(currentAccountIds);
-                } else {
-                    // RANDOM
-                    const userExpenses = getExpenses(75);
-                    const userDeposits = getCardDeposits(75);
-                    userTransactions = [...userExpenses, ...userDeposits];
-                }
+                const currentAccountIds = accountsArr.map(acc => acc.accountId) || [];
+                userTransactions = await getUserAccountsTransactions(currentAccountIds);
+
+                // if (uid !== "Sf7dfJALVqh4Xa9yOTYmviMQXFl2") {
+                //     // FROM FIREBASE
+                //     const currentAccountIds = accountsArr.map(acc => acc.accountId) || [];
+                //     userTransactions = await getUserAccountsTransactions(currentAccountIds);
+                // } else {
+                //     // RANDOM
+                //     const userExpenses = getExpenses(75);
+                //     const userDeposits = getCardDeposits(75);
+                //     userTransactions = [...userExpenses, ...userDeposits];
+                // }
 
                 const allTransactions = userTransactions.reduce((acc,value) => {
 
@@ -57,6 +61,7 @@ export default function DashboardReports() {
                     reportAccountName: currentAccountName,
                 });
 
+                updateAllTransactionsArr(userTransactions);
                 updateTransactionsArr(allTransactions.processed);
                 updateFrozenTransactionsArr(allTransactions.frozen);
                 isLoadedUpdate(true);

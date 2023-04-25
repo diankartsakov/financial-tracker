@@ -9,7 +9,7 @@ import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
 const { RangePicker } = DatePicker;
 
 export default function DashboardTransactionReport() {
-  const { transactions, reportAccount, isLoaded } = useReport();
+  const { allTransactions, reportAccount, isLoaded } = useReport();
 
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +26,7 @@ export default function DashboardTransactionReport() {
 
   useEffect(() => {
 
-    const resultData = transactions.filter(transaction => {
+    const resultData = allTransactions.filter(transaction => {
 
       return transaction.accountId === reportAccount.reportAccountId;
 

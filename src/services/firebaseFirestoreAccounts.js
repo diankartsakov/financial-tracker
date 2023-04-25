@@ -81,12 +81,16 @@ async function getUserAccountsTransactions(accountIds=[]) {
                 transaction.mixedCategory = `${transaction.type} / ${transaction.category}`;
             }
         }
-        if(transaction.type === 'Transfer'){
+        else if(transaction.type === 'Transfer'){
 
             transaction.toAccountId ?
             transaction.mixedCategory = 'Outgoing Transfer':
             transaction.mixedCategory = 'Incoming Transfer';
         }
+        else {
+            transaction.mixedCategory = transaction.category;
+        }
+
 
        transaction.amountString = `${transaction.amount.toFixed(2)} BGN`;
 
