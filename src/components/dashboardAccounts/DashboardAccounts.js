@@ -20,6 +20,7 @@ function NewAccountModal({ onCreate, isFirst=false, setIsNoAccounts }) {
   const hideModal = () => {
     setIsNoAccounts(true)
     setIsModalOpen(false);
+    setIsComplete(false);
   };
 
   const handleCreate = () => {
