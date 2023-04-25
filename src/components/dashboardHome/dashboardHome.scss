@@ -77,6 +77,15 @@
                         text-decoration: underline;
                     }
                 }
+
+                &-text.profile-card-expense-text-accounts {
+                    padding-left: 20px;
+                }
+
+                &-text.profile-card-expense-text-expense {
+                    padding-right: 12px;
+                }
+
                 &-image-wrapper {
                     background-color: #25384F;
                     width: 50%;

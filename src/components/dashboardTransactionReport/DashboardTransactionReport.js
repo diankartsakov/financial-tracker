@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Table, DatePicker, Pagination, Space } from 'antd';
+import { Table, DatePicker, Pagination, Space, Skeleton } from 'antd';
 import moment from 'moment';
 import { useReport } from '../dashboardReports/DashboardReportsProvider';
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
@@ -95,6 +95,7 @@ export default function DashboardTransactionReport() {
     }));
 
     setCurrentData(data);
+    setIsLoading(false);
   }, [sortedData, currentPage]);
 
 
@@ -143,15 +144,20 @@ export default function DashboardTransactionReport() {
           <RangePicker onChange={onChangeDate} />
         </Space>
       </div>
-      <Table
-        columns={columns}
-        dataSource={currentData}
-        pagination={false}
-        rowKey={(record) => record.id}
-        onChange={handleTableChange}
+      { isLoading ?
+        <Skeleton active />
+        :
+        <Table
+          columns={columns}
+          dataSource={currentData}
+          pagination={false}
+          rowKey={(record) => record.id}
+          onChange={handleTableChange}
+  
+          loading={false}
+        />
 
-        loading={false}
-      />
+      }
       <Pagination
         current={currentPage}
         pageSize={20}

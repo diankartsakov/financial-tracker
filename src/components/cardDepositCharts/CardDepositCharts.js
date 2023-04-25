@@ -3,7 +3,7 @@ import ReactApexChart from 'react-apexcharts';
 import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
-import { DatePicker, Empty, Space } from 'antd';
+import { DatePicker, Empty, Skeleton, Space } from 'antd';
 import { convertDataForPolarAreaYearMonths, getCardDepositForMonthsInYear } from '../../assests/utils/reportDataManipulation';
 
 export default function CardDepositCharts() {
@@ -32,7 +32,10 @@ export default function CardDepositCharts() {
             setChartData(dataForChart);
             setCardDeposits(currentCardDeposits);
             setReportCardDeposits(accountReportTransactions);
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+
+            }, 300);
         } else {
             const accountReportTransactions = getCardDepositForMonthsInYear({
                 arr: cardDeposits,
@@ -171,11 +174,13 @@ export default function CardDepositCharts() {
                 <DatePicker onChange={(value) => onChangeDate(value)} picker="year" />
             </Space>
         </div>
-        { !isLoaded ? <>Loading...</>
+        { !isLoaded ? <Skeleton active/>
         :    
         <div className='ft-pie-chart-expense-wrapper'>
             <h3 className='chart-title'>Card Deposits Polar Area - {monthYear.year}</h3>
-            {
+            {   isLoading ? 
+                <Skeleton active />
+                :
                 Object.keys(reportCardDeposits).length 
                 ? 
 

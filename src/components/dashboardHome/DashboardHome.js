@@ -16,17 +16,10 @@ import AccountsDonutChart from "../accountsDonutChart/accountsDonutChart";
 export default function DashboardHome() {
     const {authUser: {email}, authUser: {uid}} = useAuth();
     const {
-        accountId,
-        accountsIds,
         accountsArr,
-        currentAccountName,
-        isLoaded,
-        isLoadedUpdate
     } = useDash();
     const [isLoading, setIsLoading] = useState(true);
     const [currentDate] = useState(getDateWithSuffixDay());
-    const [totalBalance, setTotalBalance] = useState(0);
-    const [transactionsInfo, setTransactionsInfo] = useState({});
 
     useEffect(() => {
         setTimeout(() => {
@@ -98,7 +91,7 @@ export default function DashboardHome() {
                                         </div>
                                     </div>
                                     <div className="profile-card-expense">
-                                        <div className="profile-card-expense-text">
+                                        <div className="profile-card-expense-text profile-card-expense-text-accounts">
                                             <Link to="accounts">
                                                 <p>GO TO</p>
                                                 <h2>ACCOUNTS</h2>
@@ -109,7 +102,7 @@ export default function DashboardHome() {
                                         </div>
                                     </div>
                                     <div className="profile-card-expense">
-                                        <div className="profile-card-expense-text">
+                                        <div className="profile-card-expense-text profile-card-expense-text-expense">
                                             <Link to="expense">
                                                 <p>GO TO</p>
                                                 <h2>EXPENSE</h2>

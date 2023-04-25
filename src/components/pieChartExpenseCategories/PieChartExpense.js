@@ -5,7 +5,7 @@ import "./pieChartExpense.scss"
 import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
-import { DatePicker, Empty, Space } from 'antd';
+import { DatePicker, Empty, Skeleton, Space } from 'antd';
 import { getExpensesTransactionForMonthYear, getMonthName } from '../../assests/utils/reportDataManipulation';
 
 export default function PieChartExpense() {
@@ -16,6 +16,7 @@ export default function PieChartExpense() {
         month: new Date().getMonth(),
         year: new Date().getFullYear(),
     });
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (isLoaded) {
@@ -29,6 +30,7 @@ export default function PieChartExpense() {
 
             setExpenseTransactions(currentReportExpenseTransactions);
             setReportTransactions(accountReportTransactions);
+            setIsLoading(false);
         } else {
             const accountReportTransactions =  getExpensesTransactionForMonthYear({
                 arr: expenseTransactions,
@@ -166,7 +168,8 @@ export default function PieChartExpense() {
         :    
         <div className='ft-pie-chart-expense-wrapper'>
             <h3 className='chart-title'>Expense Pie Chart - {getMonthName(monthYear.month)} {monthYear.year}</h3>
-            {
+            {   isLoading ? <Skeleton active/>
+                :
                 Object.keys(reportTransactions).length 
                 ? 
                 <ReactApexChart

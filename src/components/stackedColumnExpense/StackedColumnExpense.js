@@ -3,7 +3,7 @@ import ReactApexChart from 'react-apexcharts';
 import { useEffect, useState } from "react";
 import { useReport } from "../dashboardReports/DashboardReportsProvider"
 import ReportsDropdown from '../reportsDropdown/ReportsDropdown';
-import { DatePicker, Empty, Space } from 'antd';
+import { DatePicker, Empty, Skeleton, Space } from 'antd';
 import { convertDataToDayColumnsSeries, getDaysInMonth, getExpenseTransactionsByDaysForMonth, getExpensesTransactionForMonthYear, getMonthName } from '../../assests/utils/reportDataManipulation';
 
 export default function StackedColumnExpense() {
@@ -168,6 +168,8 @@ export default function StackedColumnExpense() {
         <div className='ft-pie-chart-expense-wrapper'>
             <h3 className='chart-title'>Stacked Column Expenses - {getMonthName(monthYear.month)} {monthYear.year}</h3>
             {
+                isLoading ? <Skeleton active/>
+                :
                 Object.keys(reportTransactions).length 
                 ? 
 
