@@ -132,7 +132,7 @@ export default function DashboardTransactionReport() {
       title: 'Category',
       dataIndex: 'mixedCategory',
       key: 'category',
-      sorter: (a, b) => a.category.localeCompare(b.category)
+      sorter: (a, b) => a.mixedCategory.localeCompare(b.mixedCategory)
     }
   ];
 
