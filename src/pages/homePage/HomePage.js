@@ -42,7 +42,6 @@ export default function HomePage() {
                 </div>
             </div>
 
-            {/* Spend less time stressing, and more time living with our finance app. */}
             <div className="info-where">
                 <div className="info-where-wrapper">
                     <div className="info-where-description">

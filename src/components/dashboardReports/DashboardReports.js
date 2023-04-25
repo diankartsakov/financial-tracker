@@ -3,14 +3,12 @@ import { getUserAccountsTransactions } from '../../services/firebaseFirestoreAcc
 import { useDash } from "../../pages/dashboardPage/DashboardProvider";
 import { useReport } from "./DashboardReportsProvider";
 import { useEffect } from "react";
-import ProfileCardInfo from "../profileCardInfo/ProfileCardInfo";
 import { getCardDeposits, getExpenses } from "../../assests/utils/dataGenerator";
 import "./dashboardReports.scss";
 import { useAuth } from "../../firebase/auth";
 import ReportCard from "../reportCard/ReportCard";
 import barIMG from "../../assests/images/bar.png"
 import pieChartIMG from "../../assests/images/pie.png"
-import donutChartIMG from "../../assests/images/donut.png"
 import polarAreaIMG from "../../assests/images/polo-area-chart.png"
 import historyIMG from "../../assests/images/history-logo.png"
 
@@ -112,8 +110,12 @@ export default function DashboardReports() {
 
             :
                 <>
-                    <h2 className="ft-title-reports">Current Account: {reportAccount.reportAccountName}</h2>
-                    {/* <ReportsDropdown/> */}
+                    {   accountsArr.length > 0 
+                        ?
+                        <h2 className="ft-title-reports">Current Account: {reportAccount.reportAccountName}</h2>
+                        :
+                        <p className="ft-title-reports" style={{fontWeight: 700}}>You're almost there! Please <Link  to={"/dashboard/accounts"}>Link an account</Link> to use this feature.</p>
+                    }
                     <Outlet/>                
                 </>
             }
